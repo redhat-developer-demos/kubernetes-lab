@@ -1,0 +1,101 @@
+<!--
+   JBoss, Home of Professional Open Source
+   Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+   contributors by the @authors tag. See the copyright.txt in the
+   distribution for a full listing of individual contributors.
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+   http://www.apache.org/licenses/LICENSE-2.0
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Microservices Frontend</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- PatternFly Styles -->
+<!-- Note: No other CSS files are needed regardless of what other JS packages located in patternfly/components that you decide to pull in -->
+<link rel="stylesheet"
+	href="node_modules/patternfly/dist/css/patternfly.min.css" />
+<link rel="stylesheet"
+	href="node_modules/patternfly/dist/css/patternfly-additions.min.css" />
+
+<!-- jQuery -->
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+	<!-- Black Header -->
+	<nav class="navbar navbar-default navbar-pf" role="navigation">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/">Red Hat - Kubernetes Lab</a>
+		</div>
+	</nav>
+
+
+
+	<div class="container-fluid">
+
+		<h2>Say Hi</h2>
+		<form class="form-horizontal" id="myform" method="post">
+			<div class="form-group">
+				<label class="col-sm-2 control-label" for="inputUsername">Your
+					name</label>
+				<div class="col-sm-2">
+					<input type="text" id="inputUsername" name="username" class="form-control"
+						maxlength="20" required="required" pattern=".{3,20}" required
+						title="3 to 20 characters minimum">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label" for="inputMessage">Message</label>
+				<div class="col-sm-5">
+					<input type="text" id="inputMessage" name="message" class="form-control"
+						required="required" pattern=".{5,}" required
+						title="5 characters minimum">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-1 col-xs-offset-1">
+					<button type="submit" class="btn btn-default"
+						onclick="submitForm(); return false;">Submit</button>
+				</div>
+			</div>
+		</form>
+		<div id="message" class="row hidden">
+			<div class="alert alert-info  col-sm-5 col-xs-offset-1">
+				<span class="pficon pficon-info"></span> Hello
+			</div>
+		</div>
+		<hr>
+		<table id="mytable"
+			class="table datatable table-striped table-bordered">
+			<thead>
+				<tr>
+					<th style="width: 20%">Name</th>
+					<th>Message</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+
+	</div>
+
+
+	<!-- Page script -->
+	<script src="scripts/page.js"></script>
+</body>
+</html>

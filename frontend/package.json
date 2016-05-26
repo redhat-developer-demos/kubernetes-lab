@@ -1,0 +1,28 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Greeting and Helloworld microservices",
+  "main": "frontend.js",
+  "scripts": {
+    "start": "node frontend.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redhat-developer-demos/kubernetes-lab.git"
+  },
+  "author": "Red Hat Developers",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/redhat-developer-demos/kubernetes-lab/issues"
+  },
+  "homepage": "https://github.com/redhat-developer-demos/kubernetes-lab#readme",
+  "dependencies": {
+      "bootstrap": "~3.3.5",
+      "express": "^4.13.4",
+      "jquery": "~2.1.4",
+      "patternfly": "^3.3.3"
+   },
+   "optionalDependencies": {
+       "phantomjs": "~1.9"
+   }
+}

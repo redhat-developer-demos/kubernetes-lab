@@ -24,6 +24,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import com.redhat.developers.guestbook.data.Message;
 import com.redhat.developers.guestbook.data.MessageRepository;
@@ -35,15 +36,20 @@ public class MessageResource {
 	private MessageRepository messageRepository;
 
 	@POST
-	public void addMessage(@FormParam("username") String username, @FormParam("message") String text) {
+	public Response addMessage(@FormParam("username") String username, @FormParam("message") String text) {
 		Message message = new Message(username, text);
-		messageRepository.save(message);
+		try {
+			messageRepository.save(message);
+		} catch (Exception e) {
+			return Response.serverError().entity(e.getMessage()).build();
+		}
+		return Response.ok().build();
 	}
 
 	@GET
 	@Produces("application/json")
 	public List<Message> getAllMessages() {
-		return messageRepository.findAll();
+		return messageRepository.findAllOrdered();
 	}
 
 }

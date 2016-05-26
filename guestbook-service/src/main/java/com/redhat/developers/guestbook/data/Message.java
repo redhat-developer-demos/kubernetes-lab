@@ -22,6 +22,8 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Message implements Serializable {
@@ -32,8 +34,14 @@ public class Message implements Serializable {
 	@GeneratedValue
 	private Long id;
 
+	@NotNull
+	@Size(min = 3, max = 20)
 	private String username;
+
+	@NotNull
+	@Size(min = 5)
 	private String message;
+
 	private Date timestamp = new Date();
 
 	public Message() {

@@ -1,4 +1,4 @@
-/*
+/**
  * JBoss, Home of Professional Open Source
  * Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
  * contributors by the @authors tag. See the copyright.txt in the
@@ -14,18 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.redhat.developers.guestbook.data;
 
-import java.util.List;
+var express = require('express');
+var app = express();
 
-import org.apache.deltaspike.data.api.EntityRepository;
-import org.apache.deltaspike.data.api.Query;
-import org.apache.deltaspike.data.api.Repository;
 
-@Repository
-public interface MessageRepository extends EntityRepository<Message, Long> {
-	
-	@Query("SELECT m FROM Message m order by m.timestamp")
-	List<Message> findAllOrdered();
+app.use('/', express.static('.'));
 
-}
+app.get('/env', function (req, res) {
+	res.json({ env: process.env });
+});
+
+var server = app.listen(8080,  '0.0.0.0', function(){
+  var host = server.address().address
+  var port = server.address().port
+
+  console.log("Frontend service running at http://%s:%s", host, port)
+});

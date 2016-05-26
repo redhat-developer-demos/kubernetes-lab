@@ -16,4 +16,4 @@
 --
 
 -- You can use this file to load seed data into the database using SQL statements
-insert into Message (id, username, message, timestamp) values (99999, 'Benevides', 'Hello World', '2016-06-10 22:10:00');
+insert into Message (id, username, message, timestamp) values (99999, 'Benevides', 'Hello World', '2015-06-10 22:10:00');
