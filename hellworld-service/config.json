@@ -1,0 +1,3 @@
+{
+  "greeting" : "Hello {name} from {hostname} with {version} from config file"
+}

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mvn clean package; docker build -t rafabene/guestbook-service .
+mvn clean package; docker build -t rafabene/microservices-guestbook .
