@@ -534,6 +534,8 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </li>
 <li><a href="#_acessing_the_frontend">Acessing the frontend</a></li>
+<li><a href="#_scaling_in_and_out">Scaling In and Out</a></li>
+<li><a href="#_rolling_update">Rolling Update</a></li>
 </ul>
 </li>
 </ul>
@@ -1252,12 +1254,187 @@ The external load balancer may take a minute or two to create.  Please retry the
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_scaling_in_and_out">Scaling In and Out</h3>
+<div class="paragraph">
+<p>Duration: 5:00</p>
+</div>
+<div class="paragraph">
+<p>Scaling the number of replicas of our Hello World service is as simple as running :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ <strong>kubectl scale deployment helloworld-service-vertx --replicas=4</strong></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can very quickly see that the replication controller has been updated:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ <strong>kubectl get deployment</strong>
+NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+frontend-ui                2         2         2            2           11h
+guestbook-service          2         2         2            2           20h
+helloworld-service-vertx   4         4         4            4           20h
+mysql                      1         1         1            1           16h
+
+$ <strong>kubectl get pods</strong>
+NAME                              READY     STATUS    RESTARTS   AGE
+frontend-ui-&#8230;&#8203;                     1/1       Running   0          11h
+frontend-ui-&#8230;&#8203;                     1/1       Running   0          11h
+guestbook-service-&#8230;&#8203;               1/1       Running   0          12h
+guestbook-service-&#8230;&#8203;               1/1       Running   0          11h
+helloworld-service-vertx-&#8230;&#8203;        1/1       Running   0          12h
+helloworld-service-vertx-&#8230;&#8203;        1/1       Running   0          1m
+helloworld-service-vertx-&#8230;&#8203;        1/1       Running   0          11h
+helloworld-service-vertx-&#8230;&#8203;        1/1       Running   0          1m
+mysql-&#8230;&#8203;                           1/1       Running   0          16h</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s scale out even more!</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ <strong>kubectl scale deployment helloworld-service-vertx --replicas=15</strong></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let’s take a look at the status of the pods:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ <strong>kubectl get pods</strong>
+NAME                                        READY     STATUS    RESTARTS   AGE
+frontend-ui-658026717-i5b0v                 1/1       Running   0          11h
+frontend-ui-658026717-kv8sv                 1/1       Running   0          11h
+guestbook-service-1620957573-cjf4f          1/1       Running   0          12h
+guestbook-service-1620957573-hucws          1/1       Running   0          11h
+<strong>helloworld-service-vertx-3558582262-0cx1k   0/1       Pending   0          6s</strong>
+helloworld-service-vertx-3558582262-0gy3z   1/1       Running   0          1m
+<strong>helloworld-service-vertx-3558582262-1b40u   0/1       Pending   0          6s</strong>
+<strong>helloworld-service-vertx-3558582262-1m3b2   0/1       Pending   0          1m</strong>
+helloworld-service-vertx-3558582262-5nmfg   1/1       Running   0          1m
+helloworld-service-vertx-3558582262-7noao   1/1       Running   0          12h
+helloworld-service-vertx-3558582262-979ln   1/1       Running   0          6m
+helloworld-service-vertx-3558582262-9q523   1/1       Running   0          1m
+helloworld-service-vertx-3558582262-c7c74   1/1       Running   0          1m
+helloworld-service-vertx-3558582262-cmlz2   1/1       Running   0          1m
+helloworld-service-vertx-3558582262-nauta   1/1       Running   0          1m
+helloworld-service-vertx-3558582262-oql4g   1/1       Running   0          11h
+helloworld-service-vertx-3558582262-rermx   1/1       Running   0          6m
+helloworld-service-vertx-3558582262-txulx   1/1       Running   0          1m
+<strong>helloworld-service-vertx-3558582262-xu68l   0/1       Pending   0          6s</strong>
+mysql-2668656853-do6wa                      1/1       Running   0          16h</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Oh no! Some of the pods are in the <em>Pending</em> state!  That is because we only have four physical nodes, and the underlying infrastructure has run out of capacity to run the containers with the requested resources.</p>
+</div>
+<div class="paragraph">
+<p>Pick a Pod name that is associated with the Pending state to confirm the lack of resources in the detailed status:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ <strong>kubectl describe pod helloworld-service-&#8230;&#8203;</strong>
+Name:         helloworld-service-vertx-&#8230;&#8203;
+Namespace:    default
+Node:         /
+Labels:       app=helloworld-service-vertx,pod-template-hash=3558582262,version=1.0,visualize=true
+Status:       Pending
+&#8230;&#8203;
+Events:
+  FirstSeen LastSeen  Count	From                    Type      Reason      Message
+  ---------	--------	----- ----                    --------  ------      -------
+  3m        1m        2	    {default-scheduler }    Warning		FailedScheduling  pod (helloworld-service-vertx-3558582262-1m3b2) failed to fit in any node
+fit failure on node (gke-guestbook-default-pool-a27323b1-5xj3): Node didn&#8217;t have enough resource: CPU, requested: 100, used: 910, capacity: 1000
+fit failure on node (gke-guestbook-default-pool-a27323b1-f8l3): Node didn&#8217;t have enough resource: CPU, requested: 100, used: 960, capacity: 1000
+fit failure on node (gke-guestbook-default-pool-a27323b1-pzt9): Node didn&#8217;t have enough resource: CPU, requested: 100, used: 1000, capacity: 1000
+fit failure on node (gke-guestbook-default-pool-a27323b1-2vqp): Node didn&#8217;t have enough resource: CPU, requested: 100, used: 1000, capacity: 1000</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The good news is that we can easily spin up another Compute Engine instance to append to the cluster.
+First, find the Compute Engine Instance Group that’s managing the Kubernetes nodes (the name is prefixed with <em>"gke-"</em>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ <strong>gcloud compute instance-groups list</strong>
+NAME                                     ZONE           NETWORK  MANAGED  INSTANCES
+gke-guestbook-default-pool-a27323b1-grp  us-central1-b  default  Yes      4</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can resize the number of nodes by updating the Instance Group size:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ <strong>gcloud compute instance-groups managed resize gke-guestbook-default-pool-a27323b1-grp --size 5</strong>
+Updated [<a href="https://www.googleapis.com/compute/v1/projects/feisty-parity-130103/zones/us-central1-b/instanceGroupManagers/gke-guestbook-default-pool-a27323b1-grp" class="bare">https://www.googleapis.com/compute/v1/projects/feisty-parity-130103/zones/us-central1-b/instanceGroupManagers/gke-guestbook-default-pool-a27323b1-grp</a>].
+---
+baseInstanceName: gke-guestbook-default-pool-a27323b1
+creationTimestamp: '2016-05-25T08:15:27.864-07:00'
+currentActions:
+  abandoning: 0
+  creating: 1
+  deleting: 0
+&#8230;&#8203;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can see a new Compute Engine instance is starting:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ <strong>gcloud compute instances list</strong>
+&#8230;&#8203;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once the new instance has joined the Kubernetes cluster, you’ll should be able to see it with this command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ <strong>kubectl get nodes</strong>
+NAME                                       STATUS    AGE
+gke-guestbook-default-pool-a27323b1-2vqp   Ready     7d
+gke-guestbook-default-pool-a27323b1-5xj3   Ready     7d
+gke-guestbook-default-pool-a27323b1-f8l3   Ready     7d
+gke-guestbook-default-pool-a27323b1-ktcw   Ready     1m
+gke-guestbook-default-pool-a27323b1-pzt9   Ready     7d</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Use <em>kubectl get pods</em> to see the that the <em>Pending</em> pods have been scheduled.</p>
+</div>
+<div class="paragraph">
+<p>Once you see they are scheduled, reduce the number of replicas back to 4 so that we can free up resources for the later labs:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ <strong>kubectl scale deployment helloworld-service-vertx --replicas=4</strong></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rolling_update">Rolling Update</h3>
+<div class="paragraph">
+<p>Duration: 7:00</p>
+</div>
+<div class="paragraph">
+<p>It’s easy to update &amp; rollback.</p>
+</div>
+<div class="paragraph">
+<p>In this lab, we&#8217;ll switch to the <em>frontend</em> directory and make a minor change to the index.html (e.g., change the background color, title, etc.). After that, rebuild the container and upload it to the <a href="https://cloud.google.com/container-registry/">Google Container Registry</a>.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-06-01 22:50:33 EDT
+Last updated 2016-06-02 10:58:24 EDT
 </div>
 </div>
 </body>

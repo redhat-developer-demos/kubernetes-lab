@@ -9,17 +9,17 @@ function submitForm(event) {
     // Prevent submission
     event.preventDefault();
     // POST the form
-    $.post('/api/messages', myForm.serialize())
-    .fail(function(data) {
-      //alert('Failed to post form. Please check the console')
+    $.post('/api/messages', myForm.serialize(), function() {
+      // Clear the message
+      $('#inputMessage').val('');
+      // Get the hello
+      getHelloworld();
+      // Fill the table
+      fillMessages();
+    }).fail(function(data) {
+      alert('Failed to post form. Please check the logs for more details.')
       console.log(data);
     });
-    // Clear the message
-    $('#inputMessage').val('');
-    // Get the hello
-    getHelloworld();
-    // Fill the table
-    fillMessages();
   } else {
     // simulate a submit to force HTML5 validation
     $('<input type="submit">').hide().appendTo(myForm).click().remove();
@@ -35,7 +35,7 @@ function getHelloworld() {
       $('#messageBox').removeClass('hidden');
     },
     error : function(request, status, error) {
-      //alert('Error getting the helloworld message. Please check the console');
+      alert('Error getting the helloworld message. Please check the logs for more details.');
     },
   });
 }
@@ -56,7 +56,7 @@ function fillMessages() {
         }
       },
       error : function(request, status, error) {
-        //alert('Error reading the messages. Please check the server logs');
+        alert('Error reading the messages. Please check the logs for more details.');
       },
     });
 

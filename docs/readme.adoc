@@ -49,3 +49,7 @@ include::1e-deploy-mysql-and-service.adoc[]
 include::1f-deploy-microservices.adoc[]
 
 include::1g-external-access.adoc[]
+
+include::1h-scaling.adoc[]
+
+include::1i-rolling-update.adoc[]

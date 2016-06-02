@@ -14,33 +14,25 @@
  * language governing permissions and limitations under the License.
  */
 
-var express = require('express');
-var request = require('request');
-var bodyParser = require('body-parser');
-var app = express();
+var express = require('express')
+var request = require('request')
+var bodyParser = require('body-parser')
+var app = express()
 
-var guestbookendpoint = 'http://guestbook-service:8080/api/messages';
-var helloendpoint = 'http://helloworld-service-vertx:8080/api/hello/';
+var guestbookendpoint = 'http://guestbook-service:8080/api/messages'
+var helloendpoint = 'http://helloworld-service-vertx:8080/api/hello/'
 
-// Default request handling
-function defaultHandling(res, next) {
+// Creates a $request callback using $express objects
+var defaultHandling = function(res, next) {
+  // Callback for $request
   return function(error, response, body) {
     if (!error && response.statusCode == 200) {
-        res.send(body || '');
+      res.send(body || '');
     } else {
-      next(error);
+      next(error)
     }
   }
 }
-
-// Default error handling
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message : err.message,
-    error : err
-  });
-});
 
 // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
@@ -48,25 +40,35 @@ app.use(bodyParser.urlencoded({
 }));
 
 // Static content routing
-app.use('/', express.static('.'));
+app.use('/', express.static('.'))
 
 app.post('/api/messages', function(req, res, next) {
-  console.log('redirecting POST request to ' + guestbookendpoint);
-  console.log('POST content: ' + JSON.stringify(req.body));
+  console.log('POST content %s to %s', JSON.stringify(req.body), guestbookendpoint)
+  // Make a POST to guestbook endpoint
   request.post({
     'url' : guestbookendpoint,
-    'form' : req.body
-  }, defaultHandling(res, next));
+    'form' : req.body,
+    'timeout' : 1500
+  }, defaultHandling(res, next))
 });
 
 app.get('/api/messages', function(req, res, next) {
   console.log('redirecting GET request to ' + guestbookendpoint)
-  request(guestbookendpoint, defaultHandling(res, next))
+  // Get messages from guestbook endpoint
+  request({
+    'url' : guestbookendpoint,
+    "timeout" : 1500
+  }, defaultHandling(res, next))
 });
 
 app.get('/api/hello/:name', function(req, res, next) {
-  console.log('redirecting GET request to ' + helloendpoint + req.params.name)
-  request(helloendpoint + req.params.name, defaultHandling(res, next))
+  var dest = helloendpoint + req.params.name
+  console.log('redirecting GET request to ' + dest)
+  // Get the hello world message from helloworld-vertx endpoint
+  request({
+    'url' : dest,
+    'timeout' : 1500
+  }, defaultHandling(res, next))
 });
 
 var server = app.listen(8080, '0.0.0.0', function() {
