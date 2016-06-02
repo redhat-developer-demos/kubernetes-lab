@@ -25,7 +25,7 @@ import org.apache.deltaspike.data.api.Repository;
 @Repository
 public interface MessageRepository extends EntityRepository<Message, Long> {
 	
-	@Query("SELECT m FROM Message m ORDER BY m.timestamp")
+	@Query("SELECT m FROM Message m ORDER BY m.timestamp DESC")
 	List<Message> findAllOrdered();
 
 }

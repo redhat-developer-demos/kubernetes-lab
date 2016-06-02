@@ -32,7 +32,7 @@ public class Main {
 			ds.driverName("com.mysql");
 			ds.connectionUrl("jdbc:mysql://mysql:3306/guestbook?useSSL=false&autoReconnect=true");
 			ds.userName("root");
-			ds.password("secret");
+			ds.password("yourpassword");
 			ds.backgroundValidation(true);
 			ds.validConnectionCheckerClassName("org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker");
 			ds.validateOnMatch(true);

@@ -13,10 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM openshift/nodejs-010-centos7
-
-ADD . /opt/app-root/src/
-
-EXPOSE 8080
-
-CMD /bin/bash -c 'npm start'
+kind: Service
+apiVersion: v1
+metadata:
+  name: guestbook-service
+  labels:
+    app: guestbook-service
+    visualize: "true"
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: guestbook-service

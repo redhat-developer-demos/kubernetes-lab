@@ -13,10 +13,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM openshift/nodejs-010-centos7
-
-ADD . /opt/app-root/src/
-
-EXPOSE 8080
-
-CMD /bin/bash -c 'npm start'
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: helloworld-service-vertx
+  labels:
+    app: helloworld-service-vertx
+    visualize: "true"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: helloworld-service-vertx
+  template:
+    metadata:
+      labels:
+        app: helloworld-service-vertx
+        version: "1.0"
+        visualize: "true"
+    spec:
+      containers:
+      - name: helloworld-service-vertx
+        image: rafabene/microservices-helloworld-vertx:1.0
+        ports:
+        - name: http
+          containerPort: 8080

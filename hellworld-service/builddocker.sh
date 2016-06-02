@@ -1,3 +1,4 @@
 #!/bin/bash
-
-mvn clean package; docker build -t rafabene/microservices-helloworld-vertx .
+name='rafabene/microservices-helloworld-vertx'
+mvn clean package; docker build -t $name .
+echo "Image $name built"

@@ -13,10 +13,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM openshift/nodejs-010-centos7
-
-ADD . /opt/app-root/src/
-
-EXPOSE 8080
-
-CMD /bin/bash -c 'npm start'
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: frontend-ui
+  labels:
+    app: frontend-ui
+    visualize: "true"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend-ui
+  template:
+    metadata:
+      labels:
+        app: frontend-ui
+        version: latest
+        visualize: "true"
+      annotations:
+        visualizer/uses: helloworld-service,guestbook-service
+    spec:
+      containers:
+      - name: frontend-ui
+        image: rafabene/microservices-frontend:latest
+        ports:
+        - name: http
+          containerPort: 8080

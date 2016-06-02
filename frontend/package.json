@@ -17,12 +17,14 @@
   },
   "homepage": "https://github.com/redhat-developer-demos/kubernetes-lab#readme",
   "dependencies": {
-      "bootstrap": "~3.3.5",
-      "express": "^4.13.4",
-      "jquery": "~2.1.4",
-      "patternfly": "^3.3.3"
-   },
-   "optionalDependencies": {
-       "phantomjs": "~1.9"
-   }
+    "body-parser": "^1.15.1",
+    "bootstrap": "~3.3.5",
+    "express": "^4.13.4",
+    "jquery": "~2.1.4",
+    "patternfly": "^3.3.3",
+    "request": "^2.72.0"
+  },
+  "optionalDependencies": {
+    "phantomjs": "~1.9"
+  }
 }

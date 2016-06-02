@@ -1,0 +1,83 @@
+// JBoss, Home of Professional Open Source
+// Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+// contributors by the @authors tag. See the copyright.txt in the
+// distribution for a full listing of individual contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#### A word on networking
+Duration: 7:00
+
+In Kubernetes every pod has a unique IP address!  You can “login” into one of these pods by using the _kubectl exec_ command.  This can drop you into a shell and execute commands inside of the container.
+
+
+First, find the name of the MySQL  pod:
+
+[subs="normal,attributes"]
+----
+$ *kubectl get pod | grep mysql*
+mysql-...                      1/1       Running   0          1h
+----
+
+Then, use kubectl exec to "login" into the container:
+
+[subs="normal,attributes"]
+----
+$ *kubectl exec -it mysql-... /bin/bash*
+root@mysql-...:/#
+----
+
+You are now in a shell inside of the MySQL container.  You can run _ps_, and _hostname_:
+
+[subs="normal,attributes"]
+----
+root@mysql-...:/# *ps auwx*
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+mysql        1  0.0 12.3 994636 470492 ?       Ssl  20:32   0:01 mysqld
+root       128  0.0  0.0  20224  3208 ?        Ss   21:09   0:00 /bin/bash
+root       136  0.0  0.0  17488  2108 ?        R+   21:11   0:00 ps auwx
+
+root@mysql-...:/# *hostname -i*
+10.104.0.8
+
+root@mysql-...:/# *exit*
+----
+
+Don’t forget to exit :).  Try it with another pod, like one of the Hello World Service pods and see its IP address.
+
+[subs="normal,attributes"]
+----
+$ *kubectl exec -ti helloworld-service-vertx-... /bin/bash*
+root@helloworld-...:/app/src# hostname
+helloworld-service-vertx-...
+root@helloworld-...:/app/src# hostname -i
+10.104.1.5
+root@helloworld-...:/app/src# exit
+----
+
+Since we are running two instances of the Hello World Service (one instance in one pod), and that the IP addresses are not only unique, but also ephemeral - how will a client reach our services? We need a way to discover the service.
+
+In Kubernetes, Service Discovery is a first class citizen. We created a Service that will:
+
+* act as a load balancer to load balance the requests to the pods, and
+* provide a stable IP address, allow discovery from the API, and also create a DNS name!
+
+If you login into a container (find and use the Redis container), you can access the helloworldservice via the DNS name:
+
+[subs="normal,attributes"]
+----
+$ *kubectl exec -it frontend-ui-... bash*
+bash-4.2$ *wget -qO- http://helloworld-service-vertx:8080/api/hello/Rafael*
+Hello Rafael from helloworld-service-vertx-... with 1.0bash-4.2$ *exit*
+exit
+----
+
+Pretty simple right!? 

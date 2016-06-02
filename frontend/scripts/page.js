@@ -1,28 +1,19 @@
-var endpoint = {}
-
-$(document).ready(
-// Set the target endpoint and get the existing messages after loading
-// the page
-function() {
-  $.ajax({
-    url : document.URL + 'env',
-    success : function(result) {
-      env = result.env;
-      endpoint = 'http://' + env['GUESTBOOK_SERVICE_HOST'] + ':' + env['GUESTBOOK_SERVICE_PORT'] + '/api/messages';
-      fillMessages();
-    },
-    error : function(request, status, error) {
-      alert('Error getting the environment variables. Please check the console');
-    },
-  });
+$(document).ready(function() {
+  fillMessages();
 });
 
 // Action on submit
-function submitForm() {
+function submitForm(event) {
   var myForm = $('#myform');
   if (myForm[0].checkValidity()) {
+    // Prevent submission
+    event.preventDefault();
     // POST the form
-    $.post(endpoint, myForm.serialize());
+    $.post('/api/messages', myForm.serialize())
+    .fail(function(data) {
+      //alert('Failed to post form. Please check the console')
+      console.log(data);
+    });
     // Clear the message
     $('#inputMessage').val('');
     // Get the hello
@@ -38,35 +29,36 @@ function submitForm() {
 // get the hello world message
 function getHelloworld() {
   $.ajax({
-    url : 'http://' + env['HELLOWORLD_SERVICE_HOST'] + ':' + env['HELLOWORLD_SERVICE_PORT'] + '/api/hello/'
-        + $('#inputUsername').val(),
+    url : '/api/hello/' + $('#inputUsername').val(),
     success : function(result) {
       $('#message').text(result);
       $('#messageBox').removeClass('hidden');
     },
     error : function(request, status, error) {
-      alert('Error getting the helloworld message. Please check the console');
+      //alert('Error getting the helloworld message. Please check the console');
     },
   });
 }
 
 // get the existing messages
 function fillMessages() {
-  // wait at least 100ms before requesting the page
+  // wait at least 200ms before requesting the page
   setTimeout(function() {
-    // Clear the table before feeling it again
-    $('#mytable tbody').empty();
     $.ajax({
-      url : endpoint,
+      url : '/api/messages',
       success : function(result) {
-        for ( var i in result) {
+        var messages = JSON.parse(result);
+        // Clear the table before feeling it again
+        $('#mytable tbody').empty();
+        for ( var i in messages) {
           $('#mytable tbody').append(
-              '<tr><td><b>' + result[i].username + '</b></td><td>' + result[i].message + '</td></tr>');
+              '<tr><td><b>' + messages[i].username + '</b></td><td>' + messages[i].message + '</td></tr>');
         }
       },
       error : function(request, status, error) {
-        alert('Error getting the existing messages. Please check the console');
+        //alert('Error reading the messages. Please check the server logs');
       },
     });
+
   }, 200);
 }

@@ -1,0 +1,130 @@
+// JBoss, Home of Professional Open Source
+// Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+// contributors by the @authors tag. See the copyright.txt in the
+// distribution for a full listing of individual contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+### Deploy Microservices
+Duration: 5:00
+
+We have two separate services to deploy: 
+
+* the Guestbook service (that writes to the MySQL database)
+* a Hello World service
+
+Both services are containers whose images contain self-executing JAR files. The source is available in the git repository if you are interested in seeing it.
+
+When deploying these microservices instances, we want to make sure that:
+
+* We can scale the number of instances once deployed.
+* If any of the instances becomes unhealthy and/or fails, we want to make sure they are restarted automatically.
+* If any of the machines that runs the service is down (scheduled or unscheduled), we need to reschedule the microservice instances to another machine.
+
+Let’s deploy the microservices one at a time:
+
+First, deploy the Hello World:
+
+[subs="normal,attributes"]
+----
+$ *kubectl create -f helloworldservice-deployment-v1.yaml \
+                  -f helloworldservice-service.yaml \
+                  --record*
+deployment "helloworld-service-vertx" created
+service "helloworld-service-vertx" created
+----
+
+Once created, you can see the replicas with:
+
+[subs="normal,attributes"]
+----
+$ *kubectl get deployment*
+NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+frontend-ui                2         2         2            2           57m
+helloworld-service-vertx   2         2         2            2           1m
+mysql                      1         1         1            1           20m
+----
+
+You can see the pods running:
+
+[subs="normal,attributes"]
+----
+$ *kubectl get pods*
+NAME                                        READY     STATUS    RESTARTS   AGE
+frontend-ui-140836991-4m8hq                 1/1       Running   0          57m
+frontend-ui-140836991-zi8om                 1/1       Running   0          57m
+helloworld-service-vertx-3558582262-4rnxc   1/1       Running   0          1m
+helloworld-service-vertx-3558582262-r2lbp   1/1       Running   0          1m
+mysql-3871635011-m7i81                      1/1       Running   0          20m
+----
+
+You can also look at each pod’s log output by running:
+
+[subs="normal,attributes"]
+----
+$ *kubectl logs -f helloworld-service-...*
+----
+*Note:* The _-f_ flag tails the log.  To stop tailing, press _Ctrl+C_.
+
+The Deployment, behind the scenes, creates a Replica Set.  A Replica Set ensures the number of replicas (instances) you need to run at any given time. You can also see the Replica Set:
+
+[subs="normal,attributes"]
+----
+$ *kubectl get rs*
+NAME                                  DESIRED   CURRENT   AGE
+frontend-ui-140836991                 2         2         1h
+frontend-ui-2338783474                0         0         1h
+helloworld-service-vertx-3558582262   2         2         6m
+mysql-3871635011                      1         1         25m
+----
+
+Notice that because we also used Deployment to deploy MySQL and Frontend - each of those deployments created its own Replica Set as well.
+
+Our descriptor file specified 2 replicas. So, if you delete one of the pods (and now you only have 1 replica rather than 2), the Replica Set will notice that and start another pod for you to meet the configured 2 replicas specification. Let's try it!
+
+[subs="normal,attributes"]
+----
+$ *kubectl delete pod helloworld-service-vertx-...*
+pod "helloworld-service-vertx-..." deleted
+----
+
+You should see that the pod was deleted, and the Replication Controller will ensure a second instance is started. Sometimes this goes by very fast - and you'll notice that the pod you deleted is no longer there, and another pod, with a different name, was started.
+
+[subs="normal,attributes"]
+----
+$ *kubectl delete pod helloworld-service-vertx-...*
+pod "helloworld-service-vertx-..." deleted
+----
+
+You should see that the pod was deleted, and the Replication Controller will ensure a second instance is started. Sometimes this goes by very fast - and you'll notice that the pod you deleted is no longer there, and another pod, with a different name, was started.
+
+[subs="normal,attributes"]
+----
+$ *kubectl get pods*
+NAME                                        READY     STATUS    RESTARTS   AGE
+...
+helloworld-service-vertx-3558582262-me2c1   1/1       Running   0          1m
+helloworld-service-vertx-3558582262-r2lbp   1/1       Running   0          9m
+...
+----
+
+Lastly, let’s create the Guestbook Service replication controller and service too!
+
+[subs="normal,attributes"]
+----
+$ *kubectl create -f guestbookservice-deployment.yaml \
+                  -f guestbookservice-service.yaml \
+                  --record*
+deployment "guestbook-service" created
+service "guestbook-service" created
+----
+
+include::1fa-word-on-networking.adoc[]

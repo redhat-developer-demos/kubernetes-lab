@@ -13,10 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM openshift/nodejs-010-centos7
-
-ADD . /opt/app-root/src/
-
-EXPOSE 8080
-
-CMD /bin/bash -c 'npm start'
+apiVersion: v1
+kind: Service
+metadata: 
+  name: mysql
+  labels:
+    app: mysql
+    visualize: "true"
+spec: 
+  ports:
+    # the port that this service should serve on
+    - port: 3306
+  # label keys and values that must match in order to receive traffic for this service
+  selector: 
+    app: mysql

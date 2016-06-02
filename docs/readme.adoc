@@ -1,0 +1,51 @@
+// JBoss, Home of Professional Open Source
+// Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+// contributors by the @authors tag. See the copyright.txt in the
+// distribution for a full listing of individual contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+# Kubernetes Lab - From Basics to Advanced
+http://developers.redhat.com
+:toc: macro
+:toc-title: Table of Contents
+:toclevels: 3
+:icons: font
+:data-uri:
+:source-highlighter: coderay
+
+include::custom/variables.adoc[]
+
+toc::[]
+
+include::introduction.adoc[]
+
+include::initial-setup.adoc[]
+
+## Kubernetes - The Basics
+
+We’re going to work through this link:{applicationgit}[Guestbook] example. This example is built with WildFly Swarm, with a frontend using HTML5 and Javascript (client-side and server-side), and two microservices. It requires MySQL to store guestbook entries.
+
+image::images/app-diagram.png[Logo,float="center",align="center"]
+
+include::1a-create-kubernetens-cluster.adoc[]
+
+include::1b-get-application-source.adoc[]
+
+include::1c-deploy-frontend.adoc[]
+
+include::1d-deploy-frontend-service.adoc[]
+
+include::1e-deploy-mysql-and-service.adoc[]
+
+include::1f-deploy-microservices.adoc[]
+
+include::1g-external-access.adoc[]

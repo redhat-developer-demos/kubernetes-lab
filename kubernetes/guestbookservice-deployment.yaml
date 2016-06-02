@@ -13,10 +13,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM openshift/nodejs-010-centos7
-
-ADD . /opt/app-root/src/
-
-EXPOSE 8080
-
-CMD /bin/bash -c 'npm start'
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: guestbook-service
+  labels:
+    app: guestbook-service
+    visualize: "true"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: guestbook-service
+  template:
+    metadata:
+      labels:
+        app: guestbook-service
+        version: "latest"
+        visualize: "true"
+      annotations:
+        visualizer/uses: mysql
+    spec:
+      containers:
+      - name: guestbook-service
+        image: rafabene/microservices-guestbook:latest
+        ports:
+        - name: http
+          containerPort: 8080
+        resources:
+          limits:
+            cpu: "500m"

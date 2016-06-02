@@ -1,3 +1,4 @@
 #!/bin/bash
-
-npm install; docker build -t rafabene/microservices-frontend .
+name='rafabene/microservices-frontend'
+npm install; docker build -t $name .
+echo "Image $name built"

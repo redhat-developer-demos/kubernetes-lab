@@ -1,0 +1,2 @@
+:projectpattern: devnation-XXXX
+
