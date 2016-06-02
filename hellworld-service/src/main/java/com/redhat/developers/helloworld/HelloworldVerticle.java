@@ -47,7 +47,7 @@ public class HelloworldVerticle extends AbstractVerticle {
 	}
 
 	private String hello(String name) {
-		String configGreeting = ApplicationConfiguration.load(config()).getString("greeting");
+		String configGreeting = ApplicationConfiguration.load(config()).getString("GREETING");
 		String greeting = configGreeting == null ? "Hello {name} from {hostname} with {version}" : configGreeting;
 		Map<String, String> values = new HashMap<String, String>();
 		values.put("name", name);

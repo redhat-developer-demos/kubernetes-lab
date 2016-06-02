@@ -31,8 +31,8 @@ public class Main {
 		}).dataSource("MySQLDS", (ds) -> {
 			ds.driverName("com.mysql");
 			ds.connectionUrl("jdbc:mysql://mysql:3306/guestbook?useSSL=false&autoReconnect=true");
-			ds.userName("root");
-			ds.password("yourpassword");
+			ds.userName(System.getenv().getOrDefault("DATASOURCE_USERNAME", "root"));
+			ds.password(System.getenv().getOrDefault("DATASOURCE_PASSWORD", "yourpassword"));
 			ds.backgroundValidation(true);
 			ds.validConnectionCheckerClassName("org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker");
 			ds.validateOnMatch(true);
