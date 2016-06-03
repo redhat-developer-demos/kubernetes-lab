@@ -28,9 +28,54 @@ Latest HTML: https://htmlpreview.github.io/?https://github.com/redhat-developer-
 
 toc::[]
 
-include::introduction.adoc[]
+## Introduction
+Duration: 5:00
 
-include::initial-setup.adoc[]
+Hello everyone, thanks for coming today! Ready to learn Kubernetes? You will first become familiar with Compute Engine before working through a example Guestbook application, and then move on to more advanced Kubernetes experiments.
+
+image::images/k8slogo.png[Logo,float="center",align="center"]
+
+Kubernetes is an open source project (available on link:http://kubernetes.io[]) which can run on many different environments, from laptops to high-availability multi-node clusters, from public clouds to on-premise deployments, from virtual machines to bare metal.
+
+For the purpose of this codelab, using a managed environment such as Google Container Engine (a Google-hosted version of Kubernetes running on Compute Engine) will allow you to focus more on experiencing Kubernetes rather than setting up the underlying infrastructure but you should feel free to use your favorite environment instead.
+
+
+.What is your experience level with Containers?
+****
+- I have just heard of Docker
+- I played around with Docker
+- I have containers in production
+- I have already used container clustering technologies (kubernetes, mesos, swarm, ...)
+****
+
+## Initial setup
+Duration: 5:00
+
+- The instructor will provide you with a temporary username / password to login into Google Cloud Console.
+- Login into the Cloud Console: link:https://console.cloud.google.com/[] with the provided credentials.
+- Make sure you select the project *{projectpattern}* that was pre-created for you.
+
+image::images/projects.png[Logo,float="center",align="center"]
+
+- *Very Important* - Visit each of these pages to kick-off some initial setup behind the scenes, such as enabling the Compute Engine API, and the Container Engine API:
+
+  Compute → Compute Engine → VM Instances
+  Compute → Container Engine → Container cluster
+
+image::images/gcp-console.png[Logo,float="center",align="center"]
+
+- You might see a new task appears on the bottom right corner, you don’t need to wait for them to finish to keep going.
+
+Once the operations completes, you will do most of the work from the link:https://cloud.google.com/shell/#how_do_i_get_started[Google Cloud Shell], a command line environment running in the Cloud. This Debian-based virtual machine is loaded with all the development tools you’ll need (_docker, gcloud, kubectl and others_) and offers a persistent 5GB home directory. Open the Google Cloud Shell by clicking on the icon on the top right of the screen:
+
+image::images/gce-shell.png[Logo,float="center",align="center"]
+
+Finally, using Cloud Shell, set the default zone and project configuration:
+include::custom/config-region.adoc[]
+
+You can pick and choose different zones too. Learn more about zones in link:https://cloud.google.com/compute/docs/regions-zones/regions-zones[Regions & Zones documentation].
+
+NOTE: When you run gcloud on your own machine, the config settings would’ve been persisted across sessions.  But in Cloud Shell, you will need to set this for every new session / reconnection.
 
 ## Kubernetes - The Basics
 
