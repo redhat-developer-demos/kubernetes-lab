@@ -3,9 +3,6 @@
 Build and Deploy helloworld-service locally
 ------------------------------------------
 
-Build and Deploy aloha locally
-------------------------------
-
 1. Open a command prompt and navigate to the root directory of this microservice.
 2. Type this command to build and execute the service:
 
