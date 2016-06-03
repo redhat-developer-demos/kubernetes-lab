@@ -24,6 +24,8 @@ http://developers.redhat.com
 
 include::custom/variables.adoc[]
 
+Latest HTML: https://htmlpreview.github.io/?https://github.com/redhat-developer-demos/kubernetes-lab/blob/master/docs/readme.html
+
 toc::[]
 
 include::introduction.adoc[]

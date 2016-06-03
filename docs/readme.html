@@ -1739,9 +1739,9 @@ spec:
       …
       containers:
       - image: rafabene/microservices-helloworld-vertx:1.0
-        env:
+        <strong>env:
         - name: GREETING
-          value: Hello {name} from envvar!
+          value: Hello {name} from envvar!</strong>
       &#8230;&#8203;</code></pre>
 </div>
 </div>
@@ -1778,8 +1778,8 @@ spec:
       …
       containers:
       - image: rafabene/microservices-helloworld-vertx:1.0
-        args:
-         - -DGREETING=Hello {name} from args
+        <strong>args:
+         - -DGREETING=Hello {name} from args</strong>
       &#8230;&#8203;</code></pre>
 </div>
 </div>
@@ -1810,12 +1810,181 @@ Yes, there are 2 dashes. The first dash is required by YAML to indicate that thi
 <div class="sect3">
 <h4 id="_using_configmap">Using ConfigMap</h4>
 <div class="paragraph">
-<p>In this section, we&#8217;ll use Kubernetes 1.2&#8217;s new feature, ConfigMap, to configure the application. You can store multiple json-based configuration files inside of a single ConfigMap configuration. In our example, we&#8217;ll store Spring&#8217;s application.properties into a ConfigMap entry.</p>
+<p>In this section, we&#8217;ll use Kubernetes 1.2&#8217;s new feature, ConfigMap, to configure the application. You can store multiple string-based configuration files inside of a single ConfigMap configuration. In our example, we&#8217;ll store Vert.x&#8217;s config.json into a ConfigMap entry.</p>
+</div>
+<div class="paragraph">
+<p>First, update the <em>kubernetes-lab/hellworld-service/confing.json</em> with a new configuration value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code></code></pre>
+<pre class="CodeRay highlight"><code>{
+  "GREETING": "Hello {name} from ConfigMap"
+}</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>Next, create a ConfigMap entry with this file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ <strong>kubectl create configmap greeting-config --from-file=config.json</strong>
+configmap "greeting-config" created</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s take a look inside the newly created entry:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ <strong>kubectl edit configmap greeting-config</strong></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll see that the <em>config.json</em> is now part of the YAML file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>apiVersion: v1
+data:
+  <strong>config.json: |
+    {
+      "GREETING": "Hello {name} from ConfigMap"
+    }</strong>
+kind: ConfigMap
+&#8230;&#8203;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can, of course, edit this ConfigMap in the editor too. If you do, edit only the value for the greeting variable.</p>
+</div>
+<div class="paragraph">
+<p>There are several ways to access the values in this ConfigMap:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Mount the entries (in our case, application.properties) as a file.</p>
+</li>
+<li>
+<p>Access from the Kubernetes API (we won&#8217;t cover this today).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s see how we can mount the configurations as files under a specific directory, e.g., <em>/etc/config/config.json</em>.</p>
+</div>
+<div class="paragraph">
+<p>First, edit the Helloworld Service Deployment:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ <strong>kubectl edit deployment helloworld-service-vertx --record</strong></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the editor, add volumes and volume mounts (important - indentation matters!):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>apiVersion: extensions/v1beta1
+kind: Deployment
+…
+spec:
+…
+  template:
+    …
+    spec:
+      <strong>volumes:
+      - name: config-volume
+        configMap:
+          name: greeting-config</strong>
+      containers:
+      - image: rafabene/microservices-helloworld-vertx:1.0
+        <strong>volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config</strong>
+      &#8230;&#8203;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will make the configuration file available as the file <em>/etc/config/config.json</em>. Let&#8217;s verify by going into the pod itself (remember how to do this by using <em>kubectl exec</em>?):</p>
+</div>
+<div class="paragraph">
+<p>First, find the pod name:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ <strong>kubectl get pods</strong>
+NAME                                       READY     STATUS    RESTARTS   AGE
+&#8230;&#8203;
+helloworld-service-vertx-834124534-8f779   1/1       Running   0          3h
+helloworld-service-vertx-834124534-lvlc3   1/1       Running   0          3h
+&#8230;&#8203;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then, run a shell inside the pod, and see what&#8217;s in <em>/etc/config</em>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ <strong>kubectl exec -it helloworld-service-vertx-834124534-8f779 bash</strong>
+[jboss@helloworld-service-vertx-&#8230;&#8203; ~]$ <strong>ls /etc/config/</strong>
+config.json
+[jboss@helloworld-service-vertx-&#8230;&#8203; ~]$ <strong>cat /etc/config/config.json</strong>
+{
+  "GREETING" : "Hello {name} from ConfigMap"
+}
+[jboss@helloworld-service-vertx-&#8230;&#8203; ~]$ <strong>exit</strong>
+exit</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Don&#8217;t forget to exit out of the pod environment!
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Great, the file is there, but the application needs to be configured to reference to the file. Vert.x can reference to an external configuration with the command line argument:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>-conf /etc/config/config.json</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Recall how you were able to configure the command line arguments in the previous steps. You know the drill. Edit the Helloworld Service Deployment and add the arguments:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>apiVersion: extensions/v1beta1
+kind: Deployment
+&#8230;&#8203;
+spec:
+&#8230;&#8203;
+  template:
+    &#8230;&#8203;
+    spec:
+      &#8230;&#8203;
+      containers:
+      - image: rafabene/microservices-helloworld-vertx:&#8230;&#8203;
+        <strong>args:
+        - -conf
+        - /etc/config/config.json</strong>
+      &#8230;&#8203;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Check the application to see it is using the new greeting string.</p>
+</div>
+<div class="paragraph">
+<p>Last, but not least, you can also specify simple key/value pairs in ConfigMap, and then expose them directly as environmental variables too. See the <a href="http://kubernetes.io/docs/user-guide/configmap/">ConfigMap guide</a> for more examples.</p>
 </div>
 </div>
 </div>

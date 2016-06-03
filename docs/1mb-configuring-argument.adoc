@@ -1,0 +1,47 @@
+// JBoss, Home of Professional Open Source
+// Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+// contributors by the @authors tag. See the copyright.txt in the
+// distribution for a full listing of individual contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#### Command Line Argument
+
+Next, let's add a configuration via the command line arguments. You know the drill, edit the Deployment, and add the following section:
+
+[source,subs="normal,attributes"]
+----
+apiVersion: extensions/v1beta1
+kind: Deployment
+… 
+spec:
+…
+  template:
+    … 
+    spec:
+      … 
+      containers:
+      - image: rafabene/microservices-helloworld-vertx:1.0
+        *args:
+         - -DGREETING=Hello {name} from args*
+      ...
+----
+
+NOTE: Yes, there are 2 dashes. The first dash is required by YAML to indicate that this is a list element, followed by a space and one more dash that is actually passed into the command line argument.
+
+Check the application and submit a name and message to see it is using the new greeting string.
+
+Let's rollback to the previous state again:
+
+[source,subs="normal,attributes"]
+----
+$ *kubectl rollout undo deployment helloworld-service-vertx*
+----

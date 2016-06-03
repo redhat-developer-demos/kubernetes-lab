@@ -1,0 +1,65 @@
+// JBoss, Home of Professional Open Source
+// Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+// contributors by the @authors tag. See the copyright.txt in the
+// distribution for a full listing of individual contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+### Running Daemons on Every Machine
+Duration: 5:00
+
+When running pods using Replication Controllers, Replica Set, or Deployments, the pods can be scheduled to run on any machines in the Kubernetes cluster, and sometimes, the more than 1 of pod of the same application could be running on the same machine. This is not a behavior you'd want if you want to have exactly one instance of the pod on each of the machines in the Kubernetes clusters.
+
+A Daemon Set ensures that all (or some) nodes run a an instance of the pod. As nodes are added to the cluster, pods are added to them. As nodes are removed from the cluster, those pods are garbage collected. This is great for running per-machine daemons, such as:
+
+* cluster storage daemon on every node, such as glusterd, ceph, etc.
+* logs collection daemon on every node, such as fluentd or logstash, etc.
+* monitoring daemon on every node, such as Prometheus Node Exporter, collectd, etc.
+
+For this lab, we'll deploy a Cassandra cluster as a Daemon Set because we want to ensure exactly one Cassandra node is running on every machine. Luckily, there is an example of this on GitHub: 
+https://github.com/kubernetes/kubernetes/blob/master/examples/cassandra/cassandra-daemonset.yaml. Examine the file carefully - it's almost the same as a Replication Controller descriptor, but with the kind as DaemonSet.
+
+You can actually deploy this Daemon Set descriptor from GitHub directly:
+
+[source,subs="normal,attributes"]
+----
+$ *kubectl create -f  \
+https://raw.githubusercontent.com/kubernetes/kubernetes/master/examples/cassandra/cassandra-daemonset.yaml \
+--validate=false*
+----
+
+You can verify that there is one instance running on every machine:
+
+[source,subs="normal,attributes"]
+----
+$ *kubectl get pods -owide*
+NAME                                        READY     STATUS    RESTARTS   AGE       NODE
+cassandra-0f2hl                             1/1       Running   0          24s       gke-guestbook-default-pool-a27323b1-2vqp
+cassandra-512ys                             1/1       Running   0          24s       gke-guestbook-default-pool-a27323b1-5xj3
+cassandra-7iy9r                             1/1       Running   0          24s       gke-guestbook-default-pool-a27323b1-f8l3
+cassandra-nw8ht                             1/1       Running   0          24s       gke-guestbook-default-pool-a27323b1-pzt9
+...
+----
+
+You can expose all of these pods via Services exactly the same way that you expose pods with Replication Controllers, Replica Set, or Deployments. At the end of the day, Service will route traffic based on label selectors, so it doesn't matter how a pod was initially created.
+
+There is a Service descriptor on GitHub as well:
+https://github.com/kubernetes/kubernetes/blob/master/examples/cassandra/cassandra-service.yaml
+
+Feel free to deploy this descriptor too (hint: use _kubectl create -f <url to the raw file>_).
+
+You can delete all of the pod instances by deleting the Daemon Set:
+
+[source,subs="normal,attributes"]
+----
+$ *kubectl delete daemonset cassandra*
+daemonset "cassandra" deleted
+----

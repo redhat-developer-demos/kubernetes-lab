@@ -1,0 +1,55 @@
+// JBoss, Home of Professional Open Source
+// Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+// contributors by the @authors tag. See the copyright.txt in the
+// distribution for a full listing of individual contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#### Environmental Variable
+
+link:http://vertx.io/[Vert.X] can read the override configuration directly from an environmental variable. In this case, the environmental variable is defaulted to _greeting_. You can specify the environmental variable directly in the Deployment as well, by first edit the Deployment:
+
+[source,subs="normal,attributes"]
+----
+$ *kubectl edit deployment helloworld-service-vertx --record*
+----
+
+In the editor, add the environmental variable:
+
+[source,subs="normal,attributes"]
+----
+apiVersion: extensions/v1beta1
+kind: Deployment
+… 
+spec:
+…
+  template:
+    … 
+    spec:
+      … 
+      containers:
+      - image: rafabene/microservices-helloworld-vertx:1.0
+        *env:
+        - name: GREETING
+          value: Hello {name} from envvar!*
+      ...
+----
+
+Again, through the use of Deployments, it'll rolling update all the replicas with the new configuration! If you were to refresh the application, you'll notice that there are no intermittent errors because we also have health checks and readiness checks in place.
+
+Check the application to see it is using the new Greeting string.
+
+Let's rollback to the previous state:
+
+[source,subs="normal,attributes"]
+----
+$ *kubectl rollout undo deployment helloworld-service-vertx*
+----

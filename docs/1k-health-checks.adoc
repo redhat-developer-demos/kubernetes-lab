@@ -1,0 +1,89 @@
+// JBoss, Home of Professional Open Source
+// Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+// contributors by the @authors tag. See the copyright.txt in the
+// distribution for a full listing of individual contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+### Health Checks
+Duration: 10:00
+
+During rolling update, a pod is removed as soon as a newer version of pod is up and ready to serve. By default, without health checks, Kubernetes will route traffic to the new pod as soon as the pods starts. But, it's most likely that your application will take sometime to start, and if you route traffic to the application that isn't ready to serve, your users (and/or consuming services) will see errors. To avoid this, Kubernetes comes with two types of checks: Liveness Probe, and Readiness Probe.
+
+After a container starts, it is not marked as Healthy until the Liveness Probe succeeds. However, if the number of Liveness Probe failures exceeds a configurable failure threshold, Kubernetes will mark the pod unhealthy and attempt to restart the pod.
+
+When a pod is Healthy doesn't mean it's ready to serve. You may want to warm up requests/cache, and/or transfer state from other instances. You can further mark when the pod is Ready to serve by using a Readiness Probe.
+
+Let's add a Liveness Probe to our Helloworld Service by editing the Deployment:
+
+[source,subs="normal,attributes"]
+----
+$ *kubectl edit deployment helloworld-service-vertx --record*
+----
+
+In the editor, add a Liveness Probe:
+
+[source,subs="normal,attributes"]
+----
+apiVersion: extensions/v1beta1
+kind: Deployment
+… 
+spec:
+…
+  template:
+    … 
+    spec:
+      … 
+      containers:
+      - image: rafabene/microservices-helloworld-vertx:...
+        *livenessProbe:
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+          httpGet:
+            path: /api/hello/Kubernetes
+            port: 8080*
+      ...
+----
+
+NOTE: You can configure both Liveness Probe and Readiness Probe by checking via a HTTP GET request, a HTTPS GET request, TCP port connectivity, or even a shell script! See the link: http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks[Liveness and Readiness guide] for more information.
+
+You can add a Readiness Probe in the similar way:
+
+[source,subs="normal,attributes"]
+----
+$ *kubectl edit deployment helloworld-service-vertx --record*
+----
+
+In the editor, add a Readiness Probe:
+
+[source,subs="normal,attributes"]
+----
+apiVersion: extensions/v1beta1
+kind: Deployment
+… 
+spec:
+…
+  template:
+    … 
+    spec:
+      … 
+      containers:
+      - image: rafabene/microservices-helloworld-vertx:...
+        *readinessProbe:
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+          httpGet:
+            path: /api/hello/Kubernetes
+            port: 8080*
+      ...
+----
+
+NOTE: In a production scenario, the Liveness Probe and the Readiness Probe will probably be different.

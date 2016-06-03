@@ -1,0 +1,76 @@
+// JBoss, Home of Professional Open Source
+// Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+// contributors by the @authors tag. See the copyright.txt in the
+// distribution for a full listing of individual contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+### Rolling Update
+Duration: 7:00
+
+It’s easy to update & rollback. 
+
+In this lab, we'll switch to the _frontend/_ directory and make a minor change to the index.html (e.g., change the background color, title, etc.). After that, rebuild the container and upload it to the link:https://cloud.google.com/container-registry/[Google Container Registry].
+
+You need to look up your project id by running _gcloud config list | grep project_.
+
+[source,subs="normal,attributes"]
+----
+$ *cd ~/kubernetes-lab/frontend*
+$ *vim index.html*
+$ *docker build -t gcr.io/<your-project-id>/microservices-frontend:v2 .*
+$ *gcloud docker push gcr.io/<your-project-id>/microservices-frontend:v2*
+----
+
+NOTE: Because the Cloud Shell is running inside of a small VM instance it’s not the fastest when it comes to extracting and buffering the container images!  Once you start the push, it’s a good time to take a break or … why not watching another video? This one about Google Container Registry: https://www.youtube.com/watch?v=9CDb9ZSsfV4 !
+
+Because we are managing our Pods with Deployment, it simplifies re-deployment with a new image and configuration. To use Deployment to update to Frontend 2.0, first, edit the Deployment:
+
+
+[source,subs="normal,attributes"]
+----
+$ *kubectl edit deployment frontend-ui --record*
+----
+
+Note: By default this is going to use vi as the editor! If you don't want to use _vi_, you can set the environmental variable _EDITOR_ or _KUBE_EDITOR_ to point to your favorite editor. E.g., _EDITOR=nano kubectl edit deployment frontend-ui_.
+
+You can then edit the Deployment directly in the editor. Change the image from the tag 1.0 to 2.0:
+
+[source,subs="normal,attributes"]
+----
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+    kubernetes.io/change-cause: kubectl edit deployment frontend-ui --record
+…
+spec:
+…
+  template:
+    … 
+    spec:
+      … 
+      containers:
+      *- image: gcr.io/<your-project-id>/microservices-frontend:v2*
+      ...
+----
+
+Save and exit the editor, and you should see the message:
+
+[source,subs="normal,attributes"]
+----
+deployment "frontend-ui" edited
+----
+
+That's it! Kubernetes will then perform a rolling update to update all the versions from 1.0 to 2.0.
+
+NOTE: Rather than interactively editing the Deployment resource, you can also script this by using the _kubectl patch_ command. See link:http://kubernetes.io/docs/user-guide/managing-deployments/#kubectl-patch[Managing Resources documentation] for examples.

@@ -1,0 +1,158 @@
+// JBoss, Home of Professional Open Source
+// Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+// contributors by the @authors tag. See the copyright.txt in the
+// distribution for a full listing of individual contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#### Using ConfigMap
+
+In this section, we'll use Kubernetes 1.2's new feature, ConfigMap, to configure the application. You can store multiple string-based configuration files inside of a single ConfigMap configuration. In our example, we'll store Vert.x's config.json into a ConfigMap entry.
+
+First, update the _kubernetes-lab/hellworld-service/confing.json_ with a new configuration value:
+[source,subs="normal,attributes"]
+----
+{
+  "GREETING": "Hello {name} from ConfigMap"
+}
+----
+
+Next, create a ConfigMap entry with this file:
+
+[source,subs="normal,attributes"]
+----
+$ *kubectl create configmap greeting-config --from-file=config.json*
+configmap "greeting-config" created
+----
+
+Let's take a look inside the newly created entry:
+
+[source,subs="normal,attributes"]
+----
+$ *kubectl edit configmap greeting-config*
+----
+
+You'll see that the _config.json_ is now part of the YAML file:
+
+[source,subs="normal,attributes"]
+----
+apiVersion: v1
+data:
+  *config.json: |
+    {
+      "GREETING": "Hello {name} from ConfigMap"
+    }*
+kind: ConfigMap
+...
+----
+
+You can, of course, edit this ConfigMap in the editor too. If you do, edit only the value for the greeting variable.
+
+There are several ways to access the values in this ConfigMap:
+
+* Mount the entries (in our case, application.properties) as a file.
+* Access from the Kubernetes API (we won't cover this today).
+
+Let's see how we can mount the configurations as files under a specific directory, e.g., _/etc/config/config.json_.
+
+First, edit the Helloworld Service Deployment:
+
+[source,subs="normal,attributes"]
+----
+$ *kubectl edit deployment helloworld-service-vertx --record*
+----
+
+In the editor, add volumes and volume mounts (important - indentation matters!):
+
+[source,subs="normal,attributes"]
+----
+apiVersion: extensions/v1beta1
+kind: Deployment
+… 
+spec:
+…
+  template:
+    … 
+    spec:
+      *volumes:
+      - name: config-volume
+        configMap:
+          name: greeting-config*
+      containers:
+      - image: rafabene/microservices-helloworld-vertx:1.0
+        *volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config*
+      ...
+----
+
+This will make the configuration file available as the file _/etc/config/config.json_. Let's verify by going into the pod itself (remember how to do this by using _kubectl exec_?):
+
+First, find the pod name:
+
+[source,subs="normal,attributes"]
+----
+$ *kubectl get pods*
+NAME                                       READY     STATUS    RESTARTS   AGE
+...
+helloworld-service-vertx-834124534-8f779   1/1       Running   0          3h
+helloworld-service-vertx-834124534-lvlc3   1/1       Running   0          3h
+...
+----
+
+Then, run a shell inside the pod, and see what's in _/etc/config_:
+
+[source,subs="normal,attributes"]
+----
+$ *kubectl exec -it helloworld-service-vertx-834124534-8f779 bash*
+[jboss@helloworld-service-vertx-... ~]$ *ls /etc/config/*
+config.json
+[jboss@helloworld-service-vertx-... ~]$ *cat /etc/config/config.json*
+{
+  "GREETING" : "Hello {name} from ConfigMap"
+}
+[jboss@helloworld-service-vertx-... ~]$ *exit*
+exit
+----
+
+NOTE: Don't forget to exit out of the pod environment!
+
+Great, the file is there, but the application needs to be configured to reference to the file. Vert.x can reference to an external configuration with the command line argument:
+
+[source,subs="normal,attributes"]
+----
+-conf /etc/config/config.json
+----
+
+Recall how you were able to configure the command line arguments in the previous steps. You know the drill. Edit the Helloworld Service Deployment and add the arguments:
+
+[source,subs="normal,attributes"]
+----
+apiVersion: extensions/v1beta1
+kind: Deployment
+...
+spec:
+...
+  template:
+    ...
+    spec:
+      ... 
+      containers:
+      - image: rafabene/microservices-helloworld-vertx:...
+        *args:
+        - -conf 
+        - /etc/config/config.json*
+      ...
+----
+
+Check the application to see it is using the new greeting string.
+
+Last, but not least, you can also specify simple key/value pairs in ConfigMap, and then expose them directly as environmental variables too. See the link:http://kubernetes.io/docs/user-guide/configmap/[ConfigMap guide] for more examples.
