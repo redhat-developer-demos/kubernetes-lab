@@ -79,7 +79,7 @@ NOTE: When you run gcloud on your own machine, the config settings would’ve be
 
 ## Kubernetes - The Basics
 
-We’re going to work through this link:{applicationgit}[Guestbook] example. This example is built with WildFly Swarm, with a frontend using HTML5 and Javascript (client-side and server-side), and two microservices. It requires MySQL to store guestbook entries.
+We’re going to work through this https://github.com/redhat-developer-demos/kubernetes-lab[Guestbook] example. This example is built with WildFly Swarm, with a frontend using HTML5 and Javascript (client-side and server-side), and two microservices. It requires MySQL to store guestbook entries.
 
 image::images/app-diagram.png[Logo,float="center",align="center"]
 
