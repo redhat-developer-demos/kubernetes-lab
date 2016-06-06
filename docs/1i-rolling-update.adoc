@@ -18,7 +18,7 @@ Duration: 7:00
 
 It’s easy to update & rollback. 
 
-In this lab, we'll switch to the _frontend/_ directory and make a minor change to the index.html (e.g., change the background color, title, etc.). After that, rebuild the container and upload it to the link:https://cloud.google.com/container-registry/[Google Container Registry].
+In this lab, we'll switch to the _frontend/_ directory and make a minor change to the index.html (e.g., change the background color, title, etc.). After that, rebuild the container and upload it to the https://cloud.google.com/container-registry/[Google Container Registry].
 
 You need to look up your project id by running _gcloud config list | grep project_.
 
@@ -73,4 +73,4 @@ deployment "frontend-ui" edited
 
 That's it! Kubernetes will then perform a rolling update to update all the versions from 1.0 to 2.0.
 
-NOTE: Rather than interactively editing the Deployment resource, you can also script this by using the _kubectl patch_ command. See link:http://kubernetes.io/docs/user-guide/managing-deployments/#kubectl-patch[Managing Resources documentation] for examples.
+NOTE: Rather than interactively editing the Deployment resource, you can also script this by using the _kubectl patch_ command. See http://kubernetes.io/docs/user-guide/managing-deployments/#kubectl-patch[Managing Resources documentation] for examples.

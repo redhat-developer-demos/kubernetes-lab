@@ -151,10 +151,22 @@ Duration 5:00
 
 - http://kubernetes.io
 - https://github.com/googlecloudplatform/kubernetes
-- mailing list: link:https://groups.google.com/forum/#!forum/google-containers[google-containers]
-- twitter: link:https://twitter.com/kubernetesio[@kubernetesio]
+- mailing list: https://groups.google.com/forum/#!forum/google-containers[google-containers]
+- twitter: https://twitter.com/kubernetesio[@kubernetesio]
 - IRC: #google-containers on freenode
 
 ### Google Container Engine
 
 - https://cloud.google.com/container-engine/
+
+
+### OpenShift
+
+Do you know that Red Hat's OpenShift is built on top of Kubernetes?
+
+- https://www.openshift.com/
+- https://github.com/openshift/
+- twitter: https://twitter.com/openshift[@openshift]
+
+You can try Kubernetes and/or Openshift locally using CDK: (Container Developmnet Kit). More info: http://developers.redhat.com/products/cdk/overview/
+

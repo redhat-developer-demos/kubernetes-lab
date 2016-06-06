@@ -48,4 +48,4 @@ Events:
 
 It's going to be a little difficult to generate the load needed to kick off the autoscaler. We won't do that during the lab.
 
-Learn more about Horizontal Pod Autoscaling in the link:http://kubernetes.io/docs/user-guide/horizontal-pod-autoscaling/[guide]
+Learn more about Horizontal Pod Autoscaling in the http://kubernetes.io/docs/user-guide/horizontal-pod-autoscaling/[guide]

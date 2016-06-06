@@ -21,4 +21,4 @@ During the lab, you’ve used _kubectl logs_ command to retrieve the logs of a c
 image::images/logging.png[Logo,float="center",align="center"]
 
 
-From here, you can optionally export the logs into Google BigQuery for further log analysis, or setup link:https://cloudplatform.googleblog.com/2015/10/create-metrics-alerts-and-dashboards-based-on-your-Google-Cloud-logs.html[log-based] alerting. We won’t get to do this during the lab today.
+From here, you can optionally export the logs into Google BigQuery for further log analysis, or setup https://cloudplatform.googleblog.com/2015/10/create-metrics-alerts-and-dashboards-based-on-your-Google-Cloud-logs.html[log-based] alerting. We won’t get to do this during the lab today.

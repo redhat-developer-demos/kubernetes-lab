@@ -155,4 +155,4 @@ spec:
 
 Check the application to see it is using the new greeting string.
 
-Last, but not least, you can also specify simple key/value pairs in ConfigMap, and then expose them directly as environmental variables too. See the link:http://kubernetes.io/docs/user-guide/configmap/[ConfigMap guide] for more examples.
+Last, but not least, you can also specify simple key/value pairs in ConfigMap, and then expose them directly as environmental variables too. See the http://kubernetes.io/docs/user-guide/configmap/[ConfigMap guide] for more examples.

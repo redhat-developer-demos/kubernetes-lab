@@ -53,7 +53,7 @@ spec:
       ...
 ----
 
-NOTE: You can configure both Liveness Probe and Readiness Probe by checking via a HTTP GET request, a HTTPS GET request, TCP port connectivity, or even a shell script! See the link: http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks[Liveness and Readiness guide] for more information.
+NOTE: You can configure both Liveness Probe and Readiness Probe by checking via a HTTP GET request, a HTTPS GET request, TCP port connectivity, or even a shell script! See the  http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks[Liveness and Readiness guide] for more information.
 
 You can add a Readiness Probe in the similar way:
 

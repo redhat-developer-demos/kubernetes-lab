@@ -16,8 +16,8 @@
 ### Graceful Shutdown
 Duration: 5:00
 
-When a pod needs to be deleted (such as reducing the number of replicas), Kubernetes will send the SIGTERM signal to the process. The process should perform all the cleanups. However, we cannot wait forever for the process to exit. By default, Kubernetes waits 30 seconds before sending the final SIGKILL signal to kill the process. If your process needs more or less time, you can configure this through termination grace periods configuration (see link: http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks[guide]).
+When a pod needs to be deleted (such as reducing the number of replicas), Kubernetes will send the SIGTERM signal to the process. The process should perform all the cleanups. However, we cannot wait forever for the process to exit. By default, Kubernetes waits 30 seconds before sending the final SIGKILL signal to kill the process. If your process needs more or less time, you can configure this through termination grace periods configuration (see  http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks[guide]).
 
-Optionally, you can also ask Kubernetes to execute a shutdown command via the pre-stop lifecycle hook. Read through the link: http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks[documentation] the learn more - we won't implement this during the lab.
+Optionally, you can also ask Kubernetes to execute a shutdown command via the pre-stop lifecycle hook. Read through the http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks[documentation] the learn more - we won't implement this during the lab.
 
 

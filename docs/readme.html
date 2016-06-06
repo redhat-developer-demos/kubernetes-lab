@@ -567,6 +567,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_kubernetes">Kubernetes</a></li>
 <li><a href="#_google_container_engine">Google Container Engine</a></li>
+<li><a href="#_openshift">OpenShift</a></li>
 </ul>
 </li>
 </ul>
@@ -1624,7 +1625,7 @@ spec:
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-You can configure both Liveness Probe and Readiness Probe by checking via a HTTP GET request, a HTTPS GET request, TCP port connectivity, or even a shell script! See the link: <a href="http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks">Liveness and Readiness guide</a> for more information.
+You can configure both Liveness Probe and Readiness Probe by checking via a HTTP GET request, a HTTPS GET request, TCP port connectivity, or even a shell script! See the  <a href="http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks">Liveness and Readiness guide</a> for more information.
 </td>
 </tr>
 </table>
@@ -1681,10 +1682,10 @@ In a production scenario, the Liveness Probe and the Readiness Probe will probab
 <p>Duration: 5:00</p>
 </div>
 <div class="paragraph">
-<p>When a pod needs to be deleted (such as reducing the number of replicas), Kubernetes will send the SIGTERM signal to the process. The process should perform all the cleanups. However, we cannot wait forever for the process to exit. By default, Kubernetes waits 30 seconds before sending the final SIGKILL signal to kill the process. If your process needs more or less time, you can configure this through termination grace periods configuration (see link: <a href="http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks">guide</a>).</p>
+<p>When a pod needs to be deleted (such as reducing the number of replicas), Kubernetes will send the SIGTERM signal to the process. The process should perform all the cleanups. However, we cannot wait forever for the process to exit. By default, Kubernetes waits 30 seconds before sending the final SIGKILL signal to kill the process. If your process needs more or less time, you can configure this through termination grace periods configuration (see  <a href="http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks">guide</a>).</p>
 </div>
 <div class="paragraph">
-<p>Optionally, you can also ask Kubernetes to execute a shutdown command via the pre-stop lifecycle hook. Read through the link: <a href="http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks">documentation</a> the learn more - we won&#8217;t implement this during the lab.</p>
+<p>Optionally, you can also ask Kubernetes to execute a shutdown command via the pre-stop lifecycle hook. Read through the <a href="http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks">documentation</a> the learn more - we won&#8217;t implement this during the lab.</p>
 </div>
 </div>
 <div class="sect2">
@@ -2055,7 +2056,7 @@ kind: Secret
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>apiVersion: v1
-kind: ReplicationController
+kind: Deployment
 metadata:
   name: mysql
 spec:
@@ -2525,12 +2526,34 @@ Check out the <a href="http://kubernetes.io/docs/getting-started-guides/binary_r
 </ul>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_openshift">OpenShift</h3>
+<div class="paragraph">
+<p>Do you know that Red Hat&#8217;s OpenShift is built on top of Kubernetes?</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.openshift.com/" class="bare">https://www.openshift.com/</a></p>
+</li>
+<li>
+<p><a href="https://github.com/openshift/" class="bare">https://github.com/openshift/</a></p>
+</li>
+<li>
+<p>twitter: <a href="https://twitter.com/openshift">@openshift</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can try Kubernetes and/or Openshift locally using CDK: (Container Developmnet Kit). More info: <a href="http://developers.redhat.com/products/cdk/overview/" class="bare">http://developers.redhat.com/products/cdk/overview/</a></p>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-06-02 20:36:19 EDT
+Last updated 2016-06-06 10:48:30 EDT
 </div>
 </div>
 </body>

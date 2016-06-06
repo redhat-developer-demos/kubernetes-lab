@@ -20,7 +20,7 @@ So far, the lab has been showing how to run long running serving processes. What
 
 Kubernetes supports running these run-once jobs, which it'll create one or more pods and ensures that a specified number of them successfully terminate. When a specified number of successful completions is reached, the job itself is complete. In many cases, you'll have run a job that only need to complete once.
 
-For this lab, we'll run a job that uses link:http://googleresearch.blogspot.fr/2015/07/deepdream-code-example-for-visualizing.html[Google DeepDream] to produce a dreamy picture. The job will retrieve an image from the web, processes it with Google DeepDream, and then output the processed image into a Google Cloud Storage bucket, like this:
+For this lab, we'll run a job that uses http://googleresearch.blogspot.fr/2015/07/deepdream-code-example-for-visualizing.html[Google DeepDream] to produce a dreamy picture. The job will retrieve an image from the web, processes it with Google DeepDream, and then output the processed image into a Google Cloud Storage bucket, like this:
 
 image::images/deep-dream.jpg[Logo,float="center",align="center"]
 

@@ -15,7 +15,7 @@
 
 #### Environmental Variable
 
-link:http://vertx.io/[Vert.X] can read the override configuration directly from an environmental variable. In this case, the environmental variable is defaulted to _greeting_. You can specify the environmental variable directly in the Deployment as well, by first edit the Deployment:
+http://vertx.io/[Vert.X] can read the override configuration directly from an environmental variable. In this case, the environmental variable is defaulted to _greeting_. You can specify the environmental variable directly in the Deployment as well, by first edit the Deployment:
 
 [source,subs="normal,attributes"]
 ----
