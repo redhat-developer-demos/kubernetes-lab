@@ -28,7 +28,7 @@ First, create a Google Cloud Storage bucket that will be used to store the image
 
 [source,subs="normal,attributes"]
 ----
-$ *gsutil mb gs://<project-id>
+$ *gsutil mb gs://<project-id>*
 Creating gs://<project-id>/...
 ----
 
@@ -39,7 +39,7 @@ Then, you can launch a job directly from the command line:
 [source,subs="normal,attributes"]
 ----
 $ *kubectl run deepdream-1 --restart=Never \
-      --image=saturnism/deepdream-cli-gcs -- \
+      --image=saturnism/deepdream-cli-gcs \-- \
       -i 1 --source=_<an image url>_ \
       --bucket=_<project_id>_ --dest=output.jpg*
 job "deepdream-1" created

@@ -36,7 +36,7 @@ The scopes parameter is important for this lab. Scopes determine what Google Clo
 
 [TIP]
 ====
-While this goes on you might enjoy watching this short video https://youtu.be/7vZ9dRKRMyc!
+While this goes on you might enjoy watching this short video https://youtu.be/7vZ9dRKRMyc !
 ====
 
 You can see the newly created instances in the Google Compute Engine > VM Instances page.

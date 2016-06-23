@@ -25,6 +25,7 @@ You need to look up your project id by running _gcloud config list | grep projec
 [source,subs="normal,attributes"]
 ----
 $ *cd ~/kubernetes-lab/frontend*
+$ *npm install*
 $ *vim index.html*
 $ *docker build -t gcr.io/<your-project-id>/microservices-frontend:v2 .*
 $ *gcloud docker push gcr.io/<your-project-id>/microservices-frontend:v2*

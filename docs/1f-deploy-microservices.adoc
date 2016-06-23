@@ -100,14 +100,6 @@ You should see that the pod was deleted, and the Replication Controller will ens
 
 [subs="normal,attributes"]
 ----
-$ *kubectl delete pod helloworld-service-vertx-...*
-pod "helloworld-service-vertx-..." deleted
-----
-
-You should see that the pod was deleted, and the Replication Controller will ensure a second instance is started. Sometimes this goes by very fast - and you'll notice that the pod you deleted is no longer there, and another pod, with a different name, was started.
-
-[subs="normal,attributes"]
-----
 $ *kubectl get pods*
 NAME                                        READY     STATUS    RESTARTS   AGE
 ...
