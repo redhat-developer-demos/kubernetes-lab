@@ -105,29 +105,16 @@ fit failure on node (gke-guestbook-default-pool-a27323b1-2vqp): Node didn't have
 ----
 
 The good news is that we can easily spin up another Compute Engine instance to append to the cluster.
-First, find the Compute Engine Instance Group that’s managing the Kubernetes nodes (the name is prefixed with _"gke-"_):
+You can resize the number of nodes with the following command:
 
 [source,subs="normal,attributes"]
 ----
-$ *gcloud compute instance-groups list*
-NAME                                     ZONE           NETWORK  MANAGED  INSTANCES
-gke-guestbook-default-pool-a27323b1-grp  us-central1-b  default  Yes      4
-----
-
-You can resize the number of nodes by updating the Instance Group size:
-
-[source,subs="normal,attributes"]
-----
-$ *gcloud compute instance-groups managed resize gke-guestbook-default-pool-a27323b1-grp --size 5*
-Updated [https://www.googleapis.com/compute/v1/projects/feisty-parity-130103/zones/us-central1-b/instanceGroupManagers/gke-guestbook-default-pool-a27323b1-grp].
----
-baseInstanceName: gke-guestbook-default-pool-a27323b1
-creationTimestamp: '2016-05-25T08:15:27.864-07:00'
-currentActions:
-  abandoning: 0
-  creating: 1
-  deleting: 0
-...
+$ *gcloud container clusters resize guestbook --size=5*
+gcloud container clusters resize guestbook --size=5
+Pool [default-pool] for [guestbook] will be resized to 5.
+Do you want to continue (Y/n)?  y
+Resizing guestbook...done.
+Updated [https://container.googleapis.com/v1/projects/<project-id>/zones/<zone>/clusters/guestbook].
 ----
 
 You can see a new Compute Engine instance is starting:

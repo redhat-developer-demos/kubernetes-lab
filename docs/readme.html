@@ -1379,30 +1379,16 @@ fit failure on node (gke-guestbook-default-pool-a27323b1-2vqp): Node didn&#8217;
 </div>
 <div class="paragraph">
 <p>The good news is that we can easily spin up another Compute Engine instance to append to the cluster.
-First, find the Compute Engine Instance Group that’s managing the Kubernetes nodes (the name is prefixed with <em>"gke-"</em>):</p>
+You can resize the number of nodes with the following command:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>$ <strong>gcloud compute instance-groups list</strong>
-NAME                                     ZONE           NETWORK  MANAGED  INSTANCES
-gke-guestbook-default-pool-a27323b1-grp  us-central1-b  default  Yes      4</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You can resize the number of nodes by updating the Instance Group size:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>$ <strong>gcloud compute instance-groups managed resize gke-guestbook-default-pool-a27323b1-grp --size 5</strong>
-Updated [<a href="https://www.googleapis.com/compute/v1/projects/feisty-parity-130103/zones/us-central1-b/instanceGroupManagers/gke-guestbook-default-pool-a27323b1-grp" class="bare">https://www.googleapis.com/compute/v1/projects/feisty-parity-130103/zones/us-central1-b/instanceGroupManagers/gke-guestbook-default-pool-a27323b1-grp</a>].
----
-baseInstanceName: gke-guestbook-default-pool-a27323b1
-creationTimestamp: '2016-05-25T08:15:27.864-07:00'
-currentActions:
-  abandoning: 0
-  creating: 1
-  deleting: 0
-&#8230;&#8203;</code></pre>
+<pre class="CodeRay highlight"><code>$ <strong>gcloud container clusters resize guestbook --size=5</strong>
+gcloud container clusters resize guestbook --size=5
+Pool [default-pool] for [guestbook] will be resized to 5.
+Do you want to continue (Y/n)?  y
+Resizing guestbook&#8230;&#8203;done.
+Updated [<a href="https://container.googleapis.com/v1/projects/&lt;project-id&gt;/zones/&lt;zone&gt;/clusters/guestbook" class="bare">https://container.googleapis.com/v1/projects/&lt;project-id&gt;/zones/&lt;zone&gt;/clusters/guestbook</a>].</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2545,7 +2531,7 @@ Check out the <a href="http://kubernetes.io/docs/getting-started-guides/binary_r
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-06-06 15:10:42 EDT
+Last updated 2016-06-06 12:10:42 PDT
 </div>
 </div>
 </body>
