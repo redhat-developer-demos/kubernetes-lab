@@ -513,6 +513,9 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
+<p>This lab is based on <a href="http://bit.ly/k8s-lab">Google&#8217;s Kubernetes lab</a> provided by <a href="https://twitter.com/saturnism">Ray Tsang</a>.</p>
+</div>
+<div class="paragraph">
 <p>Latest HTML: <a href="https://htmlpreview.github.io/?https://github.com/redhat-developer-demos/kubernetes-lab/blob/master/docs/readme.html" class="bare">https://htmlpreview.github.io/?https://github.com/redhat-developer-demos/kubernetes-lab/blob/master/docs/readme.html</a></p>
 </div>
 <div id="toc" class="toc">
@@ -2360,7 +2363,7 @@ deepdream-1   1         0            37s*</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code>$ <strong>kubectl run deepdream-2 --restart=Never \
-      --image=saturnism/deepdream-cli-gcs&#8201;&#8212;&#8201;\
+      --image=saturnism/deepdream-cli-gcs -- \
       -o 6 -l conv2/3x3 --source=&lt;an image url&gt; \
       --bucket=&lt;project_id&gt; --dest=output-2.jpg</strong>
 job "deepdream-2" created</code></pre>
@@ -2530,7 +2533,7 @@ Check out the <a href="http://kubernetes.io/docs/getting-started-guides/binary_r
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-06-27 14:45:48 PDT
+Last updated 2016-06-27 22:53:50 PDT
 </div>
 </div>
 </body>

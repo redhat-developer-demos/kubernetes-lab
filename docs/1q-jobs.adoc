@@ -75,7 +75,7 @@ Now that we know this job works, let's run a longer job:
 [source,subs="normal,attributes"]
 ----
 $ *kubectl run deepdream-2 --restart=Never \
-      --image=saturnism/deepdream-cli-gcs -- \
+      --image=saturnism/deepdream-cli-gcs \-- \
       -o 6 -l conv2/3x3 --source=<an image url> \
       --bucket=<project_id> --dest=output-2.jpg*
 job "deepdream-2" created

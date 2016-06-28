@@ -24,6 +24,8 @@ http://developers.redhat.com
 
 include::custom/variables.adoc[]
 
+This lab is based on link:http://bit.ly/k8s-lab[Google's Kubernetes lab] provided by link:https://twitter.com/saturnism[Ray Tsang].
+
 Latest HTML: https://htmlpreview.github.io/?https://github.com/redhat-developer-demos/kubernetes-lab/blob/master/docs/readme.html
 
 toc::[]
