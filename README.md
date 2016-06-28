@@ -1,5 +1,5 @@
 # Kubernetes Lab
-This repository contains all resources of the Kubernetes lab. 
+This repository contains all resources of the Kubernetes lab, which is based on [Google’s Kubernetes lab](http://bit.ly/k8s-lab) provided by [Ray Tsang](https://twitter.com/saturnism).
 
    - [Documentation](docs/)
    - [Frontend source code](frontend/)
