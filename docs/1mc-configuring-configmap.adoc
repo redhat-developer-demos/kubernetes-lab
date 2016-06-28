@@ -17,7 +17,7 @@
 
 In this section, we'll use Kubernetes 1.2's new feature, ConfigMap, to configure the application. You can store multiple string-based configuration files inside of a single ConfigMap configuration. In our example, we'll store Vert.x's config.json into a ConfigMap entry.
 
-First, update the _kubernetes-lab/hellworld-service/confing.json_ with a new configuration value:
+First, update the _kubernetes-lab/hellworld-service/config.json_ with a new configuration value:
 [source,subs="normal,attributes"]
 ----
 {
