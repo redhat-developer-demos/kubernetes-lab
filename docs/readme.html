@@ -1070,7 +1070,6 @@ mysql-3871635011-m7i81                      1/1       Running   0          20m</
 <pre>$ <strong>kubectl get rs</strong>
 NAME                                  DESIRED   CURRENT   AGE
 frontend-ui-140836991                 2         2         1h
-frontend-ui-2338783474                0         0         1h
 helloworld-service-vertx-3558582262   2         2         6m
 mysql-3871635011                      1         1         25m</pre>
 </div>
@@ -1216,9 +1215,9 @@ exit</pre>
 <pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">kind</span>: <span class="string"><span class="content">Service</span></span>
 <span class="key">apiVersion</span>: <span class="string"><span class="content">v1</span></span>
 <span class="key">metadata</span>:
-  <span class="key">name</span>: <span class="string"><span class="content">helloworldui</span></span>
+  <span class="key">name</span>: <span class="string"><span class="content">frontend-service</span></span>
   <span class="key">labels</span>:
-    <span class="key">name</span>: <span class="string"><span class="content">helloworldui</span></span>
+    <span class="key">app</span>: <span class="string"><span class="content">frontend-service</span></span>
     <span class="key">visualize</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">true</span><span class="delimiter">&quot;</span></span>
 <span class="key">spec</span>:
   <span class="global-variable"><strong>type</span>: <span class="error">LoadBalancer</strong></span>
@@ -1226,7 +1225,7 @@ exit</pre>
     - <span class="string"><span class="content">port: 80</span></span>
       <span class="key">targetPort</span>: <span class="string"><span class="content">http</span></span>
   <span class="key">selector</span>:
-    <span class="key">name</span>: <span class="string"><span class="content">helloworldui</span></span></code></pre>
+    <span class="key">app</span>: <span class="string"><span class="content">frontend-ui</span></span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2531,7 +2530,7 @@ Check out the <a href="http://kubernetes.io/docs/getting-started-guides/binary_r
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-06-06 12:10:42 PDT
+Last updated 2016-06-27 14:45:48 PDT
 </div>
 </div>
 </body>

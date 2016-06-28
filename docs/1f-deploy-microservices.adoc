@@ -81,7 +81,6 @@ The Deployment, behind the scenes, creates a Replica Set.  A Replica Set ensures
 $ *kubectl get rs*
 NAME                                  DESIRED   CURRENT   AGE
 frontend-ui-140836991                 2         2         1h
-frontend-ui-2338783474                0         0         1h
 helloworld-service-vertx-3558582262   2         2         6m
 mysql-3871635011                      1         1         25m
 ----

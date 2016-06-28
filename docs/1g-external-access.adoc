@@ -25,9 +25,9 @@ You can see it in the frontend-service.yaml:
 kind: Service
 apiVersion: v1
 metadata:
-  name: helloworldui
+  name: frontend-service
   labels:
-    name: helloworldui
+    app: frontend-service
     visualize: "true"
 spec:
   *type: LoadBalancer*
@@ -35,7 +35,7 @@ spec:
     - port: 80
       targetPort: http
   selector:
-    name: helloworldui
+    app: frontend-ui
 ----
 
 You can also access the public IP running, and look for LoadBalancer Ingress IPs in the output:
