@@ -1797,7 +1797,7 @@ Yes, there are 2 dashes. The first dash is required by YAML to indicate that thi
 <p>In this section, we&#8217;ll use Kubernetes 1.2&#8217;s new feature, ConfigMap, to configure the application. You can store multiple string-based configuration files inside of a single ConfigMap configuration. In our example, we&#8217;ll store Vert.x&#8217;s config.json into a ConfigMap entry.</p>
 </div>
 <div class="paragraph">
-<p>First, update the <em>kubernetes-lab/hellworld-service/confing.json</em> with a new configuration value:</p>
+<p>First, update the <em>kubernetes-lab/hellworld-service/config.json</em> with a new configuration value:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2208,10 +2208,10 @@ Events:
 <p>Duration: 5:00</p>
 </div>
 <div class="paragraph">
-<p>When running pods using Replication Controllers, Replica Set, or Deployments, the pods can be scheduled to run on any machines in the Kubernetes cluster, and sometimes, the more than 1 of pod of the same application could be running on the same machine. This is not a behavior you&#8217;d want if you want to have exactly one instance of the pod on each of the machines in the Kubernetes clusters.</p>
+<p>When running pods using Replication Controllers, Replica Set, or Deployments, the pods can be scheduled to run on any machine in the Kubernetes cluster, and sometimes, more than 1 pod of the same application could be running on the same machine. This is not a behavior you&#8217;d want if you want to have exactly one instance of the pod on each of the machines in the Kubernetes clusters.</p>
 </div>
 <div class="paragraph">
-<p>A Daemon Set ensures that all (or some) nodes run a an instance of the pod. As nodes are added to the cluster, pods are added to them. As nodes are removed from the cluster, those pods are garbage collected. This is great for running per-machine daemons, such as:</p>
+<p>A Daemon Set ensures that all (or some) nodes run an instance of the pod. As nodes are added to the cluster, pods are added to them. As nodes are removed from the cluster, those pods are garbage collected. This is great for running per-machine daemons, such as:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2403,7 +2403,7 @@ job "deepdream-2" created</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>$ <strong>$ gcloud container clusters delete guestbook</strong>
+<pre class="CodeRay highlight"><code>$ <strong>gcloud container clusters delete guestbook</strong>
 $ <strong>gcloud compute disks delete mysql-disk</strong>
 
 $ <strong>gsutil ls</strong>
@@ -2533,7 +2533,7 @@ Check out the <a href="http://kubernetes.io/docs/getting-started-guides/binary_r
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-06-27 22:53:50 PDT
+Last updated 2016-06-27 22:59:00 PDT
 </div>
 </div>
 </body>

@@ -20,7 +20,7 @@ Don’t forget to shut down your cluster, otherwise they’ll keep running and a
 
 [source,subs="normal,attributes"]
 ----
-$ *$ gcloud container clusters delete guestbook*
+$ *gcloud container clusters delete guestbook*
 $ *gcloud compute disks delete mysql-disk*
 
 $ *gsutil ls*
