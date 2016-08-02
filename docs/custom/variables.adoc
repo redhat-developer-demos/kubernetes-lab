@@ -1,2 +1,0 @@
-:projectpattern: devnation16-k8s-sfo
-

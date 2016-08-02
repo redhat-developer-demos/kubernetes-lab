@@ -1,0 +1,105 @@
+// JBoss, Home of Professional Open Source
+// Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+// contributors by the @authors tag. See the copyright.txt in the
+// distribution for a full listing of individual contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+### Deploy Microservices
+Duration: 5:00
+
+As mentioned before, the application makes use of two other microservices:
+
+- the Guestbook service (that writes to the MySQL database)
+- a Hello World service
+
+Both services are containers whose images contain self-executing JAR files. The sources are available in the git repository if you are interested in seeing it.
+
+When deploying these microservices instances, we want to make sure that:
+
+* We can scale the number of instances once deployed.
+* If any of the instances becomes unhealthy and/or fails, we want to make sure they are restarted automatically.
+
+Let’s deploy the microservices one at a time:
+
+First, deploy the Hello World:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *kubectl create -f helloworldservice-rc.yaml -f helloworldservice-service.yaml *
+deployment "helloworld-service-vertx" created
+service "helloworld-service-vertx" created
+----
+
+Once created, you can see the replicas with:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *kubectl get rc*
+CONTROLLER                 CONTAINER(S)               IMAGE(S)                                      SELECTOR                                   REPLICAS   AGE
+frontend-ui                frontend-ui                rafabene/microservices-frontend:latest        app=frontend-ui                            2          1h
+helloworld-service-vertx   helloworld-service-vertx   rafabene/microservices-helloworld-vertx:1.0   app=helloworld-service-vertx,version=1.0   2          2m
+mysql-rc                   mysql                      openshift/mysql-56-centos7                    app=mysql                                  1          2h
+----
+
+You can see the pods running:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *kubectl get pods*
+NAME                             READY     STATUS    RESTARTS   AGE
+frontend-ui-1bvcv                1/1       Running   0          2h
+frontend-ui-5vtsp                1/1       Running   0          2h
+helloworld-service-vertx-prnhv   1/1       Running   0          4m
+helloworld-service-vertx-sgds6   1/1       Running   0          4m
+mysql-rc-xvi3c                   1/1       Running   0          1h
+----
+
+You can also look at each pod’s log output by running:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *kubectl logs -f helloworld-service-vertx-?????*
+Aug 02, 2016 5:38:11 AM io.vertx.core.impl.launcher.commands.VertxIsolatedDeployer
+INFO: Succeeded in deploying verticle
+----
+*Note:* The _-f_ flag tails the log.  To stop tailing, press _Ctrl+C_.
+
+Our descriptor file specified 2 replicas. So, if you delete one of the pods (and now you only have 1 replica rather than 2), the ReplicationController will notice that and start another pod for you to meet the configured 2 replicas specification. Let's try it!
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *kubectl delete pod helloworld-service-vertx-prnhv*
+pod "helloworld-service-vertx-prnhv" deleted
+----
+
+You should see that the pod was deleted, and the ReplicationController will ensure a second instance is started. Sometimes this goes by very fast - and you'll notice that the pod you deleted is no longer there, and another pod, with a different name, was started.
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *kubectl get pods*
+NAME                             READY     STATUS    RESTARTS   AGE
+...
+helloworld-service-vertx-ezuq3   1/1       Running   0          1m
+helloworld-service-vertx-sgds6   1/1       Running   0          10m
+...
+----
+
+Lastly, let’s create the Guestbook Service replication controller and service too!
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *kubectl create -f guestbookservice-rc.yaml -f guestbookservice-service.yaml*
+deployment "guestbook-service" created
+service "guestbook-service" created
+----
+
+include::app-deploy-microservices-networking.adoc[]

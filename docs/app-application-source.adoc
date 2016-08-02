@@ -16,19 +16,14 @@
 ### Get the Guestbook source
 Duration: 3:00
 
-Start by cloning the github repository for the Guestbook application:
+Start by cloning the github repository for the Guestbook application and move into the kubernetes examples directory.
 
-[subs="normal,attributes"]
+[source, bash, subs="normal,attributes"]
 ----
-$ *git clone https://github.com/redhat-developer-demos/kubernetes-lab*
-----
-
-And move into the kubernetes examples directory.
-
-[subs="normal,attributes"]
-----
-$ *cd kubernetes-lab/kubernetes*
+[vagrant@rhel-cdk kubernetes]$ *git clone https://github.com/redhat-developer-demos/kubernetes-lab*
+[vagrant@rhel-cdk kubernetes]$ *cd kubernetes-lab/kubernetes*
 ----
 
-We will be using the yaml files in this directory.  Every file describes a resource that needs to be deployed into Kubernetes. Without giving much detail on its contents, but you are definitely encouraged to read them and see how pods, services, and others are declared.  We’ll talk a couple of these files in detail.
+Kubernetes resources can be specified using link:http://yaml.org/[yaml] or link:http://www.json.org/[json] formats. 
+We will be using the yaml files in this directory to decribe and deploy the Kubernetes objects in our development environment.  Without giving much detail on its contents, but you are definitely encouraged to read them and see how pods, services, and others are declared.  We’ll talk a couple of these files in detail.
 

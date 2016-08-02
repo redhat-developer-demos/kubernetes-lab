@@ -20,20 +20,18 @@ Each Pod has a unique IP address - but the address is ephemeral.  The Pod IP add
 
 Create the frontend service:
 
-[subs="normal,attributes"]
+[source, bash, subs="normal,attributes"]
 ----
-$ *kubectl create -f frontend-service.yaml --record*
+[vagrant@rhel-cdk kubernetes]$ *kubectl create -f frontend-service.yaml*
 service "frontend-service" created
 ----
 
 And check it:
 
-
-[subs="normal,attributes"]
+[source, bash, subs="normal,attributes"]
 ----
-$ *kubectl get services*  
+[vagrant@rhel-cdk kubernetes]$ *kubectl get services*  
 NAME               CLUSTER-IP      EXTERNAL-IP     PORT(S)    AGE
-frontend-service   10.67.243.200   146.148.95.37   80/TCP     2m
-kubernetes         10.67.240.1     <none>          443/TCP    7d
+frontend-service   172.30.17.135                   80/TCP     2m
 ----
 

@@ -1,0 +1,47 @@
+// JBoss, Home of Professional Open Source
+// Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+// contributors by the @authors tag. See the copyright.txt in the
+// distribution for a full listing of individual contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+### Rolling Update
+Duration: 7:00
+
+It’s easy to update & rollback. 
+
+In this lab, we'll switch to the _frontend/_ directory and make a minor change to the index.html (e.g., change the background color, title, etc.). After that, rebuild the container.
+
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *cd ~/kubernetes-lab/frontend*
+[vagrant@rhel-cdk kubernetes]$ *vi index.html*
+# Type :wq to exit from vi
+[vagrant@rhel-cdk kubernetes]$ *docker build -t kubernetes-lab/microservices-frontend:v2 .*
+----
+
+Now we will use the _kubectl rolling-update_ command to perform the rolling update. We create a new _ReplicationController_ called frontend-ui-2 that contains the new image.
+
+[source,subs="normal,attributes"]
+----
+[vagrant@rhel-cdk frontend]$ *kubectl rolling-update frontend-ui frontend-ui-2 --image=kubernetes-lab/microservices-frontend:v2 --update-period=3s*
+Created frontend-ui-2
+Scaling up frontend-ui-2 from 0 to 2, scaling down frontend-ui from 2 to 0 (keep 2 pods available, don't exceed 3 pods)
+Scaling frontend-ui-2 up to 1
+Scaling frontend-ui down to 1
+Scaling frontend-ui-2 up to 2
+Scaling frontend-ui down to 0
+Update succeeded. Deleting frontend-ui
+replicationcontroller "frontend-ui" rolling updated to "frontend-ui-2"
+----
+
+That's it! Kubernetes will performed a rolling update to update all the versions from 1.0 to 2.0.

@@ -1,5 +1,0 @@
-[subs="normal,attributes"]
-----
-$ *gcloud config set compute/zone us-central1-b*
-$ *gcloud config set compute/region us-central1*
-----

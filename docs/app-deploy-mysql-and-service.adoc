@@ -16,22 +16,31 @@
 ### Deploy MySQL and Service
 Duration: 4:00
 
-MySQL uses persistent storage.  Rather than writing the data directly into the container image itself, our example stores the MySQL in a Google Compute Engine disk.  Before you can deploy the pod, you need to create a disk that can be mounted inside of the MySQL container:
+MySQL uses persistent storage.  Rather than writing the data directly into the container image itself, our example stores the MySQL in a Persistent Volume.  Before you can deploy the pod, you need to claim a persistent volume that can be mounted inside of the MySQL container:
 
-[subs="normal,attributes"]
+[source, bash, subs="normal,attributes"]
 ----
-$ *gcloud compute disks create mysql-disk --size 200GB*
-Created [...].
-NAME        ZONE           SIZE_GB  TYPE         STATUS
-mysql-disk  ...            200      pd-standard  READY
+[vagrant@rhel-cdk kubernetes]$ *kubectl create -f mysql-pvc.yaml*
+persistentvolumeclaim "mysql-pvc" created
+----
+
+CDK provides 3 *PersistentVolumes*, previously defined by the cluster administrator, called *pv01*(1Gi), *pv02*(2Gi) and *pv03*(3Gi). These *PersistentVolumes* will be assigned based on the size claimed by the *PersistentVolumeClaim*.
+
+You can examine the *PersistentVolumeClaim* with the following command:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *kubectl get pvc*
+NAME        LABELS    STATUS    VOLUME    CAPACITY   ACCESSMODES   AGE
+mysql-pvc   <none>    Bound     *pv01*      *1Gi*        RWO,RWX       12m
 ----
 
 You can then deploy both the MySQL Pod and the Service with a single command:
 
-[subs="normal,attributes"]
+[source, bash, subs="normal,attributes"]
 ----
-$ *kubectl create -f mysql-deployment.yaml -f mysql-service.yaml --record*
-deployment "mysql" created
+[vagrant@rhel-cdk kubernetes]$ *kubectl create -f mysql-rc.yaml -f mysql-service.yaml --record*
+replicationcontroller "mysql-rc" created
 service "mysql" created
 ----
 

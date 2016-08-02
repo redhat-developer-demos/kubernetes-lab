@@ -1,0 +1,55 @@
+// JBoss, Home of Professional Open Source
+// Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+// contributors by the @authors tag. See the copyright.txt in the
+// distribution for a full listing of individual contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+### Scaling
+Duration: 5:00
+
+Scaling the number of replicas of our Hello World service is as simple as running :
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *kubectl scale rc helloworld-service-vertx --replicas=6*
+replicationcontroller "helloworld-service-vertx" scaled
+----
+
+You can very quickly see that the replication controller has been updated:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *kubectl get rc*
+CONTROLLER                 CONTAINER(S)               IMAGE(S)                                      SELECTOR                                   REPLICAS   AGE
+frontend-ui                frontend-ui                rafabene/microservices-frontend:1.0           app=frontend-ui                            2          3h
+guestbook-service          guestbook-service          rafabene/microservices-guestbook:1.0          app=guestbook-service,version=1.0          1          3h
+helloworld-service-vertx   helloworld-service-vertx   rafabene/microservices-helloworld-vertx:1.0   app=helloworld-service-vertx,version=1.0   4          3h
+mysql-rc                   mysql                      openshift/mysql-56-centos7                    app=mysql                                  1          6h
+
+[vagrant@rhel-cdk kubernetes]$ *kubectl get pods*
+NAME                             READY     STATUS    RESTARTS   AGE
+frontend-ui-45wtl                1/1       Running   0          3h
+frontend-ui-em7lt                1/1       Running   0          3h
+guestbook-service-wp0p1          1/1       Running   0          3h
+helloworld-service-vertx-1iawv   1/1       Running   0          3h
+helloworld-service-vertx-a4zq3   1/1       Running   0          3h
+helloworld-service-vertx-qrnl7   1/1       Running   0          30s
+helloworld-service-vertx-wbri1   1/1       Running   0          30s
+mysql-rc-xvi3c                   1/1       Running   0          6h
+----
+
+Reduce the number of replicas back to 2 so that we can free up resources for the later labs:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *kubectl scale rc helloworld-service-vertx --replicas=2*
+----

@@ -43,7 +43,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- JBoss dependency versions -->
-		<version.wildfly.swarm>1.0.0.Beta8</version.wildfly.swarm>
+		<version.wildfly.swarm>1.0.0.Final</version.wildfly.swarm>
 
 		<!-- DeltaSpike version -->
 		<deltaspike.version>1.6.1</deltaspike.version>

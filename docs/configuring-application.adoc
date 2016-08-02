@@ -13,26 +13,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-### Rollback a Deployment
-Duration: 10:00
+### Configuring Your Application
+Duration: 20:00
 
-You can see your deployment history:
-
+The Helloworld Service is configured to return a message that uses the following template:
 [source,subs="normal,attributes"]
 ----
-$ *kubectl rollout history deployment frontend-ui*
-deployments "frontend-ui":
-REVISION CHANGE-CAUSE
-1         <none>
-2         kubectl edit deployment frontend-ui --record
+Hello {name} from {hostname} with {version}
 ----
 
-Because when we edited the Deployment, we supplied the _--record_ argument, the Change Cause value is automatically recorded with the command line that was executed.
+There are several ways to update this configuration. We'll go through a couple of them, including:
 
-You can rollback a Deployment to a previous revision:
+* Environment variable
+* Command line argument
+* And, ConfigMap
 
-[source,subs="normal,attributes"]
-----
-$ *kubectl rollout undo deployment frontend-ui*
-deployment "frontend-ui" rolled back
-----
+include::configuring-envvars.adoc[]
+
+include::1mb-configuring-argument.adoc[]
+
+include::1mc-configuring-configmap.adoc[]
+

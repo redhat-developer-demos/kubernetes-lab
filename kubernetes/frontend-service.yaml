@@ -19,11 +19,11 @@ metadata:
   name: frontend-service
   labels:
     app: frontend-service
-    visualize: "true"
 spec:
   type: LoadBalancer
   ports:
     - port: 80
+      name: http-80
       targetPort: http
   selector:
     app: frontend-ui

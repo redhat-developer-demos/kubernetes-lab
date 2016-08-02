@@ -42,6 +42,12 @@ app.use(bodyParser.urlencoded({
 // Static content routing
 app.use('/', express.static('.'))
 
+// Static content routing
+app.use('/api/health', function(req, res, next) {
+   res.send('I am ok');
+});
+
+
 app.post('/api/messages', function(req, res, next) {
   console.log('POST content %s to %s', JSON.stringify(req.body), guestbookendpoint)
   // Make a POST to guestbook endpoint
