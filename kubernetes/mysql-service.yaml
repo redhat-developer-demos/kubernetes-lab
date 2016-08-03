@@ -19,7 +19,6 @@ metadata:
   name: mysql
   labels:
     app: mysql
-    visualize: "true"
 spec: 
   ports:
     # the port that this service should serve on

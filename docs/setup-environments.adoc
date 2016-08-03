@@ -79,7 +79,7 @@ $ *cd cdk/components/rhel/rhel-ose*
 $ *vagrant plugin install vagrant-service-manager vagrant-registration*
 $ *vagrant up*
 $ *vagrant ssh*
-[vagrant@rhel-cdk kubernetes]$
+[vagrant@rhel-cdk kubernetes]$ .
 ----
 
 IMPORTANT: If you use an invalid username/password, you will need to destroy your VM using **vagrant destroy** and start it again.

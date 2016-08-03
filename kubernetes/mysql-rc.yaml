@@ -16,7 +16,7 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: mysql-rc
+  name: mysql
   labels:
     app: mysql
 spec: 

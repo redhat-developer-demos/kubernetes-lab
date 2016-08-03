@@ -39,7 +39,7 @@ You can then deploy both the MySQL Pod and the Service with a single command:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl create -f mysql-rc.yaml -f mysql-service.yaml --record*
+[vagrant@rhel-cdk kubernetes]$ *kubectl create -f mysql-rc.yaml -f mysql-service.yaml*
 replicationcontroller "mysql-rc" created
 service "mysql" created
 ----

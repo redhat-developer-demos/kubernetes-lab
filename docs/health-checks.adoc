@@ -22,26 +22,26 @@ After a container starts, it is not marked as Healthy until the Liveness Probe s
 
 When a pod is Healthy doesn't mean it's ready to serve. You may want to warm up requests/cache, and/or transfer state from other instances. You can further mark when the pod is Ready to serve by using a Readiness Probe.
 
-Let's add a Liveness Probe to our Helloworld Service by editing the Deployment:
+Let's add a Liveness Probe to our Helloworld Service by editing the ReplicationController:
 
-[source,subs="normal,attributes"]
+[source, bash, subs="normal,attributes"]
 ----
-$ *kubectl edit deployment helloworld-service-vertx --record*
+$ *kubectl edit rc helloworld-service-vertx*
 ----
 
 In the editor, add a Liveness Probe:
 
-[source,subs="normal,attributes"]
+[source, yaml, subs="normal,attributes"]
 ----
-apiVersion: extensions/v1beta1
-kind: Deployment
-… 
+apiVersion: v1
+kind: ReplicationController
+...
 spec:
-…
+...
   template:
-    … 
+    ...
     spec:
-      … 
+      ... 
       containers:
       - image: rafabene/microservices-helloworld-vertx:...
         *livenessProbe:
@@ -57,24 +57,24 @@ NOTE: You can configure both Liveness Probe and Readiness Probe by checking via 
 
 You can add a Readiness Probe in the similar way:
 
-[source,subs="normal,attributes"]
+[source, bash, subs="normal,attributes"]
 ----
-$ *kubectl edit deployment helloworld-service-vertx --record*
+$ *kubectl edit rc helloworld-service-vertx*
 ----
 
 In the editor, add a Readiness Probe:
 
-[source,subs="normal,attributes"]
+[source, yaml, subs="normal,attributes"]
 ----
-apiVersion: extensions/v1beta1
-kind: Deployment
-… 
+apiVersion: v1
+kind: ReplicationController
+...
 spec:
-…
+...
   template:
-    … 
+    ...
     spec:
-      … 
+      ... 
       containers:
       - image: rafabene/microservices-helloworld-vertx:...
         *readinessProbe:
@@ -86,4 +86,4 @@ spec:
       ...
 ----
 
-NOTE: In a production scenario, the Liveness Probe and the Readiness Probe will probably be different.
+NOTE: In a production scenario, the Liveness Probe and the Readiness Probe will probably be different REST endpoints or scripts.

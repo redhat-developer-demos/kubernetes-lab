@@ -19,7 +19,6 @@ metadata:
   name: guestbook-service
   labels:
     app: guestbook-service
-    visualize: "true"
 spec:
   ports:
     - port: 8080

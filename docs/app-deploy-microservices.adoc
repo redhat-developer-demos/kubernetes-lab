@@ -34,7 +34,7 @@ First, deploy the Hello World:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl create -f helloworldservice-rc.yaml -f helloworldservice-service.yaml *
+[vagrant@rhel-cdk kubernetes]$ *kubectl create -f helloworldservice-rc.yaml -f helloworldservice-service.yaml*
 deployment "helloworld-service-vertx" created
 service "helloworld-service-vertx" created
 ----

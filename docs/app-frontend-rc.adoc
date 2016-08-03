@@ -37,10 +37,12 @@ You should see the frontend instances running:
 [source, bash, subs="normal,attributes"]
 ----
 [vagrant@rhel-cdk kubernetes]$ *kubectl get pods*
-NAME              READY     STATUS    RESTARTS   AGE
-frontend-ui-...     1/1       Running   0          2m
-frontend-ui-...     1/1       Running   0          2m
+NAME                  READY     STATUS    RESTARTS   AGE
+frontend-ui-?????     1/1       Running   0          2m
+frontend-ui-?????     1/1       Running   0          2m
 ----
+
+NOTE: The _ContainerCreating_ status means that Kubernetes still downloading the image from the registry before creating the containers.
 
 #### Optional interlude: Look at your pod running in a Docker container on the VM
 

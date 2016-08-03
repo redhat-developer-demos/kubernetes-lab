@@ -33,7 +33,7 @@ Then, use _kubectl exec_ to exucute a _"bash"_ process into the container:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl exec -it mysql-rc-????? /bin/bash*
+[vagrant@rhel-cdk kubernetes]$ *kubectl exec -it mysql-rc-????? bash*
 bash-4.2$ .
 ----
 
@@ -61,11 +61,14 @@ Try it with another pod, like one of the Hello World Service pods and see its IP
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl exec -ti helloworld-service-vertx-????? bash*
+[vagrant@rhel-cdk kubernetes]$ *kubectl exec -it helloworld-service-vertx-????? bash*
+
 [jboss@helloworld-service-vertx-????? ~]$ *hostname*
 helloworld-service-vertx-?????
+
 [jboss@helloworld-service-vertx-????? ~]$ *hostname -i*
 172.17.0.8
+
 [jboss@helloworld-service-vertx-????? ~]$ *exit*
 ----
 

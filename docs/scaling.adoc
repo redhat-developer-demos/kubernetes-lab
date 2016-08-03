@@ -32,19 +32,21 @@ You can very quickly see that the replication controller has been updated:
 CONTROLLER                 CONTAINER(S)               IMAGE(S)                                      SELECTOR                                   REPLICAS   AGE
 frontend-ui                frontend-ui                rafabene/microservices-frontend:1.0           app=frontend-ui                            2          3h
 guestbook-service          guestbook-service          rafabene/microservices-guestbook:1.0          app=guestbook-service,version=1.0          1          3h
-helloworld-service-vertx   helloworld-service-vertx   rafabene/microservices-helloworld-vertx:1.0   app=helloworld-service-vertx,version=1.0   4          3h
+helloworld-service-vertx   helloworld-service-vertx   rafabene/microservices-helloworld-vertx:1.0   app=helloworld-service-vertx,version=1.0   6          3h
 mysql-rc                   mysql                      openshift/mysql-56-centos7                    app=mysql                                  1          6h
 
 [vagrant@rhel-cdk kubernetes]$ *kubectl get pods*
 NAME                             READY     STATUS    RESTARTS   AGE
-frontend-ui-45wtl                1/1       Running   0          3h
-frontend-ui-em7lt                1/1       Running   0          3h
-guestbook-service-wp0p1          1/1       Running   0          3h
-helloworld-service-vertx-1iawv   1/1       Running   0          3h
-helloworld-service-vertx-a4zq3   1/1       Running   0          3h
-helloworld-service-vertx-qrnl7   1/1       Running   0          30s
-helloworld-service-vertx-wbri1   1/1       Running   0          30s
-mysql-rc-xvi3c                   1/1       Running   0          6h
+frontend-ui-cfro2                1/1       Running   0          17m
+frontend-ui-jwneu                1/1       Running   0          17m
+guestbook-service-kfwht          1/1       Running   0          10m
+helloworld-service-vertx-8lsrk   1/1       Running   0          33s
+helloworld-service-vertx-8ok55   1/1       Running   0          10m
+helloworld-service-vertx-aekwy   1/1       Running   0          33s
+helloworld-service-vertx-igkad   1/1       Running   0          33s
+helloworld-service-vertx-qtfd7   1/1       Running   0          12m
+helloworld-service-vertx-toohm   1/1       Running   0          33s
+mysql-rc-jn34r                   1/1       Running   0          13m
 ----
 
 Reduce the number of replicas back to 2 so that we can free up resources for the later labs:

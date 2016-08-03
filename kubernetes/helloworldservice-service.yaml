@@ -19,7 +19,6 @@ metadata:
   name: helloworld-service-vertx
   labels:
     app: helloworld-service-vertx
-    visualize: "true"
 spec:
   ports:
     - port: 8080

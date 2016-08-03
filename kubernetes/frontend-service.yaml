@@ -16,9 +16,9 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: frontend-service
+  name: frontend-ui
   labels:
-    app: frontend-service
+    app: frontend-ui
 spec:
   type: LoadBalancer
   ports:

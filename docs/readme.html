@@ -528,32 +528,36 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_rolling_update">3.8. Rolling Update</a></li>
 <li><a href="#_health_checks">3.9. Health Checks</a></li>
 <li><a href="#_graceful_shutdown">3.10. Graceful Shutdown</a></li>
-<li><a href="#_configuring_your_application">3.11. Configuring Your Application</a>
+</ul>
+</li>
+<li><a href="#_kubernetes_going_further">4. Kubernetes - Going further</a>
+<ul class="sectlevel2">
+<li><a href="#_configuring_your_application">4.1. Configuring Your Application</a>
 <ul class="sectlevel3">
-<li><a href="#_environmental_variable">3.11.1. Environmental Variable</a></li>
-<li><a href="#_command_line_argument">3.11.2. Command Line Argument</a></li>
-<li><a href="#_using_configmap">3.11.3. Using ConfigMap</a></li>
+<li><a href="#_environmental_variable">4.1.1. Environmental Variable</a></li>
+<li><a href="#_command_line_argument">4.1.2. Command Line Argument</a></li>
+<li><a href="#_using_configmap">4.1.3. Using ConfigMap</a></li>
 </ul>
 </li>
-<li><a href="#_managing_credentials">3.12. Managing Credentials</a></li>
-<li><a href="#_autoscaling">3.13. Autoscaling</a></li>
-<li><a href="#_running_daemons_on_every_machine">3.14. Running Daemons on Every Machine</a></li>
-<li><a href="#_managing_batched_run_once_jobs">3.15. Managing Batched / Run-Once Jobs</a></li>
-<li><a href="#_google_cloud_logging">3.16. Google Cloud Logging</a></li>
-<li><a href="#_cleanup_shut_down_your_cluster">3.17. Cleanup : Shut down your cluster!!!!</a></li>
+<li><a href="#_managing_credentials">4.2. Managing Credentials</a></li>
+<li><a href="#_autoscaling">4.3. Autoscaling</a></li>
+<li><a href="#_running_daemons_on_every_machine">4.4. Running Daemons on Every Machine</a></li>
+<li><a href="#_managing_batched_run_once_jobs">4.5. Managing Batched / Run-Once Jobs</a></li>
+<li><a href="#_google_cloud_logging">4.6. Google Cloud Logging</a></li>
+<li><a href="#_cleanup_shut_down_your_cluster">4.7. Cleanup : Shut down your cluster!!!!</a></li>
 </ul>
 </li>
-<li><a href="#_extra_credit">4. Extra Credit</a>
+<li><a href="#_extra_credit">5. Extra Credit</a>
 <ul class="sectlevel2">
-<li><a href="#_install_cloud_sdk_command_line_tool_locally">4.1. Install Cloud SDK Command Line tool locally</a></li>
-<li><a href="#_diy_kubernetes_cluster_on_compute_engine">4.2. DIY Kubernetes cluster on Compute Engine</a></li>
+<li><a href="#_install_cloud_sdk_command_line_tool_locally">5.1. Install Cloud SDK Command Line tool locally</a></li>
+<li><a href="#_diy_kubernetes_cluster_on_compute_engine">5.2. DIY Kubernetes cluster on Compute Engine</a></li>
 </ul>
 </li>
-<li><a href="#_what_s_next">5. What&#8217;s next?</a>
+<li><a href="#_what_s_next">6. What&#8217;s next?</a>
 <ul class="sectlevel2">
-<li><a href="#_kubernetes">5.1. Kubernetes</a></li>
-<li><a href="#_google_container_engine">5.2. Google Container Engine</a></li>
-<li><a href="#_openshift">5.3. OpenShift</a></li>
+<li><a href="#_kubernetes">6.1. Kubernetes</a></li>
+<li><a href="#_google_container_engine">6.2. Google Container Engine</a></li>
+<li><a href="#_openshift">6.3. OpenShift</a></li>
 </ul>
 </li>
 </ul>
@@ -740,7 +744,7 @@ Make sure to take notes of your username(email) and password. It will be used as
 <span class="tok-nv">$ </span><strong>vagrant plugin install vagrant-service-manager vagrant-registration</strong>
 <span class="tok-nv">$ </span><strong>vagrant up</strong>
 <span class="tok-nv">$ </span><strong>vagrant ssh</strong>
-<span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-err">$</span></code></pre>
+<span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span>.</code></pre>
 </div>
 </div>
 <div class="admonitionblock important">
@@ -821,10 +825,22 @@ replicationcontroller <span class="tok-s2">&quot;frontend-ui&quot;</span> create
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get pods</strong>
-NAME              READY     STATUS    RESTARTS   AGE
-frontend-ui-&#8230;&#8203;     1/1       Running   <span class="tok-m">0</span>          2m
-frontend-ui-&#8230;&#8203;     1/1       Running   <span class="tok-m">0</span>          2m</code></pre>
+NAME                  READY     STATUS    RESTARTS   AGE
+frontend-ui-?????     1/1       Running   <span class="tok-m">0</span>          2m
+frontend-ui-?????     1/1       Running   <span class="tok-m">0</span>          2m</code></pre>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <em>ContainerCreating</em> status means that Kubernetes still downloading the image from the registry before creating the containers.
+</td>
+</tr>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_optional_interlude_look_at_your_pod_running_in_a_docker_container_on_the_vm">3.2.1. Optional interlude: Look at your pod running in a Docker container on the VM</h4>
@@ -901,7 +917,7 @@ mysql-pvc   &lt;none&gt;    Bound     <strong>pv01</strong>      <strong>1Gi</st
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl create -f mysql-rc.yaml -f mysql-service.yaml --record</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl create -f mysql-rc.yaml -f mysql-service.yaml</strong>
 replicationcontroller <span class="tok-s2">&quot;mysql-rc&quot;</span> created
 service <span class="tok-s2">&quot;mysql&quot;</span> created</code></pre>
 </div>
@@ -952,7 +968,7 @@ service <span class="tok-s2">&quot;mysql&quot;</span> created</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span>*kubectl create -f helloworldservice-rc.yaml -f helloworldservice-service.yaml *
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl create -f helloworldservice-rc.yaml -f helloworldservice-service.yaml</strong>
 deployment <span class="tok-s2">&quot;helloworld-service-vertx&quot;</span> created
 service <span class="tok-s2">&quot;helloworld-service-vertx&quot;</span> created</code></pre>
 </div>
@@ -1063,7 +1079,7 @@ Note that we used the parameter <em>-l app=mysql</em>. This parameter allows us 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl <span class="tok-nb">exec</span> -it mysql-rc-????? /bin/bash</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl <span class="tok-nb">exec</span> -it mysql-rc-????? bash</strong>
 bash-4.2<span class="tok-nv">$ </span>.</code></pre>
 </div>
 </div>
@@ -1094,11 +1110,14 @@ bash-4.2<span class="tok-nv">$ </span><strong>exit</strong>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl <span class="tok-nb">exec</span> -ti helloworld-service-vertx-????? bash</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl <span class="tok-nb">exec</span> -it helloworld-service-vertx-????? bash</strong>
+
 <span class="tok-o">[</span>jboss@helloworld-service-vertx-????? ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>hostname</strong>
 helloworld-service-vertx-?????
+
 <span class="tok-o">[</span>jboss@helloworld-service-vertx-????? ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>hostname -i</strong>
 172.17.0.8
+
 <span class="tok-o">[</span>jboss@helloworld-service-vertx-????? ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>exit</strong></code></pre>
 </div>
 </div>
@@ -1285,19 +1304,21 @@ replicationcontroller <span class="tok-s2">&quot;helloworld-service-vertx&quot;<
 CONTROLLER                 CONTAINER<span class="tok-o">(</span>S<span class="tok-o">)</span>               IMAGE<span class="tok-o">(</span>S<span class="tok-o">)</span>                                      SELECTOR                                   REPLICAS   AGE
 frontend-ui                frontend-ui                rafabene/microservices-frontend:1.0           <span class="tok-nv">app</span><span class="tok-o">=</span>frontend-ui                            <span class="tok-m">2</span>          3h
 guestbook-service          guestbook-service          rafabene/microservices-guestbook:1.0          <span class="tok-nv">app</span><span class="tok-o">=</span>guestbook-service,version<span class="tok-o">=</span>1.0          <span class="tok-m">1</span>          3h
-helloworld-service-vertx   helloworld-service-vertx   rafabene/microservices-helloworld-vertx:1.0   <span class="tok-nv">app</span><span class="tok-o">=</span>helloworld-service-vertx,version<span class="tok-o">=</span>1.0   <span class="tok-m">4</span>          3h
+helloworld-service-vertx   helloworld-service-vertx   rafabene/microservices-helloworld-vertx:1.0   <span class="tok-nv">app</span><span class="tok-o">=</span>helloworld-service-vertx,version<span class="tok-o">=</span>1.0   <span class="tok-m">6</span>          3h
 mysql-rc                   mysql                      openshift/mysql-56-centos7                    <span class="tok-nv">app</span><span class="tok-o">=</span>mysql                                  <span class="tok-m">1</span>          6h
 
 <span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get pods</strong>
 NAME                             READY     STATUS    RESTARTS   AGE
-frontend-ui-45wtl                1/1       Running   <span class="tok-m">0</span>          3h
-frontend-ui-em7lt                1/1       Running   <span class="tok-m">0</span>          3h
-guestbook-service-wp0p1          1/1       Running   <span class="tok-m">0</span>          3h
-helloworld-service-vertx-1iawv   1/1       Running   <span class="tok-m">0</span>          3h
-helloworld-service-vertx-a4zq3   1/1       Running   <span class="tok-m">0</span>          3h
-helloworld-service-vertx-qrnl7   1/1       Running   <span class="tok-m">0</span>          30s
-helloworld-service-vertx-wbri1   1/1       Running   <span class="tok-m">0</span>          30s
-mysql-rc-xvi3c                   1/1       Running   <span class="tok-m">0</span>          6h</code></pre>
+frontend-ui-cfro2                1/1       Running   <span class="tok-m">0</span>          17m
+frontend-ui-jwneu                1/1       Running   <span class="tok-m">0</span>          17m
+guestbook-service-kfwht          1/1       Running   <span class="tok-m">0</span>          10m
+helloworld-service-vertx-8lsrk   1/1       Running   <span class="tok-m">0</span>          33s
+helloworld-service-vertx-8ok55   1/1       Running   <span class="tok-m">0</span>          10m
+helloworld-service-vertx-aekwy   1/1       Running   <span class="tok-m">0</span>          33s
+helloworld-service-vertx-igkad   1/1       Running   <span class="tok-m">0</span>          33s
+helloworld-service-vertx-qtfd7   1/1       Running   <span class="tok-m">0</span>          12m
+helloworld-service-vertx-toohm   1/1       Running   <span class="tok-m">0</span>          33s
+mysql-rc-jn34r                   1/1       Running   <span class="tok-m">0</span>          13m</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1312,7 +1333,7 @@ mysql-rc-xvi3c                   1/1       Running   <span class="tok-m">0</span
 <div class="sect2">
 <h3 id="_rolling_update">3.8. Rolling Update</h3>
 <div class="paragraph">
-<p>Duration: 7:00</p>
+<p>Duration: 10:00</p>
 </div>
 <div class="paragraph">
 <p>It’s easy to update &amp; rollback.</p>
@@ -1333,7 +1354,7 @@ mysql-rc-xvi3c                   1/1       Running   <span class="tok-m">0</span
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code>[vagrant@rhel-cdk frontend]$ <strong>kubectl rolling-update frontend-ui frontend-ui-2 --image=kubernetes-lab/microservices-frontend:v2 --update-period=3s</strong>
+<pre class="pygments highlight"><code>[vagrant@rhel-cdk frontend]$ <strong>kubectl rolling-update frontend-ui frontend-ui-2 --image=kubernetes-lab/microservices-frontend:v2 --update-period=1s</strong>
 Created frontend-ui-2
 Scaling up frontend-ui-2 from 0 to 2, scaling down frontend-ui from 2 to 0 (keep 2 pods available, don&#8217;t exceed 3 pods)
 Scaling frontend-ui-2 up to 1
@@ -1363,11 +1384,11 @@ replicationcontroller "frontend-ui" rolling updated to "frontend-ui-2"</code></p
 <p>When a pod is Healthy doesn&#8217;t mean it&#8217;s ready to serve. You may want to warm up requests/cache, and/or transfer state from other instances. You can further mark when the pod is Ready to serve by using a Readiness Probe.</p>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s add a Liveness Probe to our Helloworld Service by editing the Deployment:</p>
+<p>Let&#8217;s add a Liveness Probe to our Helloworld Service by editing the ReplicationController:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code>$ <strong>kubectl edit deployment helloworld-service-vertx --record</strong></code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl edit rc helloworld-service-vertx</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1375,24 +1396,24 @@ replicationcontroller "frontend-ui" rolling updated to "frontend-ui-2"</code></p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code>apiVersion: extensions/v1beta1
-kind: Deployment
-…
-spec:
-…
-  template:
-    …
-    spec:
-      …
-      containers:
-      - image: rafabene/microservices-helloworld-vertx:&#8230;&#8203;
-        <strong>livenessProbe:
-          initialDelaySeconds: 5
-          timeoutSeconds: 1
-          httpGet:
-            path: /api/hello/Kubernetes
-            port: 8080</strong>
-      &#8230;&#8203;</code></pre>
+<pre class="pygments highlight"><code data-lang="yaml"><span class="tok-l-Scalar-Plain">apiVersion</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">v1</span>
+<span class="tok-l-Scalar-Plain">kind</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">ReplicationController</span>
+<span class="tok-nn">&#8230;&#8203;</span>
+<span class="tok-l-Scalar-Plain">spec</span><span class="tok-p-Indicator">:</span>
+<span class="tok-nn">&#8230;&#8203;</span>
+  <span class="tok-l-Scalar-Plain">template</span><span class="tok-p-Indicator">:</span>
+    <span class="tok-l-Scalar-Plain">&#8230;&#8203;</span>
+    <span class="tok-l-Scalar-Plain">spec</span><span class="tok-p-Indicator">:</span>
+      <span class="tok-l-Scalar-Plain">&#8230;&#8203;</span>
+      <span class="tok-l-Scalar-Plain">containers</span><span class="tok-p-Indicator">:</span>
+      <span class="tok-p-Indicator">-</span> <span class="tok-l-Scalar-Plain">image</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">rafabene/microservices-helloworld-vertx:&#8230;&#8203;</span>
+        <span class="tok-nv"><strong>livenessProbe</span><span class="tok-p-Indicator">:</span>
+          <span class="tok-l-Scalar-Plain">initialDelaySeconds</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">5</span>
+          <span class="tok-l-Scalar-Plain">timeoutSeconds</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">1</span>
+          <span class="tok-l-Scalar-Plain">httpGet</span><span class="tok-p-Indicator">:</span>
+            <span class="tok-l-Scalar-Plain">path</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">/api/hello/Kubernetes</span>
+            <span class="tok-l-Scalar-Plain">port</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">8080</strong></span>
+      <span class="tok-l-Scalar-Plain">&#8230;&#8203;</span></code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1412,7 +1433,7 @@ You can configure both Liveness Probe and Readiness Probe by checking via a HTTP
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code>$ <strong>kubectl edit deployment helloworld-service-vertx --record</strong></code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl edit rc helloworld-service-vertx</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1420,24 +1441,24 @@ You can configure both Liveness Probe and Readiness Probe by checking via a HTTP
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code>apiVersion: extensions/v1beta1
-kind: Deployment
-…
-spec:
-…
-  template:
-    …
-    spec:
-      …
-      containers:
-      - image: rafabene/microservices-helloworld-vertx:&#8230;&#8203;
-        <strong>readinessProbe:
-          initialDelaySeconds: 5
-          timeoutSeconds: 1
-          httpGet:
-            path: /api/hello/Kubernetes
-            port: 8080</strong>
-      &#8230;&#8203;</code></pre>
+<pre class="pygments highlight"><code data-lang="yaml"><span class="tok-l-Scalar-Plain">apiVersion</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">v1</span>
+<span class="tok-l-Scalar-Plain">kind</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">ReplicationController</span>
+<span class="tok-nn">&#8230;&#8203;</span>
+<span class="tok-l-Scalar-Plain">spec</span><span class="tok-p-Indicator">:</span>
+<span class="tok-nn">&#8230;&#8203;</span>
+  <span class="tok-l-Scalar-Plain">template</span><span class="tok-p-Indicator">:</span>
+    <span class="tok-l-Scalar-Plain">&#8230;&#8203;</span>
+    <span class="tok-l-Scalar-Plain">spec</span><span class="tok-p-Indicator">:</span>
+      <span class="tok-l-Scalar-Plain">&#8230;&#8203;</span>
+      <span class="tok-l-Scalar-Plain">containers</span><span class="tok-p-Indicator">:</span>
+      <span class="tok-p-Indicator">-</span> <span class="tok-l-Scalar-Plain">image</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">rafabene/microservices-helloworld-vertx:&#8230;&#8203;</span>
+        <span class="tok-nv"><strong>readinessProbe</span><span class="tok-p-Indicator">:</span>
+          <span class="tok-l-Scalar-Plain">initialDelaySeconds</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">5</span>
+          <span class="tok-l-Scalar-Plain">timeoutSeconds</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">1</span>
+          <span class="tok-l-Scalar-Plain">httpGet</span><span class="tok-p-Indicator">:</span>
+            <span class="tok-l-Scalar-Plain">path</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">/api/hello/Kubernetes</span>
+            <span class="tok-l-Scalar-Plain">port</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">8080</strong></span>
+      <span class="tok-l-Scalar-Plain">&#8230;&#8203;</span></code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1447,7 +1468,7 @@ spec:
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-In a production scenario, the Liveness Probe and the Readiness Probe will probably be different.
+In a production scenario, the Liveness Probe and the Readiness Probe will probably be different endpoints or scripts.
 </td>
 </tr>
 </table>
@@ -1459,14 +1480,19 @@ In a production scenario, the Liveness Probe and the Readiness Probe will probab
 <p>Duration: 5:00</p>
 </div>
 <div class="paragraph">
-<p>When a pod needs to be deleted (such as reducing the number of replicas), Kubernetes will send the SIGTERM signal to the process. The process should perform all the cleanups. However, we cannot wait forever for the process to exit. By default, Kubernetes waits 30 seconds before sending the final SIGKILL signal to kill the process. If your process needs more or less time, you can configure this through termination grace periods configuration (see  <a href="http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks">guide</a>).</p>
+<p>When a pod needs to be deleted (such as reducing the number of replicas), Kubernetes will send the SIGTERM signal to the process. The process should perform all the cleanups. However, we cannot wait forever for the process to exit. By default, Kubernetes waits 30 seconds before sending the final SIGKILL signal to kill the process. If your process needs more or less time, you can configure this through termination grace periods configuration (see  <a href="http://kubernetes.io/docs/user-guide/pods/#termination-of-pods">guide</a>).</p>
 </div>
 <div class="paragraph">
-<p>Optionally, you can also ask Kubernetes to execute a shutdown command via the pre-stop lifecycle hook. Read through the <a href="http://kubernetes.io/docs/user-guide/production-pods/#liveness-and-readiness-probes-aka-health-checks">documentation</a> the learn more - we won&#8217;t implement this during the lab.</p>
+<p>Optionally, you can also ask Kubernetes to execute a shutdown command via the pre-stop lifecycle hook. Read through the <a href="http://kubernetes.io/docs/user-guide/pods/#termination-of-pods">documentation</a> the learn more - we won&#8217;t implement this during the lab.</p>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_kubernetes_going_further">4. Kubernetes - Going further</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_configuring_your_application">3.11. Configuring Your Application</h3>
+<h3 id="_configuring_your_application">4.1. Configuring Your Application</h3>
 <div class="paragraph">
 <p>Duration: 20:00</p>
 </div>
@@ -1495,7 +1521,7 @@ In a production scenario, the Liveness Probe and the Readiness Probe will probab
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_environmental_variable">3.11.1. Environmental Variable</h4>
+<h4 id="_environmental_variable">4.1.1. Environmental Variable</h4>
 <div class="paragraph">
 <p><a href="http://vertx.io/">Vert.X</a> can read the override configuration directly from an environment variable. In this case, the environment variable is defaulted to <em>greeting</em>. You can specify the environmental variable directly in the Deployment as well, by first edit the Deployment:</p>
 </div>
@@ -1542,7 +1568,7 @@ spec:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_command_line_argument">3.11.2. Command Line Argument</h4>
+<h4 id="_command_line_argument">4.1.2. Command Line Argument</h4>
 <div class="paragraph">
 <p>Next, let&#8217;s add a configuration via the command line arguments. You know the drill, edit the Deployment, and add the following section:</p>
 </div>
@@ -1589,7 +1615,7 @@ Yes, there are 2 dashes. The first dash is required by YAML to indicate that thi
 </div>
 </div>
 <div class="sect3">
-<h4 id="_using_configmap">3.11.3. Using ConfigMap</h4>
+<h4 id="_using_configmap">4.1.3. Using ConfigMap</h4>
 <div class="paragraph">
 <p>In this section, we&#8217;ll use Kubernetes 1.2&#8217;s new feature, ConfigMap, to configure the application. You can store multiple string-based configuration files inside of a single ConfigMap configuration. In our example, we&#8217;ll store Vert.x&#8217;s config.json into a ConfigMap entry.</p>
 </div>
@@ -1770,7 +1796,7 @@ spec:
 </div>
 </div>
 <div class="sect2">
-<h3 id="_managing_credentials">3.12. Managing Credentials</h3>
+<h3 id="_managing_credentials">4.2. Managing Credentials</h3>
 <div class="paragraph">
 <p>Duration: 20:00</p>
 </div>
@@ -1954,7 +1980,7 @@ spec:
 </div>
 </div>
 <div class="sect2">
-<h3 id="_autoscaling">3.13. Autoscaling</h3>
+<h3 id="_autoscaling">4.3. Autoscaling</h3>
 <div class="paragraph">
 <p>Duration: 5:00</p>
 </div>
@@ -2000,7 +2026,7 @@ Events:
 </div>
 </div>
 <div class="sect2">
-<h3 id="_running_daemons_on_every_machine">3.14. Running Daemons on Every Machine</h3>
+<h3 id="_running_daemons_on_every_machine">4.4. Running Daemons on Every Machine</h3>
 <div class="paragraph">
 <p>Duration: 5:00</p>
 </div>
@@ -2072,7 +2098,7 @@ daemonset "cassandra" deleted</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_managing_batched_run_once_jobs">3.15. Managing Batched / Run-Once Jobs</h3>
+<h3 id="_managing_batched_run_once_jobs">4.5. Managing Batched / Run-Once Jobs</h3>
 <div class="paragraph">
 <p>Duration: 15:00</p>
 </div>
@@ -2174,7 +2200,7 @@ job "deepdream-2" created</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_google_cloud_logging">3.16. Google Cloud Logging</h3>
+<h3 id="_google_cloud_logging">4.6. Google Cloud Logging</h3>
 <div class="paragraph">
 <p>Duration: 3:00</p>
 </div>
@@ -2191,7 +2217,7 @@ job "deepdream-2" created</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_cleanup_shut_down_your_cluster">3.17. Cleanup : Shut down your cluster!!!!</h3>
+<h3 id="_cleanup_shut_down_your_cluster">4.7. Cleanup : Shut down your cluster!!!!</h3>
 <div class="paragraph">
 <p>Duration: 5:00</p>
 </div>
@@ -2221,7 +2247,7 @@ Removing gs://&lt;PROJECT_ID&gt;/…</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_extra_credit">4. Extra Credit</h2>
+<h2 id="_extra_credit">5. Extra Credit</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Duration: 10:00</p>
@@ -2230,13 +2256,13 @@ Removing gs://&lt;PROJECT_ID&gt;/…</code></pre>
 <p>Here are some ideas for next steps.</p>
 </div>
 <div class="sect2">
-<h3 id="_install_cloud_sdk_command_line_tool_locally">4.1. Install Cloud SDK Command Line tool locally</h3>
+<h3 id="_install_cloud_sdk_command_line_tool_locally">5.1. Install Cloud SDK Command Line tool locally</h3>
 <div class="paragraph">
 <p>To use <em>gcloud</em> command line locally, you’ll need to install Cloud SDK.  Follow the <a href="https://cloud.google.com/sdk/#linux">Cloud SDK installation guide</a> for your platform.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_diy_kubernetes_cluster_on_compute_engine">4.2. DIY Kubernetes cluster on Compute Engine</h3>
+<h3 id="_diy_kubernetes_cluster_on_compute_engine">5.2. DIY Kubernetes cluster on Compute Engine</h3>
 <div class="paragraph">
 <p>Download the open source version, build it and deploy a cluster yourself with the kubernetes tools.
 Check out the <a href="http://kubernetes.io/docs/getting-started-guides/binary_release/#download-kubernetes-and-automatically-set-up-a-default-cluster">Kubernetes Getting Started</a> documentation. This can be as simple as running: <em>'curl -sS <a href="https://get.k8s.io" class="bare">https://get.k8s.io</a> | bash'</em></p>
@@ -2245,7 +2271,7 @@ Check out the <a href="http://kubernetes.io/docs/getting-started-guides/binary_r
 </div>
 </div>
 <div class="sect1">
-<h2 id="_what_s_next">5. What&#8217;s next?</h2>
+<h2 id="_what_s_next">6. What&#8217;s next?</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Duration 5:00</p>
@@ -2272,7 +2298,7 @@ Check out the <a href="http://kubernetes.io/docs/getting-started-guides/binary_r
 </div>
 </div>
 <div class="sect2">
-<h3 id="_kubernetes">5.1. Kubernetes</h3>
+<h3 id="_kubernetes">6.1. Kubernetes</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2294,7 +2320,7 @@ Check out the <a href="http://kubernetes.io/docs/getting-started-guides/binary_r
 </div>
 </div>
 <div class="sect2">
-<h3 id="_google_container_engine">5.2. Google Container Engine</h3>
+<h3 id="_google_container_engine">6.2. Google Container Engine</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2304,7 +2330,7 @@ Check out the <a href="http://kubernetes.io/docs/getting-started-guides/binary_r
 </div>
 </div>
 <div class="sect2">
-<h3 id="_openshift">5.3. OpenShift</h3>
+<h3 id="_openshift">6.3. OpenShift</h3>
 <div class="paragraph">
 <p>Do you know that Red Hat&#8217;s OpenShift is built on top of Kubernetes?</p>
 </div>
@@ -2330,7 +2356,7 @@ Check out the <a href="http://kubernetes.io/docs/getting-started-guides/binary_r
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-08-02 17:00:55 EDT
+Last updated 2016-08-03 12:01:12 EDT
 </div>
 </div>
 </body>
