@@ -19,13 +19,14 @@ metadata:
   name: helloworld-service-vertx
   labels:
     app: helloworld-service-vertx
+    lab: kubernetes-lab
 spec:
   replicas: 2
   template:
     metadata:
       labels:
         app: helloworld-service-vertx
-        version: "1.0"
+        lab: kubernetes-lab
     spec:
       containers:
       - name: helloworld-service-vertx

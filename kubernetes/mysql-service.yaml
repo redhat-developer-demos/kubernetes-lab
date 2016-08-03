@@ -19,6 +19,7 @@ metadata:
   name: mysql
   labels:
     app: mysql
+    lab: kubernetes-lab
 spec: 
   ports:
     # the port that this service should serve on

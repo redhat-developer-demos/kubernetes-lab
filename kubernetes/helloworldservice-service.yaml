@@ -19,6 +19,7 @@ metadata:
   name: helloworld-service-vertx
   labels:
     app: helloworld-service-vertx
+    lab: kubernetes-lab
 spec:
   ports:
     - port: 8080

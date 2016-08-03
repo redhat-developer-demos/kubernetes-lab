@@ -19,6 +19,7 @@ metadata:
   name: frontend-ui
   labels:
     app: frontend-ui
+    lab: kubernetes-lab
 spec:
   type: LoadBalancer
   ports:

@@ -2,6 +2,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: mysql-pvc
+  lab: kubernetes-lab
 spec:
   accessModes:
     - ReadWriteOnce

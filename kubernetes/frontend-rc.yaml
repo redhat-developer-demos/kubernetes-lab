@@ -19,6 +19,7 @@ metadata:
   name: frontend-ui
   labels:
     app: frontend-ui
+    lab: kubernetes-lab
 spec:
   replicas: 2
   selector:
@@ -27,7 +28,7 @@ spec:
     metadata:
       labels:
         app: frontend-ui
-        version: latest
+        lab: kubernetes-lab
     spec:
       containers:
       - name: frontend-ui

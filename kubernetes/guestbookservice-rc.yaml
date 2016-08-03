@@ -19,13 +19,14 @@ metadata:
   name: guestbook-service
   labels:
     app: guestbook-service
+    lab: kubernetes-lab
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: guestbook-service
-        version: "1.0"
+        lab: kubernetes-lab
     spec:
       containers:
       - name: guestbook-service

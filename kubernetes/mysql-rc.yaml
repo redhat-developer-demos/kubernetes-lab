@@ -19,12 +19,14 @@ metadata:
   name: mysql
   labels:
     app: mysql
+    lab: kubernetes-lab
 spec: 
   replicas: 1
   template:
     metadata:
       labels: 
         app: mysql
+        lab: kubernetes-lab
     spec:
       containers: 
       - name: mysql
