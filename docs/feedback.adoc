@@ -13,12 +13,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-### Google Cloud Logging
-Duration: 3:00
+## Codelab feedback
 
-During the lab, you’ve used _kubectl logs_ command to retrieve the logs of a container running inside of Kubernetes.  When you use Google Container Engine to run managed Kubernetes clusters, all of the logs are automatically forwarded and stored in Google Cloud Logging.  You can see all the log output from the pods by navigating to *Stackdriver > Logging*, and find the logs by pod name:
+****
+- The codelab was easy and useful
+- The codelab was too complicated
+- The codelab didn’t go far enough
+- I had some technical difficulties
+****
 
-image::images/logging.png[Logo,float="center",align="center"]
-
-
-From here, you can optionally export the logs into Google BigQuery for further log analysis, or setup https://cloudplatform.googleblog.com/2015/10/create-metrics-alerts-and-dashboards-based-on-your-Google-Cloud-logs.html[log-based] alerting. We won’t get to do this during the lab today.
+If you find any issues, report it in the link:https://github.com/redhat-developer-demos/kubernetes-lab/issues[Github repository]. You're also welcome to send any link:https://help.github.com/articles/using-pull-requests/[pull requests] and contributions.

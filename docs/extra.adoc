@@ -1,0 +1,123 @@
+// JBoss, Home of Professional Open Source
+// Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+// contributors by the @authors tag. See the copyright.txt in the
+// distribution for a full listing of individual contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+
+## Extra Credit
+Duration: 10:00
+
+Here are some ideas for next steps.
+
+### Try OpenShift Source-to-image feature.
+
+OpenShift allows you to get an Source code and transform it in a container image. This is very useful for people who don't know how to create your own image. OpenShift automatically detects the language and uses an appropriate "builder" to convert that in a functional container image. Actually the following languages are supported: Ruby, JavaEE, NodeJS, PHP, Pytho and Perl.
+
+Let's see how it works using the link:https://github.com/redhat-developer-demos/kubernetes-lab/tree/master/frontend[frontend sources] as an example:
+
+First, let's delete the existing frontend *Route*, *Service* and *ReplicationController*
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *oc delete rc,svc,route frontend-ui*
+replicationcontroller "frontend-ui" deleted
+service "frontend-ui" deleted
+route "frontend-ui" deleted
+
+[vagrant@rhel-cdk kubernetes]$ *oc new-app --name=frontend-ui \
+      https://github.com/redhat-developer-demos/kubernetes-lab \
+      --strategy=source  --context-dir=frontend*
+--> Found image 78a38d1 (2 weeks old) in image stream "nodejs" in project "openshift" under tag "0.10" for "nodejs"
+
+    Node.js 0.10
+    ------------
+    Platform for building and running Node.js 0.10 applications
+
+    Tags: builder, nodejs, nodejs010
+
+    * The source repository appears to match: nodejs
+    * A source build using source code from https://github.com/redhat-developer-demos/kubernetes-lab will be created
+      * The resulting image will be pushed to image stream "frontend-ui:latest"
+    * This image will be deployed in deployment config "frontend-ui"
+    * Port 8080/tcp will be load balanced by service "frontend-ui"
+      * Other containers can access this service through the hostname "frontend-ui"
+
+--> Creating resources with label app=frontend-ui ...
+    imagestream "frontend-ui" created
+    buildconfig "frontend-ui" created
+    deploymentconfig "frontend-ui" created
+    service "frontend-ui" created
+--> Success
+    Build scheduled, use 'oc logs -f bc/frontend-ui' to track its progress.
+    Run 'oc status' to view your app.
+----
+
+This will trigger the build inside Openshift. You can explore it using the following commands:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *oc get builds*
+NAME            TYPE      FROM          STATUS    STARTED              DURATION
+frontend-ui-1   Source    Git@e09f71e   Running   About a minute ago   1m23s
+
+[vagrant@rhel-cdk kubernetes]$ *oc logs -f bc/frontend-ui*
+----
+
+You can also see the build happening in the OpenShift console:
+
+image::images/build.png[Build,float="center",align="center"]
+
+Don't forget to expose the *Route* and try the application. Do you remember how to it, right?
+
+#### Building a new version.
+
+When OpenShift is installed in a public address, you can enable link:https://developer.github.com/webhooks/[Github webhooks] that triggers a new OpenShift build each commit. This is useful for Continuous Integration environments. You can read more about it in the following link:https://docs.openshift.com/enterprise/3.2/dev_guide/builds.html#webhook-triggers[guide].
+
+You can also trigger a new build using *oc start-build <buildname>* command. It allows you to specify different location for the sources. Try it yourself! Clone the repository or make a local change and run the command.
+
+Some examples that you can try.
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *oc start-build frontend-ui \
+          --from-dir=$HOME/kubernetes-lab \
+          --follow*
+Uploading "/home/vagrant/kubernetes-lab" at commit "HEAD" as binary input for the build ...
+Uploading directory "/home/vagrant/kubernetes-lab" as binary input for the build ...
+frontend-ui-?
+
+[vagrant@rhel-cdk kubernetes]$ *oc start-build frontend-ui \
+         --git-repository=https://github.com/rafabene/kubernetes-lab \
+         --follow*
+frontend-ui-?
+I0804 08:03:45.260863       1 source.go:197] Downloading "https://github.com/redhat-developer-demos/kubernetes-lab" ...
+----
+
+### Try some microservices
+
+link:https://developers.redhat.com/[Red Hat Developers] has worked intensively to integrate different opensource technologies and create a showcase of how cloud-native apps can interact in a microservices architecture: The link:https://github.com/redhat-helloworld-msa/helloworld-msa[Helloworld-MSA] playground!
+
+This distinct demo allows developers execute some “helloworld” microservices, built using different technologies, and explore the following features:
+
+- Different implementations: link:http://wildfly-swarm.io/[WildFly Swarm], Spring Boot, link:http://vertx.io/[Vert.X] and link:https://nodejs.org/en/[NodeJS].
+- 3 invocation patterns: Browser as a client, link:http://microservices.io/patterns/apigateway.html[API-Gateway], Chained invocation;
+- link:http://microservices.io/patterns/service-registry.html[Service-registry], Self-healing, Load-balancing  and link:http://blog.christianposta.com/deploy/blue-green-deployments-a-b-testing-and-canary-releases/[Blue/Green deployments] – Provided by link:https://www.openshift.com/[Openshift];
+- JVM Monitoring – Provided by link:https://jolokia.org/[Jolokia];
+- Service Monitoring – Provided by link:https://github.com/Netflix/Hystrix/tree/master/hystrix-dashboard[Hystrix Dashboard] via link:https://github.com/fabric8io/kubeflix[Kubeflix];
+- Service Tracing – Provided by link:http://zipkin.io/[Zipkin] via link:https://github.com/fabric8io/kubernetes-zipkin[Fabric8’s Kubernetes Zipkin];
+- link:https://github.com/Netflix/Hystrix/wiki/Configuration#CommandCircuitBreaker[Circuit breaker] and link:https://github.com/Netflix/Hystrix/wiki/How-To-Use#Fallback[Fallback] – Provided by link:https://github.com/Netflix/Hystrix[Hystrix];
+- REST invocation – Provided by link:https://github.com/OpenFeign/feign[Feign] via link:https://github.com/OpenFeign/feign/tree/master/hystrix[HystrixFeign];
+- REST API specification – Provided by link:http://swagger.io/[Swagger];
+- CI/CD pipelines – Provided by link:https://jenkins.io/[Jenkins] with link:https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin[Pipeline] plugin.
+
+image::images/helloworldmsa.png[OpenShift,float="center",align="center"]

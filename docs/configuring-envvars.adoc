@@ -34,3 +34,5 @@ Let's remove the defined variable:
 [vagrant@rhel-cdk kubernetes]$ *oc env dc/helloworld-service-vertx GREETING-*
 deploymentconfig "helloworld-service-vertx" updated
 ----
+
+NOTE: The '-' means that we want to remove that environment var from the DeploymentConfig.

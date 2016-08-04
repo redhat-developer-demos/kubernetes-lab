@@ -25,7 +25,8 @@ In this lab, we'll switch to the _frontend/_ directory and make a minor change t
 ----
 [vagrant@rhel-cdk kubernetes]$ *cd ~/kubernetes-lab/frontend*
 [vagrant@rhel-cdk kubernetes]$ *vi index.html*
-# Type :wq to exit from vi
+# HINT 1: Type 'i' to enter in edit mode 
+# HINT 2: Type ':wq' to exit from vi
 [vagrant@rhel-cdk kubernetes]$ *docker build -t rafabene/microservices-frontend:2.0 .*
 ----
 
@@ -45,3 +46,5 @@ replicationcontroller "frontend-ui" rolling updated to "frontend-ui-2"
 ----
 
 That's it! Kubernetes will performed a rolling update to update all the versions from 1.0 to 2.0.
+
+NOTE: This 2.0 version only exists in your local registry. It will only be available if you have built it using the _docker build_ command.

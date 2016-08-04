@@ -15,19 +15,28 @@
 
 #### Command Line Argument
 
-Next, let's add a configuration via the command line arguments. You know the drill, edit the Deployment, and add the following section:
+Next, let's add a configuration via the command line arguments. You can also use _oc_ to edit the *DeploymentConfig*.
 
-[source,subs="normal,attributes"]
+[source, bash, subs="normal,attributes"]
 ----
-apiVersion: extensions/v1beta1
-kind: Deployment
-… 
-spec:
-…
+[vagrant@rhel-cdk kubernetes]$ *oc edit dc/helloworld-service-vertx*
+# HINT 1: Type 'i' to enter in edit mode 
+# HINT 2: Type ':wq' to exit from vi
+----
+
+Now you can add the *args* that will be passed to the container command.
+
+[source, yaml, subs="normal,attributes"]
+----
+apiVersion: v1
+kind: DeploymentConfig
+...
+spec:.
+...
   template:
-    … 
+    ...
     spec:
-      … 
+      ...
       containers:
       - image: rafabene/microservices-helloworld-vertx:1.0
         *args:
@@ -41,7 +50,8 @@ Check the application and submit a name and message to see it is using the new g
 
 Let's rollback to the previous state again:
 
-[source,subs="normal,attributes"]
+[source, bash, subs="normal,attributes"]
 ----
-$ *kubectl rollout undo deployment helloworld-service-vertx*
+[vagrant@rhel-cdk kubernetes]$ *oc rollback helloworld-service-vertx*
+#? rolled back to helloworld-service-vertx-?
 ----

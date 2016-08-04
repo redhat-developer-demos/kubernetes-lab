@@ -30,7 +30,7 @@ There are several ways to update this configuration. We'll go through a couple o
 
 include::configuring-envvars.adoc[]
 
-include::1mb-configuring-argument.adoc[]
+include::configuring-argument.adoc[]
 
-include::1mc-configuring-configmap.adoc[]
+include::configuring-configmap.adoc[]
 

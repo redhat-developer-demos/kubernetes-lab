@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-### A way to visualize/manage your Kubernetes cluster
+### A console to manage your Kubernetes Cluster
 Duration: 10:00
 
 Until now we have been using Kubernetes CLI (_kubectl_) to manage our cluster. Wouldn't it be good if we could visualize/manage our cluster in a user/interface?
@@ -74,9 +74,7 @@ The next chapters requires a lot of changes in the application configuration. In
 - Rollbacks to a previous deployment. 
 - Management of ReplicationController scaling.
 
-Since a *DeploymentConfig* manages its own *ReplicatonController*, we will replace the existing replication *ReplicatonController* and create our new managed OpenShift application.
-
-NOTE: OpenShift Application is the term used to define a collection of Services, Deployments, Builds, Images, and Pods for a specific application. Usually there's one application per container or per microservice.
+Since a *DeploymentConfig* manages its own *ReplicatonController*, we will replace the existing replication *ReplicatonController*.
 
 Execute:
 
@@ -84,20 +82,14 @@ Execute:
 ----
 [vagrant@rhel-cdk kubernetes]$ *cd ~/kubernetes-lab/kubernetes/*
 
-[vagrant@rhel-cdk kubernetes]$ *kubectl delete -f helloworldservice-rc.yaml -f helloworldservice-service.yaml*
+[vagrant@rhel-cdk kubernetes]$ *kubectl delete -f helloworldservice-rc.yaml*
 replicationcontroller "helloworld-service-vertx" deleted
-service "helloworld-service-vertx" deleted
 
-[vagrant@rhel-cdk kubernetes]$ *oc new-app --name=helloworld-service-vertx rafabene/microservices-helloworld-vertx:1.0*
---> Found Docker image 1aaea04 (3 hours old) from Docker Hub for "rafabene/microservices-helloworld-vertx:1.0"
-...
---> Creating resources with label app=helloworld-service-vertx ...
-    imagestream "helloworld-service-vertx" created
-    deploymentconfig "helloworld-service-vertx" created
-    service "helloworld-service-vertx" created
---> Success
-    Run 'oc status' to view your app.
+[vagrant@rhel-cdk kubernetes]$ *oc run helloworld-service-vertx --image=rafabene/microservices-helloworld-vertx:1.0 -l app=helloworld-service-vertx -r 2*
+deploymentconfig "helloworld-service-vertx" created
 ----
+
+NOTE: The -l specifies the label (It should match to the existing Kubernetes Service). The -r specifies the number of replicas.
 
 #### A word about oc command
 
@@ -119,6 +111,37 @@ frontend-ui                  2         2         1h
 guestbook-service            1         1         1h
 helloworld-service-vertx-1   1         1         5m
 mysql                        1         1         1h
+
+[vagrant@rhel-cdk kubernetes]$ *oc get service*
+NAME                       CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+frontend-ui                172.30.212.103                 80/TCP                       9h
+guestbook-service          172.30.140.61    <none>        8080/TCP                     9h
+helloworld-service-vertx   172.30.7.161     <none>        8080/TCP,8778/TCP,9779/TCP   8h
+mysql                      172.30.249.144   <none>        3306/TCP                     9h
+
+[vagrant@rhel-cdk kubernetes]$ *oc describe service frontend-ui*
+Name:			frontend-ui
+Namespace:		sample-project
+Labels:			app=frontend-ui,lab=kubernetes-lab
+Selector:		app=frontend-ui
+Type:			LoadBalancer
+IP:			172.30.212.103
+Port:			http-80	80/TCP
+NodePort:		http-80	32186/TCP
+Endpoints:		172.17.0.2:8080,172.17.0.5:8080
+Session Affinity:	None
+No events.
+
+[vagrant@rhel-cdk kubernetes]$ *oc delete pod frontend-ui-?????*
+pod "frontend-ui-?????" deleted
+
+[vagrant@rhel-cdk kubernetes]$ *oc logs -f rc/frontend-ui*
+Found 2 pods, using pod/frontend-ui-?????
+
+> frontend@1.0.0 start /opt/app-root/src
+> node frontend.js
+
+Frontend service running at http://0.0.0.0:8080
 ----
 
 Now let's use _oc_ to:
@@ -126,7 +149,7 @@ Now let's use _oc_ to:
 - Easily set a RedinessProbe.
 
 
-To create a ResinessProbe with _oc_ command, execute:
+To create a *ResinessProbe* with _oc_ command, execute:
 
 [source, bash, subs="normal,attributes"]
 ----

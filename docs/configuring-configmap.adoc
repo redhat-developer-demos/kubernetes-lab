@@ -18,7 +18,7 @@
 In this section, we'll use Kubernetes 1.2's new feature, ConfigMap, to configure the application. You can store multiple string-based configuration files inside of a single ConfigMap configuration. In our example, we'll store Vert.x's config.json into a ConfigMap entry.
 
 First, update the _kubernetes-lab/hellworld-service/config.json_ with a new configuration value:
-[source,subs="normal,attributes"]
+[source, json, subs="normal,attributes"]
 ----
 {
   "GREETING": "Hello {name} from ConfigMap"
@@ -27,22 +27,23 @@ First, update the _kubernetes-lab/hellworld-service/config.json_ with a new conf
 
 Next, create a ConfigMap entry with this file:
 
-[source,subs="normal,attributes"]
+[source, bash, subs="normal,attributes"]
 ----
-$ *kubectl create configmap greeting-config --from-file=config.json*
+[vagrant@rhel-cdk hellworld-service]$ *oc create configmap greeting-config --from-file=config.json*
 configmap "greeting-config" created
 ----
 
 Let's take a look inside the newly created entry:
 
-[source,subs="normal,attributes"]
+[source, bash, subs="normal,attributes"]
 ----
-$ *kubectl edit configmap greeting-config*
+[vagrant@rhel-cdk hellworld-service]$ *oc edit configmap greeting-config*
+# HINT: Type ':wq' to exit from vi
 ----
 
 You'll see that the _config.json_ is now part of the YAML file:
 
-[source,subs="normal,attributes"]
+[source, yaml, subs="normal,attributes"]
 ----
 apiVersion: v1
 data:
@@ -58,29 +59,31 @@ You can, of course, edit this ConfigMap in the editor too. If you do, edit only 
 
 There are several ways to access the values in this ConfigMap:
 
-* Mount the entries (in our case, application.properties) as a file.
+* Mount the entries (in our case, config.json) as a file.
 * Access from the Kubernetes API (we won't cover this today).
 
 Let's see how we can mount the configurations as files under a specific directory, e.g., _/etc/config/config.json_.
 
 First, edit the Helloworld Service Deployment:
 
-[source,subs="normal,attributes"]
+[source, bash, subs="normal,attributes"]
 ----
-$ *kubectl edit deployment helloworld-service-vertx --record*
+[vagrant@rhel-cdk hellworld-service]$ *oc edit dc/helloworld-service-vertx*
+# HINT 1: Type 'i' to enter in edit mode 
+# HINT 2: Type ':wq' to exit from vi
 ----
 
 In the editor, add volumes and volume mounts (important - indentation matters!):
 
-[source,subs="normal,attributes"]
+[source,yaml, subs="normal,attributes"]
 ----
-apiVersion: extensions/v1beta1
-kind: Deployment
-… 
+apiVersion: v1
+kind: DeploymentConfig
+...
 spec:
-…
+...
   template:
-    … 
+    ...
     spec:
       *volumes:
       - name: config-volume
@@ -94,32 +97,35 @@ spec:
       ...
 ----
 
-This will make the configuration file available as the file _/etc/config/config.json_. Let's verify by going into the pod itself (remember how to do this by using _kubectl exec_?):
+This will make the configuration file available as the file _/etc/config/config.json_. Let's verify by going into the pod itself (remember how to do this by using _kubectl exec_? You can also use _oc exec_, but now you will learn another option: _oc rsh_):
 
 First, find the pod name:
 
-[source,subs="normal,attributes"]
+[source, bash, subs="normal,attributes"]
 ----
-$ *kubectl get pods*
-NAME                                       READY     STATUS    RESTARTS   AGE
+[vagrant@rhel-cdk hellworld-service]$ *oc get pods*
+NAME                               READY     STATUS    RESTARTS   AGE
 ...
-helloworld-service-vertx-834124534-8f779   1/1       Running   0          3h
-helloworld-service-vertx-834124534-lvlc3   1/1       Running   0          3h
+helloworld-service-vertx-7-e1o5u   1/1       Running   0          54s
+helloworld-service-vertx-7-sgosp   1/1       Running   0          40s
 ...
 ----
 
 Then, run a shell inside the pod, and see what's in _/etc/config_:
 
-[source,subs="normal,attributes"]
+[source,bash, subs="normal,attributes"]
 ----
-$ *kubectl exec -it helloworld-service-vertx-834124534-8f779 bash*
-[jboss@helloworld-service-vertx-... ~]$ *ls /etc/config/*
+[vagrant@rhel-cdk hellworld-service]$ *oc rsh helloworld-service-vertx-7-?????*
+
+sh-4.2$ *ls /etc/config/*
 config.json
-[jboss@helloworld-service-vertx-... ~]$ *cat /etc/config/config.json*
+
+sh-4.2$ *cat /etc/config/config.json*
 {
-  "GREETING" : "Hello {name} from ConfigMap"
+  "GREETING": "Hello {name} from {hostname} with {version} from config file"
 }
-[jboss@helloworld-service-vertx-... ~]$ *exit*
+
+sh-4.2$ *exit*
 exit
 ----
 
@@ -132,12 +138,12 @@ Great, the file is there, but the application needs to be configured to referenc
 -conf /etc/config/config.json
 ----
 
-Recall how you were able to configure the command line arguments in the previous steps. You know the drill. Edit the Helloworld Service Deployment and add the arguments:
+Recall how you were able to configure the command line arguments in the previous steps. You know the drill. Edit the Helloworld Service Deployment Config and add the arguments:
 
-[source,subs="normal,attributes"]
+[source,yaml, subs="normal,attributes"]
 ----
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: v1
+kind: DeploymentConfig
 ...
 spec:
 ...

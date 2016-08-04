@@ -1,0 +1,60 @@
+// JBoss, Home of Professional Open Source
+// Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+// contributors by the @authors tag. See the copyright.txt in the
+// distribution for a full listing of individual contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+### Autoscaling
+Duration: 5:00
+
+Kubernetes 1.2 has built-in Horizontal Pod Autoscaling based on CPU utilization (and custom metrics!). We will only cover autoscaling based on CPU utilization in this lab, since the custom metrics scaling is still in Alpha.
+
+To set up horizontal autoscaling is extremely simple:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *oc autoscale rc/guestbook-service --min 1 --max 10 --cpu-percent=80*
+replicationcontroller "guestbook-service" autoscaled
+----
+
+[NOTE]
+====
+- Currently, the only metric supported is CPU Utilization.
+- The OpenShift administrator must first enable link:https://docs.openshift.com/enterprise/3.2/install_config/cluster_metrics.html[Cluster Metrics] before you can enable autoscaling.
+- The OpenShift administrator must also enable link:https://docs.openshift.com/enterprise/3.2/admin_guide/limits.html[Resource Limits] on the project.
+====
+
+Behind the scenes, Kubernetes will periodically (by default, every 30 seconds) collect CPU utilization and determine the number of pods needed.
+
+You can see the current status of the autoscaler by using the describe command:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *oc describe hpa guestbook-service*
+Name:				guestbook-service
+Namespace:			sample-project
+Labels:				<none>
+Annotations:			<none>
+CreationTimestamp:		Thu, 04 Aug 2016 06:59:05 -0400
+Reference:			ReplicationController/guestbook-service/scale
+Target CPU utilization:		80%
+Current CPU utilization:	<unset>
+Min replicas:			1
+Max replicas:			10
+ReplicationController pods:	1 current / 1 desired
+Events:
+....
+----
+
+It's going to be a little difficult to enable the Cluster Metrics and generate the load needed to kick off the autoscaler. We won't do that during the lab.
+
+Learn more about Horizontal Pod Autoscaling (HPA) in the https://docs.openshift.com/enterprise/3.2/dev_guide/pod_autoscaling.html[guide]

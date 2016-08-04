@@ -23,11 +23,6 @@ from Basics to OpenShift
 :source-highlighter: pygments
 :numbered:
 
-
-
-
-This lab is based on link:http://bit.ly/k8s-lab[Google's Kubernetes lab] provided by link:https://twitter.com/saturnism[Ray Tsang].
-
 Latest HTML: https://htmlpreview.github.io/?https://github.com/redhat-developer-demos/kubernetes-lab/blob/master/docs/readme.html
 
 toc::[]
@@ -68,64 +63,14 @@ include::openshift.adoc[]
 
 include::configuring-application.adoc[]
 
-include::1n-managing-credentials.adoc[]
+include::managing-credentials.adoc[]
 
-include::1o-autoscaling.adoc[]
+include::autoscaling.adoc[]
 
-include::1p-running-daemons-every-machine.adoc[]
+include::extra.adoc[]
 
-include::1q-jobs.adoc[]
+include::feedback.adoc[]
 
-include::1r-logs.adoc[]
+include::references.adoc[]
 
-include::1s-cleanup.adoc[]
-
-
-## Extra Credit
-Duration: 10:00
-
-Here are some ideas for next steps.
-
-### Install Cloud SDK Command Line tool locally
-
-To use _gcloud_ command line locally, you’ll need to install Cloud SDK.  Follow the link:https://cloud.google.com/sdk/#linux[Cloud SDK installation guide] for your platform.
-
-### DIY Kubernetes cluster on Compute Engine
-
-Download the open source version, build it and deploy a cluster yourself with the kubernetes tools.
-Check out the link:http://kubernetes.io/docs/getting-started-guides/binary_release/#download-kubernetes-and-automatically-set-up-a-default-cluster[Kubernetes Getting Started] documentation. This can be as simple as running: _'curl -sS https://get.k8s.io | bash'_ 
-
-## What's next?
-Duration 5:00
-
-.Codelab feedback
-****
-- The codelab was easy and useful
-- The codelab was too complicated
-- The codelab didn’t go far enough
-- I had some technical difficulties
-****
-
-### Kubernetes
-
-- http://kubernetes.io
-- https://github.com/googlecloudplatform/kubernetes
-- mailing list: https://groups.google.com/forum/#!forum/google-containers[google-containers]
-- twitter: https://twitter.com/kubernetesio[@kubernetesio]
-- IRC: #google-containers on freenode
-
-### Google Container Engine
-
-- https://cloud.google.com/container-engine/
-
-
-### OpenShift
-
-Do you know that Red Hat's OpenShift is built on top of Kubernetes?
-
-- https://www.openshift.com/
-- https://github.com/openshift/
-- twitter: https://twitter.com/openshift[@openshift]
-
-You can try Kubernetes and/or Openshift locally using CDK: (Container Developmnet Kit). More info: http://developers.redhat.com/products/cdk/overview/
 
