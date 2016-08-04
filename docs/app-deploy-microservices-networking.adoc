@@ -24,7 +24,7 @@ First, find the name of the MySQL pod:
 ----
 [vagrant@rhel-cdk kubernetes]$ *kubectl get pods -l app=mysql*
 NAME             READY     STATUS    RESTARTS   AGE
-mysql-rc-?????   1/1       Running   0          3h
+mysql-?????      1/1       Running   0          3h
 ----
 
 NOTE: Note that we used the parameter _-l app=mysql_. This parameter allows us to specify labels as filter. The label _app=mysql_ was defined in the ReplicationController as a template for all pods.
@@ -33,7 +33,7 @@ Then, use _kubectl exec_ to exucute a _"bash"_ process into the container:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl exec -it mysql-rc-????? bash*
+[vagrant@rhel-cdk kubernetes]$ *kubectl exec -it mysql-????? bash*
 bash-4.2$ .
 ----
 

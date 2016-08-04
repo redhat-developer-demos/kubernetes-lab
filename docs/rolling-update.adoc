@@ -26,14 +26,14 @@ In this lab, we'll switch to the _frontend/_ directory and make a minor change t
 [vagrant@rhel-cdk kubernetes]$ *cd ~/kubernetes-lab/frontend*
 [vagrant@rhel-cdk kubernetes]$ *vi index.html*
 # Type :wq to exit from vi
-[vagrant@rhel-cdk kubernetes]$ *docker build -t rafabene/microservices-guestbook:2.0 .*
+[vagrant@rhel-cdk kubernetes]$ *docker build -t rafabene/microservices-frontend:2.0 .*
 ----
 
 Now we will use the _kubectl rolling-update_ command to perform the rolling update. We create a new _ReplicationController_ called frontend-ui-2 that contains the new image.
 
-[source,subs="normal,attributes"]
+[source,bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk frontend]$ *kubectl rolling-update frontend-ui frontend-ui-2 --image=rafabene/microservices-guestbook:2.0 --update-period=1s*
+[vagrant@rhel-cdk frontend]$ *kubectl rolling-update frontend-ui frontend-ui-2 --image=rafabene/microservices-frontend:2.0 --update-period=1s*
 Created frontend-ui-2
 Scaling up frontend-ui-2 from 0 to 2, scaling down frontend-ui from 2 to 0 (keep 2 pods available, don't exceed 3 pods)
 Scaling frontend-ui-2 up to 1

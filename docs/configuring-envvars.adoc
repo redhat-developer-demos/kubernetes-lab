@@ -15,41 +15,22 @@
 
 #### Environmental Variable
 
-http://vertx.io/[Vert.X] can read the override configuration directly from an environment variable. In this case, the environment variable is defaulted to _greeting_. You can specify the environmental variable directly in the Deployment as well, by first edit the Deployment:
+http://vertx.io/[Vert.X] can read the override configuration directly from an environment variable. In this case, the environment variable is defaulted to _greeting_. You can specify the environmental variable directly using the _oc_ command:
 
-[source,subs="normal,attributes"]
+[source, bash, subs="normal,attributes"]
 ----
-$ *kubectl edit deployment helloworld-service-vertx --record*
-----
-
-In the editor, add the environmental variable:
-
-[source,subs="normal,attributes"]
-----
-apiVersion: extensions/v1beta1
-kind: Deployment
-… 
-spec:
-…
-  template:
-    … 
-    spec:
-      … 
-      containers:
-      - image: rafabene/microservices-helloworld-vertx:1.0
-        *env:
-        - name: GREETING
-          value: Hello {name} from envvar!*
-      ...
+[vagrant@rhel-cdk kubernetes]$ *oc env dc/helloworld-service-vertx GREETING='Hello {name} from envvar!'*
+deploymentconfig "helloworld-service-vertx" updated
 ----
 
-Again, through the use of Deployments, it'll rolling update all the replicas with the new configuration! If you were to refresh the application, you'll notice that there are no intermittent errors because we also have health checks and readiness checks in place.
+Again, through the use of *DeploymentCofig*, it'll rolling update all the replicas with the new configuration! If you were to refresh the application, you'll notice that there are no intermittent errors because we also have health checks and readiness checks in place.
 
 Check the application to see it is using the new Greeting string.
 
-Let's rollback to the previous state:
+Let's remove the defined variable:
 
-[source,subs="normal,attributes"]
+[source, bash, subs="normal,attributes"]
 ----
-$ *kubectl rollout undo deployment helloworld-service-vertx*
+[vagrant@rhel-cdk kubernetes]$ *oc env dc/helloworld-service-vertx GREETING-*
+deploymentconfig "helloworld-service-vertx" updated
 ----

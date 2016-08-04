@@ -40,8 +40,8 @@ You can then deploy both the MySQL Pod and the Service with a single command:
 [source, bash, subs="normal,attributes"]
 ----
 [vagrant@rhel-cdk kubernetes]$ *kubectl create -f mysql-rc.yaml -f mysql-service.yaml*
-replicationcontroller "mysql-rc" created
+replicationcontroller "mysql" created
 service "mysql" created
 ----
 
-Lastly, you can see the pods and service status via the command line.  Recall the command you can use to see the status (hint: _kubectl get …_).  Make sure the status is _Running_ before continuing.
+Lastly, you can see the pods and service status via the command line.  Recall the command you can use to see the status (hint: _kubectl get ..._).  Make sure the status is _Running_ before continuing.

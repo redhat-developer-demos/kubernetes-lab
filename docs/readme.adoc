@@ -64,6 +64,8 @@ include::graceful-shutdown.adoc[]
 
 ## Kubernetes - Going further
 
+include::openshift.adoc[]
+
 include::configuring-application.adoc[]
 
 include::1n-managing-credentials.adoc[]

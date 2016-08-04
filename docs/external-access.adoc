@@ -37,11 +37,11 @@ Note that we have specified *LoadBalancer*, but it only works on cloud providers
 
 [source, bash, subs="normal,attributes"]
 ----
-$ *kubectl describe services frontend-service*
-Name:                       frontend-service
+$ *kubectl describe service frontend-ui*
+Name:                       frontend-ui
 Namespace:                  sample-project
-Labels:                     app=frontend-service
-Selector:                   app=frontend-service
+Labels:                     app=frontend-ui,lab=kubernetes-lab
+Selector:                   app=frontend-ui
 Type:                       LoadBalancer
 IP:                         172.30.204.85
 *LoadBalancer Ingress:       X.X.X.X*
@@ -62,7 +62,7 @@ First, execute *kubectl describe services frontend-service* and find out which p
 
 Example http://10.1.2.2:31079/
 
-NOTE: The NodePort (31079) is a random value. You should use the value described in NodePort via _kubectl describe services frontend-service_. The IP of CDK is always 10.1.2.2
+NOTE: The NodePort (31079) is a random value. You should use the value described in NodePort via _kubectl describe service frontend-service_. The IP of CDK is always 10.1.2.2
 
 You should see something like this:
 

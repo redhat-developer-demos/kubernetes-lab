@@ -47,7 +47,7 @@ Once created, you can see the replicas with:
 CONTROLLER                 CONTAINER(S)               IMAGE(S)                                      SELECTOR                                   REPLICAS   AGE
 frontend-ui                frontend-ui                rafabene/microservices-frontend:latest        app=frontend-ui                            2          1h
 helloworld-service-vertx   helloworld-service-vertx   rafabene/microservices-helloworld-vertx:1.0   app=helloworld-service-vertx,version=1.0   2          2m
-mysql-rc                   mysql                      openshift/mysql-56-centos7                    app=mysql                                  1          2h
+mysql                      mysql                      openshift/mysql-56-centos7                    app=mysql                                  1          2h
 ----
 
 You can see the pods running:
@@ -60,7 +60,7 @@ frontend-ui-1bvcv                1/1       Running   0          2h
 frontend-ui-5vtsp                1/1       Running   0          2h
 helloworld-service-vertx-prnhv   1/1       Running   0          4m
 helloworld-service-vertx-sgds6   1/1       Running   0          4m
-mysql-rc-xvi3c                   1/1       Running   0          1h
+mysql-xvi3c                      1/1       Running   0          1h
 ----
 
 You can also look at each pod’s log output by running:

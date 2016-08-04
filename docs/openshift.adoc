@@ -1,0 +1,155 @@
+// JBoss, Home of Professional Open Source
+// Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual
+// contributors by the @authors tag. See the copyright.txt in the
+// distribution for a full listing of individual contributors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+### A way to visualize/manage your Kubernetes cluster
+Duration: 10:00
+
+Until now we have been using Kubernetes CLI (_kubectl_) to manage our cluster. Wouldn't it be good if we could visualize/manage our cluster in a user/interface?
+
+Let's take a look in OpenShift console.
+
+NOTE: Don't worry. This is still a Kubernetes lab! OpenShift runs on top of Kubernetes but adds features like deployments, source-to-image, user management, routes, etc.
+
+Access https://10.1.2.2:8443 
+
+Login with the credentials:
+
+- username: *openshift-dev*
+- password: *devel*
+
+Click on *OpenShift sample project* and now you will see all Kubernetes objects that you have created with kubectl command. This happens because OpenShift is built on top of Kubernetes.
+
+image::images/openshift.png[OpenShift,float="center",align="center"]
+
+Take some minutes to explore this interface.
+
+- Click on the Service and ReplicationController boxes and see the details.
+- Click on the POD number and see the list of PODS. Selec one POD to explore.
+- Explore the POD detais and the other tabs (Environment, Logs, Terminal and Events)
+- In the right top corner, click in the gray _Actions_ button and check that you can also edit the YAML file.
+
+image::images/pod.png[Pod,float="center",align="center"]
+
+Back to the *Overview* page and check that you can scale up and scale down the number of the pods simply by clicking on the gray arrows on the right hand side of the pods number.
+
+Let's perform a rolling-update in the CDK shell and see how it behaves visually in OpenShift. Execute the following command and return to the OpenShift console in the browser:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk frontend]$ *kubectl rolling-update frontend-ui-2 frontend-ui --image=rafabene/microservices-frontend:1.0 --update-period=3s*
+Created frontend-ui
+Scaling up frontend-ui from 0 to 2, scaling down frontend-ui-2 from 2 to 0 (keep 2 pods available, don't exceed 3 pods)
+Scaling frontend-ui up to 1
+Scaling frontend-ui-2 down to 1
+Scaling frontend-ui up to 2
+Scaling frontend-ui-2 down to 0
+Update succeeded. Deleting frontend-ui-2
+replicationcontroller "frontend-ui-2" rolling updated to "frontend-ui"
+----
+
+image::images/rolling-update.png[Rolling Update,float="center",align="center"]
+
+
+#### Creating a DeploymentConfig
+
+The next chapters requires a lot of changes in the application configuration. Instead of running a _kubectl rolling-update_ to replace the *ReplicatonController*, we will replace it by a *DeploymentConfig*.
+
+*DeploymentConfig* is a OpenShift object that manages the *ReplicatonController* based on a user defined template. The deployment system provides:
+
+- A deployment configuration
+- Triggers that drive automated deployments in response to events or configuration changes
+- User-customizable strategies to transition from the previous deployment to the new deployment: Rolling, Recreate and Custom
+- Rollbacks to a previous deployment. 
+- Management of ReplicationController scaling.
+
+Since a *DeploymentConfig* manages its own *ReplicatonController*, we will replace the existing replication *ReplicatonController* and create our new managed OpenShift application.
+
+NOTE: OpenShift Application is the term used to define a collection of Services, Deployments, Builds, Images, and Pods for a specific application. Usually there's one application per container or per microservice.
+
+Execute:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *cd ~/kubernetes-lab/kubernetes/*
+
+[vagrant@rhel-cdk kubernetes]$ *kubectl delete -f helloworldservice-rc.yaml -f helloworldservice-service.yaml*
+replicationcontroller "helloworld-service-vertx" deleted
+service "helloworld-service-vertx" deleted
+
+[vagrant@rhel-cdk kubernetes]$ *oc new-app --name=helloworld-service-vertx rafabene/microservices-helloworld-vertx:1.0*
+--> Found Docker image 1aaea04 (3 hours old) from Docker Hub for "rafabene/microservices-helloworld-vertx:1.0"
+...
+--> Creating resources with label app=helloworld-service-vertx ...
+    imagestream "helloworld-service-vertx" created
+    deploymentconfig "helloworld-service-vertx" created
+    service "helloworld-service-vertx" created
+--> Success
+    Run 'oc status' to view your app.
+----
+
+#### A word about oc command
+
+Congratulations! You were introduced to the _oc_ command. You can think of it as a super set of _kubectl_. You can use it to do almost all operations that you did with _kubectl_. Let's try:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *oc get pods*
+NAME                               READY     STATUS    RESTARTS   AGE
+frontend-ui-anbox                  1/1       Running   0          1h
+frontend-ui-l7jbo                  1/1       Running   0          1h
+guestbook-service-h4fvr            1/1       Running   0          1h
+helloworld-service-vertx-1-738ux   1/1       Running   0          5m
+mysql-yhl82                        1/1       Running   0          1h
+
+[vagrant@rhel-cdk kubernetes]$ *oc get rc*
+NAME                         DESIRED   CURRENT   AGE
+frontend-ui                  2         2         1h
+guestbook-service            1         1         1h
+helloworld-service-vertx-1   1         1         5m
+mysql                        1         1         1h
+----
+
+Now let's use _oc_ to:
+
+- Easily set a RedinessProbe.
+
+
+To create a ResinessProbe with _oc_ command, execute:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *oc set probe dc helloworld-service-vertx --readiness --get-url=http://:8080/api/hello/Kubernetes*
+deploymentconfig "helloworld-service-vertx" updated
+----
+
+Note that this configuration change caused a new deployment in this project. This was much easier than the previous time, righ?
+You can use _oc get dc helloworld-service-vertx -o yaml_ to see the configuration inside the *DeploymentConfig* object.
+
+- Create a route to frontend-ui.
+
+Now let's create a route and expose the service. But first let's understand what is a *Route*.
+Remember that we needed to execute *kubectl describe service frontend-ui* to get the *NodePort*?
+A *Route* uses the port 80 of OpenShift and "routes" the requests based on the defined hostname.
+Let's see how it works. Execute:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *oc expose service frontend-ui --hostname=frontend.10.1.2.2.nip.io*
+route "frontend-ui" exposed
+----
+
+Now point your browser to http://frontend.10.1.2.2.nip.io/
+
+Amazing, right?
