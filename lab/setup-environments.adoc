@@ -39,7 +39,7 @@ Downloads are available from link:https://www.virtualbox.org/wiki/Downloads[] .
 
 [WARNING]
 ====
-Linux Users
+Linux Users:
 
 . Have your kernel updated
 . Users should have the GNU compiler, build and header files for your current Linux kernel

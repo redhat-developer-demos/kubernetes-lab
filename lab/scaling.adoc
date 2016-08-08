@@ -28,7 +28,7 @@ You can very quickly see that the replication controller has been updated:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ kubectl get rc
+[vagrant@rhel-cdk kubernetes]$ *kubectl get rc*
 CONTROLLER                 CONTAINER(S)               IMAGE(S)                                      SELECTOR                                          REPLICAS   AGE
 frontend-ui                frontend-ui                rafabene/microservices-frontend:1.0           app=frontend-ui                                   2          8m
 guestbook-service          guestbook-service          rafabene/microservices-guestbook:1.0          app=guestbook-service,lab=kubernetes-lab          1          2m

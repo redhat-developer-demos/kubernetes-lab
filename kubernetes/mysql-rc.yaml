@@ -31,6 +31,7 @@ spec:
       containers: 
       - name: mysql
         image: openshift/mysql-56-centos7
+        imagePullPolicy: IfNotPresent
         resources:
           limits :
             cpu: 0.5

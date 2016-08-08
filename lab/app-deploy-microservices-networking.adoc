@@ -84,7 +84,8 @@ If you login into a container (find and use the frontend-ui container), you can 
 [source, bash, subs="normal,attributes"]
 ----
 [vagrant@rhel-cdk kubernetes]$ *kubectl exec -it frontend-ui-????? bash*
-bash-4.2$ wget -qO- http://helloworld-service-vertx:8080/api/hello/Rafael
+
+bash-4.2$* wget -qO- http://helloworld-service-vertx:8080/api/hello/Rafael*
 Hello Rafael from helloworld-service-vertx-a4zq3 with 1.0
 
 bash-4.2$ *exit*
