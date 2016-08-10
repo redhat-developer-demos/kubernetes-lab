@@ -23,7 +23,7 @@ from Basics to OpenShift
 :source-highlighter: pygments
 :numbered:
 
-Latest HTML: https://htmlpreview.github.io/?https://github.com/redhat-developer-demos/kubernetes-lab/blob/master/lab/readme.html
+Latest HTML: http://bit.ly/kubernetes-lab
 
 toc::[]
 
