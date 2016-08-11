@@ -29,7 +29,7 @@ toc::[]
 
 include::preface.adoc[]
 
-include::setup-environments.adoc[]
+include::setup-environment.adoc[]
 
 ## Kubernetes - The Basics
 
