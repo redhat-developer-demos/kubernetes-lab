@@ -149,7 +149,7 @@ Now let's use _oc_ to:
 - Easily set a RedinessProbe.
 
 
-To create a *ResinessProbe* with _oc_ command, execute:
+To create a *RedinessProbe* with _oc_ command, execute:
 
 [source, bash, subs="normal,attributes"]
 ----

@@ -31,6 +31,11 @@ Vagrant is a tool for building complete development environments. With an easy-t
 
 Downloads are available from: link:https://www.vagrantup.com/downloads.html[]
 
+[WARNING]
+====
+Do NOT use Vagrant 1.8.5 as it contains a bug that link:https://github.com/mitchellh/vagrant/issues/7610#issuecomment-234609660["slipped in"].
+====
+
 #### A virtualization platform (hypervisor) - VirtualBox 5.0.x
 
 Vagrant needs a hypervisor to create a development environment. 
