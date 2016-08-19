@@ -20,9 +20,9 @@ Next, let's add a configuration via the command line arguments. You can also use
 [source, bash, subs="normal,attributes"]
 ----
 [vagrant@rhel-cdk kubernetes]$ *oc edit dc/helloworld-service-vertx*
-# HINT 1: Type 'i' to enter in edit mode 
-# HINT 2: Type ':wq' to exit from vi
 ----
+include::includes/tip.adoc[]
+
 
 Now you can add the *args* that will be passed to the container command.
 
@@ -44,7 +44,12 @@ spec:.
       ...
 ----
 
-NOTE: Yes, there are 2 dashes. The first dash is required by YAML to indicate that this is a list element, followed by a space and one more dash that is actually passed into the command line argument.
+[NOTE]
+====
+Yes, there are 2 dashes. The first dash is required by YAML to indicate that this is a list element, followed by a space and one more dash that is actually passed into the command line argument.
+
+When you save the file in *vi*, the new content is automatically submited to the cluster. This causes the *DeploymentConfig* to automatically perform a rolling update of all Pods to have the changes that you just specified. 
+====
 
 Check the application and submit a name and message to see it is using the new greeting string.
 

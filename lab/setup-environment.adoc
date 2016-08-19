@@ -81,16 +81,16 @@ Setup CDK:
 
 [source,bash,subs="normal,attributes"]
 ----
-# From the Downloads folder
-Downloads$ *vagrant box add cdkv2* **rhel-cdk-kubernetes-7.2-25.x86_64.vagrant-virtualbox.box**
+# From the Downloads folder (or any other folder) 
+Downloads$ *vagrant box add --name cdkv2* **rhel-cdk-kubernetes-7.2-25.x86_64.vagrant-virtualbox.box**
 Downloads$ *unzip cdk-2.1.0.zip*
 Downloads$ *cd cdk/components/rhel/rhel-ose*
-
+# From CDK extracted folder
 rhel-ose$ *vagrant plugin install vagrant-service-manager vagrant-registration*
 rhel-ose$ *vagrant up*
 rhel-ose$ *vagrant ssh*
-
-[vagrant@rhel-cdk kubernetes]$ .
+#Inside CDK shell
+[vagrant@rhel-cdk ~]$ .
 ----
 
 IMPORTANT: If you use an invalid username/password, you will need to destroy your VM using **vagrant destroy** and start it again.

@@ -25,12 +25,20 @@ In this lab, we'll switch to the _frontend/_ directory and make a minor change t
 ----
 [vagrant@rhel-cdk kubernetes]$ *cd ~/kubernetes-lab/frontend*
 [vagrant@rhel-cdk kubernetes]$ *vi index.html*
-# HINT 1: Type 'i' to enter in edit mode 
-# HINT 2: Type ':wq' to exit from vi
 [vagrant@rhel-cdk kubernetes]$ *docker build -t rafabene/microservices-frontend:2.0 .*
 ----
+[TIP]
+====
+HINT 1: Change the _<h2>Say Hi</h2>_ line, but feel free to change any HTML content that that you want
 
-Now we will use the _kubectl rolling-update_ command to perform the rolling update. We create a new _ReplicationController_ called frontend-ui-2 that contains the new image.
+HINT 2: Type *':51'* to go to that line
+
+HINT 3: Type *'i'* to enter in edit mode 
+
+HINT 4: Type *':wq'* to exit from vi
+====
+
+Now we will use the _kubectl rolling-update_ command to perform the rolling update. We create a new *ReplicationController* called frontend-ui-2 that contains the new image.
 
 [source,bash, subs="normal,attributes"]
 ----

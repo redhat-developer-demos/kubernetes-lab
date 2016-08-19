@@ -22,8 +22,8 @@ First, update the _kubernetes-lab/hellworld-service/config.json_ with a new conf
 ----
 [vagrant@rhel-cdk kubernetes]$ *cd ~/kubernetes-lab/hellworld-service/*
 [vagrant@rhel-cdk kubernetes]$ *vi config.json*
-# HINT: Type ':wq' to exit from vi
 ----
+include::includes/tip.adoc[]
 
 Here is a suggestion for you:
 
@@ -78,9 +78,8 @@ First, edit the Helloworld Service Deployment:
 [source, bash, subs="normal,attributes"]
 ----
 [vagrant@rhel-cdk hellworld-service]$ *oc edit dc/helloworld-service-vertx*
-# HINT 1: Type 'i' to enter in edit mode 
-# HINT 2: Type ':wq' to exit from vi
 ----
+include::includes/tip.adoc[]
 
 In the editor, add volumes and volume mounts (important - indentation matters!):
 

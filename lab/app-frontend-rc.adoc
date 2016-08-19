@@ -38,11 +38,11 @@ You should see the frontend instances running:
 ----
 [vagrant@rhel-cdk kubernetes]$ *kubectl get pods -w*
 NAME                  READY     STATUS              RESTARTS   AGE
-frontend-ui-?????     1/1       ContainerCreating   0          2m
+frontend-ui-?????     0/1       ContainerCreating   0          2m
 frontend-ui-?????     1/1       Running             0          2m
 ----
 
-Hit CTRL+C to exit back to the shell prompt.
+Hit CTRL+C to exit back to the shell prompt at any moment. 
 
 NOTE: The _ContainerCreating_ status means that Kubernetes still downloading the image from the registry before creating the containers. 
 

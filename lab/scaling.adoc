@@ -16,6 +16,20 @@
 ### Scaling
 Duration: 5:00
 
+We have seem that *ReplicationControllers* keep the same ammount of replicas running. Let's check the number of pods again. Execute:
+
+[source, bash, subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *kubectl get pods*
+NAME                             READY     STATUS    RESTARTS   AGE
+frontend-ui-6jy22                1/1       Running   0          24m
+frontend-ui-7tcgx                1/1       Running   0          24m
+guestbook-service-gxjnx          1/1       Running   0          19m
+helloworld-service-vertx-edux9   1/1       Running   0          20m
+helloworld-service-vertx-lq1m0   1/1       Running   0          21m
+mysql-q9k7p                      1/1       Running   0          21m
+----
+
 Scaling the number of replicas of our Hello World service is as simple as running :
 
 [source, bash, subs="normal,attributes"]
@@ -36,17 +50,17 @@ helloworld-service-vertx   helloworld-service-vertx   rafabene/microservices-hel
 mysql                      mysql                      openshift/mysql-56-centos7                    app=mysql,lab=kubernetes-lab                      1          4m
 
 [vagrant@rhel-cdk kubernetes]$ *kubectl get pods*
-NAME                             READY     STATUS    RESTARTS   AGE
-frontend-ui-cfro2                1/1       Running   0          17m
-frontend-ui-jwneu                1/1       Running   0          17m
-guestbook-service-kfwht          1/1       Running   0          10m
-helloworld-service-vertx-8lsrk   1/1       Running   0          33s
-helloworld-service-vertx-8ok55   1/1       Running   0          10m
-helloworld-service-vertx-aekwy   1/1       Running   0          33s
-helloworld-service-vertx-igkad   1/1       Running   0          33s
-helloworld-service-vertx-qtfd7   1/1       Running   0          12m
-helloworld-service-vertx-toohm   1/1       Running   0          33s
-mysql-jn34r                      1/1       Running   0          13m
+NAME                             READY     STATUS              RESTARTS   AGE
+frontend-ui-6jy22                1/1       Running             0          26m
+frontend-ui-7tcgx                1/1       Running             0          26m
+guestbook-service-gxjnx          1/1       Running             0          22m
+helloworld-service-vertx-1rdd4   0/1       ContainerCreating   0          2s
+helloworld-service-vertx-cbevk   0/1       ContainerCreating   0          2s
+helloworld-service-vertx-edux9   1/1       Running             0          22m
+helloworld-service-vertx-lq1m0   1/1       Running             0          23m
+helloworld-service-vertx-lt0k9   0/1       ContainerCreating   0          2s
+helloworld-service-vertx-t8z4i   0/1       ContainerCreating   0          2s
+mysql-q9k7p                      1/1       Running             0          23m
 ----
 
 Reduce the number of replicas back to 2 so that we can free up resources for the later labs:

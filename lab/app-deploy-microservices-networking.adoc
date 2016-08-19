@@ -18,46 +18,46 @@ Duration: 7:00
 
 In Kubernetes every pod has a unique IP address!  You can “login” into one of these pods by using the _kubectl exec_ command.  This can drop you into a shell and execute commands inside of the container.
 
-First, find the name of the MySQL pod:
+First, find the name of the both helloworld-service-vertx pods:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl get pods -l app=mysql*
-NAME             READY     STATUS    RESTARTS   AGE
-mysql-?????      1/1       Running   0          3h
+[vagrant@rhel-cdk kubernetes]$ *kubectl get pods -l app=helloworld-service-vertx*
+NAME                             READY     STATUS    RESTARTS   AGE
+helloworld-service-vertx-?????   1/1       Running   0          14m
+helloworld-service-vertx-?????   1/1       Running   0          15m
 ----
 
-NOTE: Note that we used the parameter _-l app=mysql_. This parameter allows us to specify labels as filter. The label _app=mysql_ was defined in the ReplicationController as a template for all pods.
+NOTE: Note that we used the parameter _-l app=helloworld-service-vertx_. This parameter allows us to specify labels as filter. The label _app=helloworld-service-vertx_ was defined in the ReplicationController as a template for all pods.
 
 Then, use _kubectl exec_ to exucute a _"bash"_ process into the container:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl exec -it mysql-????? bash*
-bash-4.2$ .
+[vagrant@rhel-cdk kubernetes]$ kubectl exec -it helloworld-service-vertx-????? bash
+[jboss@helloworld-service-vertx-????? ~]$ .
 ----
 
-You are now in a shell inside of the MySQL container.  You can run _ps_, and _hostname_:
+You are now in a shell inside of the helloworld-service-vertx container.  You can run _ps_, and _hostname_:
 
 [source, bash, subs="normal,attributes"]
 ----
-bash-4.2$ *ps auxw*
+[jboss@helloworld-service-vertx-edux9 ~]$ *ps aux*
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-mysql        1  0.0 16.3 1810620 475648 ?      Ssl  03:45   0:10 /opt/rh/rh-mysql56/root/usr/libexec/mysqld --defaults-file=/var/lib
-mysql       63  0.0  0.0  11740   608 ?        Ss+  03:46   0:00 /bin/sh -i
-mysql       87  0.0  0.0  11740  1768 ?        Ss   07:37   0:00 bash
-mysql       95  0.0  0.0  19768  1220 ?        R+   07:38   0:00 ps auxw
+jboss        1  0.2  1.7 2691876 51696 ?       Ssl  20:24   0:02 java -Xmx256m -
+jboss       22  0.1  0.0  11772  1832 ?        Ss   20:40   0:00 bash
+jboss       38  0.0  0.0  47424  1656 ?        R+   20:41   0:00 ps aux
 
-bash-4.2$ *hostname  -i*
-172.17.0.5
+[jboss@helloworld-service-vertx-edux9 ~]$ *hostname  -i*
+172.17.0.7
 
-bash-4.2$ *exit*
+[jboss@helloworld-service-vertx-edux9 ~]$ *exit*
 exit
 ----
 
 Don’t forget to exit :).  
 
-Try it with another pod, like one of the Hello World Service pods and see its IP address.
+Try it with another the other pod and see its IP address.
 
 [source, bash, subs="normal,attributes"]
 ----

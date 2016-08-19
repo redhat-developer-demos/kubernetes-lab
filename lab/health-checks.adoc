@@ -27,9 +27,8 @@ Let's add a Liveness Probe to our Helloworld Service by editing the ReplicationC
 [source, bash, subs="normal,attributes"]
 ----
 [vagrant@rhel-cdk kubernetes]$ *kubectl edit rc helloworld-service-vertx*
-# HINT 1: Type 'i' to enter in edit mode 
-# HINT 2: Type ':wq' to exit from vi
 ----
+include::includes/tip.adoc[]
 
 In the editor, add a Liveness Probe:
 
@@ -62,9 +61,8 @@ You can add a Readiness Probe in the similar way:
 [source, bash, subs="normal,attributes"]
 ----
 [vagrant@rhel-cdk kubernetes]$ *kubectl edit rc helloworld-service-vertx*
-# HINT 1: Type 'i' to enter in edit mode 
-# HINT 2: Type ':wq' to exit from vi
 ----
+include::includes/tip.adoc[]
 
 In the editor, add a Readiness Probe:
 
@@ -91,3 +89,5 @@ spec:
 ----
 
 NOTE: In a production scenario, the Liveness Probe and the Readiness Probe will probably be different REST endpoints or scripts.
+
+IMPORTANT: Since we modified the template of the *ReplicationController*, only the new created Pods will have a health check associated to them.

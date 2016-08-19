@@ -24,10 +24,15 @@ NOTE: Don't worry. This is still a Kubernetes lab! OpenShift runs on top of Kube
 
 Access https://10.1.2.2:8443 
 
+[NOTE]
+====
+Accept the self-signed HTTPS certificate. 
+
 Login with the credentials:
 
 - username: *openshift-dev*
 - password: *devel*
+====
 
 Click on *OpenShift sample project* and now you will see all Kubernetes objects that you have created with kubectl command. This happens because OpenShift is built on top of Kubernetes.
 
@@ -36,11 +41,14 @@ image::images/openshift.png[OpenShift,float="center",align="center"]
 Take some minutes to explore this interface.
 
 - Click on the Service and ReplicationController boxes and see the details.
-- Click on the POD number and see the list of PODS. Selec one POD to explore.
-- Explore the POD detais and the other tabs (Environment, Logs, Terminal and Events)
+- Click on the POD number and see the list of PODS. Select one POD to explore.
+- Explore the POD details and the other tabs (Environment, Logs, Terminal and Events)
 - In the right top corner, click in the gray _Actions_ button and check that you can also edit the YAML file.
 
+NOTE: The blue bars on top of the pods are "Label filters" that were applied to select just the specific pods for the *ReplicationController* that you clicked.
+
 image::images/pod.png[Pod,float="center",align="center"]
+
 
 Back to the *Overview* page and check that you can scale up and scale down the number of the pods simply by clicking on the gray arrows on the right hand side of the pods number.
 
@@ -80,7 +88,7 @@ Execute:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *cd ~/kubernetes-lab/kubernetes/*
+[vagrant@rhel-cdk frontend]$ *cd ~/kubernetes-lab/kubernetes/*
 
 [vagrant@rhel-cdk kubernetes]$ *kubectl delete -f helloworldservice-rc.yaml*
 replicationcontroller "helloworld-service-vertx" deleted
@@ -90,6 +98,14 @@ deploymentconfig "helloworld-service-vertx" created
 ----
 
 NOTE: The -l specifies the label (It should match to the existing Kubernetes Service). The -r specifies the number of replicas.
+
+[TIP]
+====
+*link:https://docs.openshift.com/enterprise/3.2/dev_guide/deployments.html[DeploymentConfig]* vs Kubernetes *link:http://kubernetes.io/docs/user-guide/deployments/[Deployments]*
+
+OpenShift is built on top of Kubernetes but adds features to manage applications. Because of that, OpenShift has created to *DeploymentConfig* object that not only keeps the number of replicas in the cluster, but also keeps the same state *status* (image version, environment variables, volumes, etc) for all pods. This feature has been incorporated in Kubernetes with the name *Deployment*. It's part of OpenShift project roadmap to replace the *DeploymentConfig* and use only Kubernetes *Deployments* in a transparent and portable way.
+====
+
 
 #### A word about oc command
 
@@ -146,10 +162,10 @@ Frontend service running at http://0.0.0.0:8080
 
 Now let's use _oc_ to:
 
-- Easily set a RedinessProbe.
+- Easily set a ReadinessProbe.
 
 
-To create a *RedinessProbe* with _oc_ command, execute:
+To create a *ReadinessProbe* with _oc_ command, execute:
 
 [source, bash, subs="normal,attributes"]
 ----
@@ -160,6 +176,8 @@ deploymentconfig "helloworld-service-vertx" updated
 Note that this configuration change caused a new deployment in this project. This was much easier than the previous time, righ?
 You can use _oc get dc helloworld-service-vertx -o yaml_ to see the configuration inside the *DeploymentConfig* object.
 
+TIP: You can also use *oc set probe dc helloworld-service-vertx --readiness --remove* to remove the *ReadinessProbe* using *oc* command.
+
 - Create a route to frontend-ui.
 
 Now let's create a route and expose the service. But first let's understand what is a *Route*.
@@ -169,10 +187,14 @@ Let's see how it works. Execute:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *oc expose service frontend-ui --hostname=frontend.10.1.2.2.nip.io*
+
+[vagrant@rhel-cdk kubernetes]$ *oc expose service frontend-ui \
+                    --hostname=frontend.10.1.2.2.nip.io*
 route "frontend-ui" exposed
 ----
 
 Now point your browser to http://frontend.10.1.2.2.nip.io/
 
 Amazing, right?
+
+TIP: TIP: You can delete the *Route* with the command: *oc delete route frontend-ui*

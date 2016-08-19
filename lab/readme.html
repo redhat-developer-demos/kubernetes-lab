@@ -535,8 +535,8 @@ Docs and Application Source code: <a href="https://github.com/redhat-developer-d
 </li>
 <li><a href="#_acessing_the_frontend">3.6. Acessing the frontend</a></li>
 <li><a href="#_scaling">3.7. Scaling</a></li>
-<li><a href="#_rolling_update">3.8. Rolling Update</a></li>
-<li><a href="#_health_checks">3.9. Health Checks</a></li>
+<li><a href="#_health_checks">3.8. Health Checks</a></li>
+<li><a href="#_rolling_update">3.9. Rolling Update</a></li>
 <li><a href="#_graceful_shutdown">3.10. Graceful Shutdown</a></li>
 </ul>
 </li>
@@ -792,16 +792,16 @@ Make sure to take notes of your username(email) and password. It will be used as
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-c"># From the Downloads folder</span>
-Downloads<span class="tok-nv">$ </span><strong>vagrant box add cdkv2</strong> <strong>rhel-cdk-kubernetes-7.2-25.x86_64.vagrant-virtualbox.box</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-c"># From the Downloads folder (or any other folder)</span>
+Downloads<span class="tok-nv">$ </span><strong>vagrant box add --name cdkv2</strong> <strong>rhel-cdk-kubernetes-7.2-25.x86_64.vagrant-virtualbox.box</strong>
 Downloads<span class="tok-nv">$ </span><strong>unzip cdk-2.1.0.zip</strong>
 Downloads<span class="tok-nv">$ </span><strong>cd cdk/components/rhel/rhel-ose</strong>
-
+<span class="tok-c"># From CDK extracted folder</span>
 rhel-ose<span class="tok-nv">$ </span><strong>vagrant plugin install vagrant-service-manager vagrant-registration</strong>
 rhel-ose<span class="tok-nv">$ </span><strong>vagrant up</strong>
 rhel-ose<span class="tok-nv">$ </span><strong>vagrant ssh</strong>
-
-<span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span>.</code></pre>
+<span class="tok-c">#Inside CDK shell</span>
+<span class="tok-o">[</span>vagrant@rhel-cdk ~<span class="tok-o">]</span><span class="tok-nv">$ </span>.</code></pre>
 </div>
 </div>
 <div class="admonitionblock important">
@@ -878,8 +878,9 @@ If you use an invalid username/password, you will need to destroy your VM using 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>git clone <a href="https://github.com/redhat-developer-demos/kubernetes-lab" class="bare">https://github.com/redhat-developer-demos/kubernetes-lab</a></strong>
-<span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>cd kubernetes-lab/kubernetes</strong></code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>git clone <a href="https://github.com/redhat-developer-demos/kubernetes-lab" class="bare">https://github.com/redhat-developer-demos/kubernetes-lab</a></strong>
+<span class="tok-o">[</span>vagrant@rhel-cdk ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>cd kubernetes-lab/kubernetes</strong>
+<span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span>.</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -920,12 +921,12 @@ replicationcontroller <span class="tok-s2">&quot;frontend-ui&quot;</span> create
 <div class="content">
 <pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get pods -w</strong>
 NAME                  READY     STATUS              RESTARTS   AGE
-frontend-ui-?????     1/1       ContainerCreating   <span class="tok-m">0</span>          2m
+frontend-ui-?????     0/1       ContainerCreating   <span class="tok-m">0</span>          2m
 frontend-ui-?????     1/1       Running             <span class="tok-m">0</span>          2m</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Hit CTRL+C to exit back to the shell prompt.</p>
+<p>Hit CTRL+C to exit back to the shell prompt at any moment.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -976,9 +977,9 @@ service <span class="tok-s2">&quot;frontend-ui&quot;</span> created</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get services</strong>
-NAME               CLUSTER-IP      EXTERNAL-IP     PORT<span class="tok-o">(</span>S<span class="tok-o">)</span>    AGE
-frontend-ui        172.30.17.135                   80/TCP     2m</code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span>kubectl get services
+NAME          CLUSTER_IP      EXTERNAL_IP   PORT<span class="tok-o">(</span>S<span class="tok-o">)</span>   SELECTOR          AGE
+frontend-ui   172.30.252.52                 80/TCP    <span class="tok-nv">app</span><span class="tok-o">=</span>frontend-ui   7s</code></pre>
 </div>
 </div>
 </div>
@@ -1131,6 +1132,20 @@ helloworld-service-vertx-sgds6   1/1       Running   <span class="tok-m">0</span
 &#8230;&#8203;</code></pre>
 </div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Kubernetes has also a <a href="http://kubernetes.io/docs/user-guide/deployments/">Deployment</a> object that not only keeps the number of replicas, but also keeps the same <strong>status</strong> (image version, environment variables, volumes, etc) of all Pods. For now, we will keep using the <strong>ReplicationController</strong> object.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Lastly, let’s create the Guestbook Service replication controller and service too!</p>
 </div>
@@ -1150,13 +1165,14 @@ service <span class="tok-s2">&quot;guestbook-service&quot;</span> created</code>
 <p>In Kubernetes every pod has a unique IP address!  You can “login” into one of these pods by using the <em>kubectl exec</em> command.  This can drop you into a shell and execute commands inside of the container.</p>
 </div>
 <div class="paragraph">
-<p>First, find the name of the MySQL pod:</p>
+<p>First, find the name of the both helloworld-service-vertx pods:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get pods -l <span class="tok-nv">app</span><span class="tok-o">=</span>mysql</strong>
-NAME             READY     STATUS    RESTARTS   AGE
-mysql-?????      1/1       Running   <span class="tok-m">0</span>          3h</code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get pods -l <span class="tok-nv">app</span><span class="tok-o">=</span>helloworld-service-vertx</strong>
+NAME                             READY     STATUS    RESTARTS   AGE
+helloworld-service-vertx-?????   1/1       Running   <span class="tok-m">0</span>          14m
+helloworld-service-vertx-?????   1/1       Running   <span class="tok-m">0</span>          15m</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1166,7 +1182,7 @@ mysql-?????      1/1       Running   <span class="tok-m">0</span>          3h</c
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Note that we used the parameter <em>-l app=mysql</em>. This parameter allows us to specify labels as filter. The label <em>app=mysql</em> was defined in the ReplicationController as a template for all pods.
+Note that we used the parameter <em>-l app=helloworld-service-vertx</em>. This parameter allows us to specify labels as filter. The label <em>app=helloworld-service-vertx</em> was defined in the ReplicationController as a template for all pods.
 </td>
 </tr>
 </table>
@@ -1176,26 +1192,25 @@ Note that we used the parameter <em>-l app=mysql</em>. This parameter allows us 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl <span class="tok-nb">exec</span> -it mysql-????? bash</strong>
-bash-4.2<span class="tok-nv">$ </span>.</code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span>kubectl <span class="tok-nb">exec</span> -it helloworld-service-vertx-????? bash
+<span class="tok-o">[</span>jboss@helloworld-service-vertx-????? ~<span class="tok-o">]</span><span class="tok-nv">$ </span>.</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You are now in a shell inside of the MySQL container.  You can run <em>ps</em>, and <em>hostname</em>:</p>
+<p>You are now in a shell inside of the helloworld-service-vertx container.  You can run <em>ps</em>, and <em>hostname</em>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash">bash-4.2<span class="tok-nv">$ </span><strong>ps auxw</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>jboss@helloworld-service-vertx-edux9 ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>ps aux</strong>
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-mysql        <span class="tok-m">1</span>  0.0 16.3 <span class="tok-m">1810620</span> <span class="tok-m">475648</span> ?      Ssl  03:45   0:10 /opt/rh/rh-mysql56/root/usr/libexec/mysqld --defaults-file<span class="tok-o">=</span>/var/lib
-mysql       <span class="tok-m">63</span>  0.0  0.0  <span class="tok-m">11740</span>   <span class="tok-m">608</span> ?        Ss+  03:46   0:00 /bin/sh -i
-mysql       <span class="tok-m">87</span>  0.0  0.0  <span class="tok-m">11740</span>  <span class="tok-m">1768</span> ?        Ss   07:37   0:00 bash
-mysql       <span class="tok-m">95</span>  0.0  0.0  <span class="tok-m">19768</span>  <span class="tok-m">1220</span> ?        R+   07:38   0:00 ps auxw
+jboss        <span class="tok-m">1</span>  0.2  1.7 <span class="tok-m">2691876</span> <span class="tok-m">51696</span> ?       Ssl  20:24   0:02 java -Xmx256m -
+jboss       <span class="tok-m">22</span>  0.1  0.0  <span class="tok-m">11772</span>  <span class="tok-m">1832</span> ?        Ss   20:40   0:00 bash
+jboss       <span class="tok-m">38</span>  0.0  0.0  <span class="tok-m">47424</span>  <span class="tok-m">1656</span> ?        R+   20:41   0:00 ps aux
 
-bash-4.2<span class="tok-nv">$ </span><strong>hostname  -i</strong>
-172.17.0.5
+<span class="tok-o">[</span>jboss@helloworld-service-vertx-edux9 ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>hostname  -i</strong>
+172.17.0.7
 
-bash-4.2<span class="tok-nv">$ </span><strong>exit</strong>
+<span class="tok-o">[</span>jboss@helloworld-service-vertx-edux9 ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>exit</strong>
 <span class="tok-nb">exit</span></code></pre>
 </div>
 </div>
@@ -1203,7 +1218,7 @@ bash-4.2<span class="tok-nv">$ </span><strong>exit</strong>
 <p>Don’t forget to exit :).</p>
 </div>
 <div class="paragraph">
-<p>Try it with another pod, like one of the Hello World Service pods and see its IP address.</p>
+<p>Try it with another the other pod and see its IP address.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1386,6 +1401,21 @@ The NodePort (31079) is a random value. You should use the value described in No
 <p>Duration: 5:00</p>
 </div>
 <div class="paragraph">
+<p>We have seem that <strong>ReplicationControllers</strong> keep the same ammount of replicas running. Let&#8217;s check the number of pods again. Execute:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get pods</strong>
+NAME                             READY     STATUS    RESTARTS   AGE
+frontend-ui-6jy22                1/1       Running   <span class="tok-m">0</span>          24m
+frontend-ui-7tcgx                1/1       Running   <span class="tok-m">0</span>          24m
+guestbook-service-gxjnx          1/1       Running   <span class="tok-m">0</span>          19m
+helloworld-service-vertx-edux9   1/1       Running   <span class="tok-m">0</span>          20m
+helloworld-service-vertx-lq1m0   1/1       Running   <span class="tok-m">0</span>          21m
+mysql-q9k7p                      1/1       Running   <span class="tok-m">0</span>          21m</code></pre>
+</div>
+</div>
+<div class="paragraph">
 <p>Scaling the number of replicas of our Hello World service is as simple as running :</p>
 </div>
 <div class="listingblock">
@@ -1407,17 +1437,17 @@ helloworld-service-vertx   helloworld-service-vertx   rafabene/microservices-hel
 mysql                      mysql                      openshift/mysql-56-centos7                    <span class="tok-nv">app</span><span class="tok-o">=</span>mysql,lab<span class="tok-o">=</span>kubernetes-lab                      <span class="tok-m">1</span>          4m
 
 <span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get pods</strong>
-NAME                             READY     STATUS    RESTARTS   AGE
-frontend-ui-cfro2                1/1       Running   <span class="tok-m">0</span>          17m
-frontend-ui-jwneu                1/1       Running   <span class="tok-m">0</span>          17m
-guestbook-service-kfwht          1/1       Running   <span class="tok-m">0</span>          10m
-helloworld-service-vertx-8lsrk   1/1       Running   <span class="tok-m">0</span>          33s
-helloworld-service-vertx-8ok55   1/1       Running   <span class="tok-m">0</span>          10m
-helloworld-service-vertx-aekwy   1/1       Running   <span class="tok-m">0</span>          33s
-helloworld-service-vertx-igkad   1/1       Running   <span class="tok-m">0</span>          33s
-helloworld-service-vertx-qtfd7   1/1       Running   <span class="tok-m">0</span>          12m
-helloworld-service-vertx-toohm   1/1       Running   <span class="tok-m">0</span>          33s
-mysql-jn34r                      1/1       Running   <span class="tok-m">0</span>          13m</code></pre>
+NAME                             READY     STATUS              RESTARTS   AGE
+frontend-ui-6jy22                1/1       Running             <span class="tok-m">0</span>          26m
+frontend-ui-7tcgx                1/1       Running             <span class="tok-m">0</span>          26m
+guestbook-service-gxjnx          1/1       Running             <span class="tok-m">0</span>          22m
+helloworld-service-vertx-1rdd4   0/1       ContainerCreating   <span class="tok-m">0</span>          2s
+helloworld-service-vertx-cbevk   0/1       ContainerCreating   <span class="tok-m">0</span>          2s
+helloworld-service-vertx-edux9   1/1       Running             <span class="tok-m">0</span>          22m
+helloworld-service-vertx-lq1m0   1/1       Running             <span class="tok-m">0</span>          23m
+helloworld-service-vertx-lt0k9   0/1       ContainerCreating   <span class="tok-m">0</span>          2s
+helloworld-service-vertx-t8z4i   0/1       ContainerCreating   <span class="tok-m">0</span>          2s
+mysql-q9k7p                      1/1       Running             <span class="tok-m">0</span>          23m</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1430,59 +1460,7 @@ mysql-jn34r                      1/1       Running   <span class="tok-m">0</span
 </div>
 </div>
 <div class="sect2">
-<h3 id="_rolling_update">3.8. Rolling Update</h3>
-<div class="paragraph">
-<p>Duration: 10:00</p>
-</div>
-<div class="paragraph">
-<p>It’s easy to update &amp; rollback.</p>
-</div>
-<div class="paragraph">
-<p>In this lab, we&#8217;ll switch to the <em>frontend/</em> directory and make a minor change to the index.html (e.g., change the background color, title, etc.). After that, rebuild the container.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>cd ~/kubernetes-lab/frontend</strong>
-<span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>vi index.html</strong>
-<span class="tok-c"># HINT 1: Type &#39;i&#39; to enter in edit mode</span>
-<span class="tok-c"># HINT 2: Type &#39;:wq&#39; to exit from vi</span>
-<span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>docker build -t rafabene/microservices-frontend:2.0 .</strong></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Now we will use the <em>kubectl rolling-update</em> command to perform the rolling update. We create a new <em>ReplicationController</em> called frontend-ui-2 that contains the new image.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk frontend<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl rolling-update frontend-ui frontend-ui-2 --image<span class="tok-o">=</span>rafabene/microservices-frontend:2.0 --update-period<span class="tok-o">=</span>1s</strong>
-Created frontend-ui-2
-Scaling up frontend-ui-2 from <span class="tok-m">0</span> to 2, scaling down frontend-ui from <span class="tok-m">2</span> to <span class="tok-m">0</span> <span class="tok-o">(</span>keep <span class="tok-m">2</span> pods available, don<span class="tok-err">&#39;</span>t exceed <span class="tok-m">3</span> pods<span class="tok-o">)</span>
-Scaling frontend-ui-2 up to 1
-Scaling frontend-ui down to 1
-Scaling frontend-ui-2 up to 2
-Scaling frontend-ui down to 0
-Update succeeded. Deleting frontend-ui
-replicationcontroller <span class="tok-s2">&quot;frontend-ui&quot;</span> rolling updated to <span class="tok-s2">&quot;frontend-ui-2&quot;</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>That&#8217;s it! Kubernetes will performed a rolling update to update all the versions from 1.0 to 2.0.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-This 2.0 version only exists in your local registry. It will only be available if you have built it using the <em>docker build</em> command.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_health_checks">3.9. Health Checks</h3>
+<h3 id="_health_checks">3.8. Health Checks</h3>
 <div class="paragraph">
 <p>Duration: 10:00</p>
 </div>
@@ -1500,10 +1478,25 @@ This 2.0 version only exists in your local registry. It will only be available i
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl edit rc helloworld-service-vertx</strong>
-<span class="tok-c"># HINT 1: Type &#39;i&#39; to enter in edit mode</span>
-<span class="tok-c"># HINT 2: Type &#39;:wq&#39; to exit from vi</span></code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl edit rc helloworld-service-vertx</strong></code></pre>
 </div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>HINT 1: Type 'i' to enter in edit mode</p>
+</div>
+<div class="paragraph">
+<p>HINT 2: Type ':wq' to exit from vi</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>In the editor, add a Liveness Probe:</p>
@@ -1547,10 +1540,25 @@ You can configure both Liveness Probe and Readiness Probe by checking via a HTTP
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl edit rc helloworld-service-vertx</strong>
-<span class="tok-c"># HINT 1: Type &#39;i&#39; to enter in edit mode</span>
-<span class="tok-c"># HINT 2: Type &#39;:wq&#39; to exit from vi</span></code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl edit rc helloworld-service-vertx</strong></code></pre>
 </div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>HINT 1: Type 'i' to enter in edit mode</p>
+</div>
+<div class="paragraph">
+<p>HINT 2: Type ':wq' to exit from vi</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>In the editor, add a Readiness Probe:</p>
@@ -1585,6 +1593,91 @@ You can configure both Liveness Probe and Readiness Probe by checking via a HTTP
 </td>
 <td class="content">
 In a production scenario, the Liveness Probe and the Readiness Probe will probably be different REST endpoints or scripts.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Since we modified the template of the <strong>ReplicationController</strong>, only the new created Pods will have a health check associated to them.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_rolling_update">3.9. Rolling Update</h3>
+<div class="paragraph">
+<p>Duration: 10:00</p>
+</div>
+<div class="paragraph">
+<p>It’s easy to update &amp; rollback.</p>
+</div>
+<div class="paragraph">
+<p>In this lab, we&#8217;ll switch to the <em>frontend/</em> directory and make a minor change to the index.html (e.g., change the background color, title, etc.). After that, rebuild the container.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>cd ~/kubernetes-lab/frontend</strong>
+<span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>vi index.html</strong>
+<span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>docker build -t rafabene/microservices-frontend:2.0 .</strong></code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>HINT 1: Change the <em>&lt;h2&gt;Say Hi&lt;/h2&gt;</em> line, but feel free to change any HTML content that that you want</p>
+</div>
+<div class="paragraph">
+<p>HINT 2: Type <strong>':51'</strong> to go to that line</p>
+</div>
+<div class="paragraph">
+<p>HINT 3: Type <strong>'i'</strong> to enter in edit mode</p>
+</div>
+<div class="paragraph">
+<p>HINT 4: Type <strong>':wq'</strong> to exit from vi</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now we will use the <em>kubectl rolling-update</em> command to perform the rolling update. We create a new <strong>ReplicationController</strong> called frontend-ui-2 that contains the new image.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk frontend<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl rolling-update frontend-ui frontend-ui-2 --image<span class="tok-o">=</span>rafabene/microservices-frontend:2.0 --update-period<span class="tok-o">=</span>1s</strong>
+Created frontend-ui-2
+Scaling up frontend-ui-2 from <span class="tok-m">0</span> to 2, scaling down frontend-ui from <span class="tok-m">2</span> to <span class="tok-m">0</span> <span class="tok-o">(</span>keep <span class="tok-m">2</span> pods available, don<span class="tok-err">&#39;</span>t exceed <span class="tok-m">3</span> pods<span class="tok-o">)</span>
+Scaling frontend-ui-2 up to 1
+Scaling frontend-ui down to 1
+Scaling frontend-ui-2 up to 2
+Scaling frontend-ui down to 0
+Update succeeded. Deleting frontend-ui
+replicationcontroller <span class="tok-s2">&quot;frontend-ui&quot;</span> rolling updated to <span class="tok-s2">&quot;frontend-ui-2&quot;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>That&#8217;s it! Kubernetes will performed a rolling update to update all the versions from 1.0 to 2.0.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This 2.0 version only exists in your local registry. It will only be available if you have built it using the <em>docker build</em> command.
 </td>
 </tr>
 </table>
@@ -1633,6 +1726,16 @@ Don&#8217;t worry. This is still a Kubernetes lab! OpenShift runs on top of Kube
 <div class="paragraph">
 <p>Access <a href="https://10.1.2.2:8443" class="bare">https://10.1.2.2:8443</a></p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Accept the self-signed HTTPS certificate.</p>
+</div>
 <div class="paragraph">
 <p>Login with the credentials:</p>
 </div>
@@ -1645,6 +1748,10 @@ Don&#8217;t worry. This is still a Kubernetes lab! OpenShift runs on top of Kube
 <p>password: <strong>devel</strong></p>
 </li>
 </ul>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Click on <strong>OpenShift sample project</strong> and now you will see all Kubernetes objects that you have created with kubectl command. This happens because OpenShift is built on top of Kubernetes.</p>
@@ -1663,15 +1770,27 @@ Don&#8217;t worry. This is still a Kubernetes lab! OpenShift runs on top of Kube
 <p>Click on the Service and ReplicationController boxes and see the details.</p>
 </li>
 <li>
-<p>Click on the POD number and see the list of PODS. Selec one POD to explore.</p>
+<p>Click on the POD number and see the list of PODS. Select one POD to explore.</p>
 </li>
 <li>
-<p>Explore the POD detais and the other tabs (Environment, Logs, Terminal and Events)</p>
+<p>Explore the POD details and the other tabs (Environment, Logs, Terminal and Events)</p>
 </li>
 <li>
 <p>In the right top corner, click in the gray <em>Actions</em> button and check that you can also edit the YAML file.</p>
 </li>
 </ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The blue bars on top of the pods are "Label filters" that were applied to select just the specific pods for the <strong>ReplicationController</strong> that you clicked.
+</td>
+</tr>
+</table>
 </div>
 <div class="imageblock" style="text-align: center;float: center">
 <div class="content">
@@ -1737,7 +1856,7 @@ replicationcontroller <span class="tok-s2">&quot;frontend-ui-2&quot;</span> roll
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>cd ~/kubernetes-lab/kubernetes/</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk frontend<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>cd ~/kubernetes-lab/kubernetes/</strong>
 
 <span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl delete -f helloworldservice-rc.yaml</strong>
 replicationcontroller <span class="tok-s2">&quot;helloworld-service-vertx&quot;</span> deleted
@@ -1754,6 +1873,23 @@ deploymentconfig <span class="tok-s2">&quot;helloworld-service-vertx&quot;</span
 </td>
 <td class="content">
 The -l specifies the label (It should match to the existing Kubernetes Service). The -r specifies the number of replicas.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong><a href="https://docs.openshift.com/enterprise/3.2/dev_guide/deployments.html">DeploymentConfig</a></strong> vs Kubernetes <strong><a href="http://kubernetes.io/docs/user-guide/deployments/">Deployments</a></strong></p>
+</div>
+<div class="paragraph">
+<p>OpenShift is built on top of Kubernetes but adds features to manage applications. Because of that, OpenShift has created to <strong>DeploymentConfig</strong> object that not only keeps the number of replicas in the cluster, but also keeps the same state <strong>status</strong> (image version, environment variables, volumes, etc) for all pods. This feature has been incorporated in Kubernetes with the name <strong>Deployment</strong>. It&#8217;s part of OpenShift project roadmap to replace the <strong>DeploymentConfig</strong> and use only Kubernetes <strong>Deployments</strong> in a transparent and portable way.</p>
+</div>
 </td>
 </tr>
 </table>
@@ -1819,12 +1955,12 @@ Frontend service running at <a href="http://0.0.0.0:8080" class="bare">http://0.
 <div class="ulist">
 <ul>
 <li>
-<p>Easily set a RedinessProbe.</p>
+<p>Easily set a ReadinessProbe.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>To create a <strong>RedinessProbe</strong> with <em>oc</em> command, execute:</p>
+<p>To create a <strong>ReadinessProbe</strong> with <em>oc</em> command, execute:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1835,6 +1971,18 @@ deploymentconfig <span class="tok-s2">&quot;helloworld-service-vertx&quot;</span
 <div class="paragraph">
 <p>Note that this configuration change caused a new deployment in this project. This was much easier than the previous time, righ?
 You can use <em>oc get dc helloworld-service-vertx -o yaml</em> to see the configuration inside the <strong>DeploymentConfig</strong> object.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can also use <strong>oc set probe dc helloworld-service-vertx --readiness --remove</strong> to remove the <strong>ReadinessProbe</strong> using <strong>oc</strong> command.
+</td>
+</tr>
+</table>
 </div>
 <div class="ulist">
 <ul>
@@ -1851,7 +1999,8 @@ Let&#8217;s see how it works. Execute:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>oc expose service frontend-ui --hostname<span class="tok-o">=</span>frontend.10.1.2.2.nip.io</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>oc expose service frontend-ui <span class="tok-se">\</span>
+                    --hostname<span class="tok-o">=</span>frontend.10.1.2.2.nip.io</strong>
 route <span class="tok-s2">&quot;frontend-ui&quot;</span> exposed</code></pre>
 </div>
 </div>
@@ -1860,6 +2009,18 @@ route <span class="tok-s2">&quot;frontend-ui&quot;</span> exposed</code></pre>
 </div>
 <div class="paragraph">
 <p>Amazing, right?</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+TIP: You can delete the <strong>Route</strong> with the command: <strong>oc delete route frontend-ui</strong>
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -1938,10 +2099,25 @@ The '-' means that we want to remove that environment var from the DeploymentCon
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>oc edit dc/helloworld-service-vertx</strong>
-<span class="tok-c"># HINT 1: Type &#39;i&#39; to enter in edit mode</span>
-<span class="tok-c"># HINT 2: Type &#39;:wq&#39; to exit from vi</span></code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>oc edit dc/helloworld-service-vertx</strong></code></pre>
 </div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>HINT 1: Type 'i' to enter in edit mode</p>
+</div>
+<div class="paragraph">
+<p>HINT 2: Type ':wq' to exit from vi</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Now you can add the <strong>args</strong> that will be passed to the container command.</p>
@@ -1971,7 +2147,12 @@ The '-' means that we want to remove that environment var from the DeploymentCon
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Yes, there are 2 dashes. The first dash is required by YAML to indicate that this is a list element, followed by a space and one more dash that is actually passed into the command line argument.
+<div class="paragraph">
+<p>Yes, there are 2 dashes. The first dash is required by YAML to indicate that this is a list element, followed by a space and one more dash that is actually passed into the command line argument.</p>
+</div>
+<div class="paragraph">
+<p>When you save the file in <strong>vi</strong>, the new content is automatically submited to the cluster. This causes the <strong>DeploymentConfig</strong> to automatically perform a rolling update of all Pods to have the changes that you just specified.</p>
+</div>
 </td>
 </tr>
 </table>
@@ -2000,9 +2181,25 @@ Yes, there are 2 dashes. The first dash is required by YAML to indicate that thi
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>cd ~/kubernetes-lab/hellworld-service/</strong>
-<span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>vi config.json</strong>
-<span class="tok-c"># HINT: Type &#39;:wq&#39; to exit from vi</span></code></pre>
+<span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>vi config.json</strong></code></pre>
 </div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>HINT 1: Type 'i' to enter in edit mode</p>
+</div>
+<div class="paragraph">
+<p>HINT 2: Type ':wq' to exit from vi</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Here is a suggestion for you:</p>
@@ -2071,10 +2268,25 @@ configmap <span class="tok-s2">&quot;greeting-config&quot;</span> created</code>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk hellworld-service<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>oc edit dc/helloworld-service-vertx</strong>
-<span class="tok-c"># HINT 1: Type &#39;i&#39; to enter in edit mode</span>
-<span class="tok-c"># HINT 2: Type &#39;:wq&#39; to exit from vi</span></code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk hellworld-service<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>oc edit dc/helloworld-service-vertx</strong></code></pre>
 </div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>HINT 1: Type 'i' to enter in edit mode</p>
+</div>
+<div class="paragraph">
+<p>HINT 2: Type ':wq' to exit from vi</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>In the editor, add volumes and volume mounts (important - indentation matters!):</p>
@@ -2696,7 +2908,7 @@ I0804 08:03:45.260863       <span class="tok-m">1</span> source.go:197<span clas
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-08-19 13:26:05 EDT
+Last updated 2016-08-19 17:06:05 EDT
 </div>
 </div>
 </body>

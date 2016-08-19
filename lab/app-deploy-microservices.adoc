@@ -93,6 +93,11 @@ helloworld-service-vertx-sgds6   1/1       Running   0          10m
 ...
 ----
 
+[NOTE]
+====
+Kubernetes has also a link:http://kubernetes.io/docs/user-guide/deployments/[Deployment] object that not only keeps the number of replicas, but also keeps the same *status* (image version, environment variables, volumes, etc) of all Pods. For now, we will keep using the *ReplicationController* object.
+====
+
 Lastly, let’s create the Guestbook Service replication controller and service too!
 
 [source, bash, subs="normal,attributes"]

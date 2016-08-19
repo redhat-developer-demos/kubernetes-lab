@@ -54,9 +54,9 @@ include::external-access.adoc[]
 
 include::scaling.adoc[]
 
-include::rolling-update.adoc[]
-
 include::health-checks.adoc[]
+
+include::rolling-update.adoc[]
 
 include::graceful-shutdown.adoc[]
 
