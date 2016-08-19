@@ -17,7 +17,7 @@
 from Basics to OpenShift
 :toc: macro
 :toc-title: Table of Contents
-:toclevels: 3
+:toclevels: 5
 :icons: font
 :data-uri:
 :source-highlighter: pygments
@@ -75,5 +75,4 @@ include::extra.adoc[]
 include::feedback.adoc[]
 
 include::references.adoc[]
-
 

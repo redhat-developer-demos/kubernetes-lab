@@ -72,6 +72,7 @@ Downloads are available from link:http://developers.redhat.com/products/cdk/down
 ====
 
 Setup CDK:
+
 - Install Vagrant and VirtualBox
 - Install Vagrant plugins
 - Add Vagrant box with *vagrant box* command
@@ -91,3 +92,27 @@ $ *vagrant ssh*
 ----
 
 IMPORTANT: If you use an invalid username/password, you will need to destroy your VM using **vagrant destroy** and start it again.
+
+##### Troubleshooting
+
+###### Windows vagrant plugin install
+
+When you Windows username contains a space, vagrant will give the following message:
+
+====
+ The directory where plugins are installed (the Vagrant home directory) has a space in it. On Windows, there is a bug in Ruby when compiling plugins into directories with spaces. Please move your Vagrant home directory to a path without spaces and try again.
+====
+
+The workaround is set the vagrant home in other folder that doesn't contain spaces. You can do that with the following command:
+
+[source,bash,subs="normal,attributes"]
+----
+C:\> set VAGRANT_HOME=C:\
+----
+
+
+###### Windows vagrant ssh
+
+If your Windows doesn't contain *ssh*, vagrant will complain about it. In that case, just install *git for Windows* and add the following values to the PATH environment variable to **C:\Program Files\Git\bin;C:\Program Files\Git\usr\bin**
+
+image::images/vagrant-windows-git.png[Logo,float="center",align="center"]
