@@ -792,13 +792,15 @@ Make sure to take notes of your username(email) and password. It will be used as
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>vagrant box add cdkv2</strong> <strong>&lt;BOX_PATH&gt;/rhel-cdk-kubernetes-7.2-25.x86_64.vagrant-virtualbox.box</strong>
-<span class="tok-nv">$ </span><strong>unzip cdk-2.1.0.zip</strong>
-<span class="tok-nv">$ </span><strong>cd cdk/plugins</strong>
-<span class="tok-nv">$ </span><strong>cd cdk/components/rhel/rhel-ose</strong>
-<span class="tok-nv">$ </span><strong>vagrant plugin install vagrant-service-manager vagrant-registration</strong>
-<span class="tok-nv">$ </span><strong>vagrant up</strong>
-<span class="tok-nv">$ </span><strong>vagrant ssh</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-c"># From the Downloads folder</span>
+Downloads<span class="tok-nv">$ </span><strong>vagrant box add cdkv2</strong> <strong>rhel-cdk-kubernetes-7.2-25.x86_64.vagrant-virtualbox.box</strong>
+Downloads<span class="tok-nv">$ </span><strong>unzip cdk-2.1.0.zip</strong>
+Downloads<span class="tok-nv">$ </span><strong>cd cdk/components/rhel/rhel-ose</strong>
+
+rhel-ose<span class="tok-nv">$ </span><strong>vagrant plugin install vagrant-service-manager vagrant-registration</strong>
+rhel-ose<span class="tok-nv">$ </span><strong>vagrant up</strong>
+rhel-ose<span class="tok-nv">$ </span><strong>vagrant ssh</strong>
+
 <span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span>.</code></pre>
 </div>
 </div>

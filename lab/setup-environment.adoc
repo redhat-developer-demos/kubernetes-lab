@@ -81,13 +81,15 @@ Setup CDK:
 
 [source,bash,subs="normal,attributes"]
 ----
-$ *vagrant box add cdkv2* **<BOX_PATH>/rhel-cdk-kubernetes-7.2-25.x86_64.vagrant-virtualbox.box**
-$ *unzip cdk-2.1.0.zip*
-$ *cd cdk/plugins*
-$ *cd cdk/components/rhel/rhel-ose*
-$ *vagrant plugin install vagrant-service-manager vagrant-registration*
-$ *vagrant up*
-$ *vagrant ssh*
+# From the Downloads folder
+Downloads$ *vagrant box add cdkv2* **rhel-cdk-kubernetes-7.2-25.x86_64.vagrant-virtualbox.box**
+Downloads$ *unzip cdk-2.1.0.zip*
+Downloads$ *cd cdk/components/rhel/rhel-ose*
+
+rhel-ose$ *vagrant plugin install vagrant-service-manager vagrant-registration*
+rhel-ose$ *vagrant up*
+rhel-ose$ *vagrant ssh*
+
 [vagrant@rhel-cdk kubernetes]$ .
 ----
 
