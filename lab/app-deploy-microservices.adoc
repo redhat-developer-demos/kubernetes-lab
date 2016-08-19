@@ -77,8 +77,8 @@ Our descriptor file specified 2 replicas. So, if you delete one of the pods (and
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl delete pod helloworld-service-vertx-prnhv*
-pod "helloworld-service-vertx-prnhv" deleted
+[vagrant@rhel-cdk kubernetes]$ *kubectl delete pod helloworld-service-vertx-?????*
+pod "helloworld-service-vertx-????" deleted
 ----
 
 You should see that the pod was deleted, and the ReplicationController will ensure a second instance is started. Sometimes this goes by very fast - and you'll notice that the pod you deleted is no longer there, and another pod, with a different name, was started.
