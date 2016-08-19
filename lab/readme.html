@@ -487,7 +487,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Latest HTML: <a href="http://bit.ly/kubernetes-lab" class="bare">http://bit.ly/kubernetes-lab</a></p>
+<p>Latest HTML: <a href="http://bit.ly/kubernetes-lab" class="bare">http://bit.ly/kubernetes-lab</a><br>
+Docs and Application Source code: <a href="https://github.com/redhat-developer-demos/kubernetes-lab" class="bare">https://github.com/redhat-developer-demos/kubernetes-lab</a></p>
+</div>
+<div class="paragraph">
+<p>If you find any issues, report it in the <a href="https://github.com/redhat-developer-demos/kubernetes-lab/issues">Github repository</a>. You&#8217;re also welcome to send any <a href="https://help.github.com/articles/using-pull-requests/">pull requests</a> and contributions.</p>
 </div>
 <div id="toc" class="toc">
 <div id="toctitle" class="title">Table of Contents</div>
@@ -767,6 +771,7 @@ Make sure to take notes of your username(email) and password. It will be used as
 <div class="content">
 <pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>vagrant box add cdkv2</strong> <strong>&lt;BOX_PATH&gt;/rhel-cdk-kubernetes-7.2-25.x86_64.vagrant-virtualbox.box</strong>
 <span class="tok-nv">$ </span><strong>unzip cdk-2.1.0.zip</strong>
+<span class="tok-nv">$ </span><strong>cd cdk/plugins</strong>
 <span class="tok-nv">$ </span><strong>cd cdk/components/rhel/rhel-ose</strong>
 <span class="tok-nv">$ </span><strong>vagrant plugin install vagrant-service-manager vagrant-registration</strong>
 <span class="tok-nv">$ </span><strong>vagrant up</strong>
@@ -2629,7 +2634,7 @@ I0804 08:03:45.260863       <span class="tok-m">1</span> source.go:197<span clas
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-08-11 14:32:10 EDT
+Last updated 2016-08-18 22:56:05 EDT
 </div>
 </div>
 </body>

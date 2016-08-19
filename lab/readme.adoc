@@ -23,7 +23,10 @@ from Basics to OpenShift
 :source-highlighter: pygments
 :numbered:
 
-Latest HTML: http://bit.ly/kubernetes-lab
+Latest HTML: http://bit.ly/kubernetes-lab +
+Docs and Application Source code: https://github.com/redhat-developer-demos/kubernetes-lab 
+
+If you find any issues, report it in the link:https://github.com/redhat-developer-demos/kubernetes-lab/issues[Github repository]. You're also welcome to send any link:https://help.github.com/articles/using-pull-requests/[pull requests] and contributions.
 
 toc::[]
 
