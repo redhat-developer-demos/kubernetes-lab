@@ -74,5 +74,7 @@ include::extra.adoc[]
 
 include::feedback.adoc[]
 
+include::troubleshooting.adoc[]
+
 include::references.adoc[]
 

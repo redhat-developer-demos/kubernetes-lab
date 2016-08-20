@@ -62,7 +62,7 @@ route "frontend-ui" deleted
     Run 'oc status' to view your app.
 ----
 
-This will trigger the build inside Openshift. You can explore it using the following commands:
+This will trigger the build inside OpenShift. You can explore it using the following commands:
 
 [source, bash, subs="normal,attributes"]
 ----
@@ -111,7 +111,7 @@ This distinct demo allows developers execute some “helloworld” microservices
 
 - Different implementations: link:http://wildfly-swarm.io/[WildFly Swarm], Spring Boot, link:http://vertx.io/[Vert.X] and link:https://nodejs.org/en/[NodeJS].
 - 3 invocation patterns: Browser as a client, link:http://microservices.io/patterns/apigateway.html[API-Gateway], Chained invocation;
-- link:http://microservices.io/patterns/service-registry.html[Service-registry], Self-healing, Load-balancing  and link:http://blog.christianposta.com/deploy/blue-green-deployments-a-b-testing-and-canary-releases/[Blue/Green deployments] – Provided by link:https://www.openshift.com/[Openshift];
+- link:http://microservices.io/patterns/service-registry.html[Service-registry], Self-healing, Load-balancing  and link:http://blog.christianposta.com/deploy/blue-green-deployments-a-b-testing-and-canary-releases/[Blue/Green deployments] – Provided by link:https://www.openshift.com/[OpenShift];
 - JVM Monitoring – Provided by link:https://jolokia.org/[Jolokia];
 - Service Monitoring – Provided by link:https://github.com/Netflix/Hystrix/tree/master/hystrix-dashboard[Hystrix Dashboard] via link:https://github.com/fabric8io/kubeflix[Kubeflix];
 - Service Tracing – Provided by link:http://zipkin.io/[Zipkin] via link:https://github.com/fabric8io/kubernetes-zipkin[Fabric8’s Kubernetes Zipkin];

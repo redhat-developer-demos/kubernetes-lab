@@ -101,9 +101,9 @@ NOTE: The -l specifies the label (It should match to the existing Kubernetes Ser
 
 [TIP]
 ====
-*link:https://docs.openshift.com/enterprise/3.2/dev_guide/deployments.html[DeploymentConfig]* vs Kubernetes *link:http://kubernetes.io/docs/user-guide/deployments/[Deployments]*
+*link:https://docs.openshift.com/enterprise/3.2/dev_guide/deployments.html[DeploymentConfig]* vs  *link:http://kubernetes.io/docs/user-guide/deployments/[Kubernetes Deployments]*
 
-OpenShift is built on top of Kubernetes but adds features to manage applications. Because of that, OpenShift has created to *DeploymentConfig* object that not only keeps the number of replicas in the cluster, but also keeps the same state *status* (image version, environment variables, volumes, etc) for all pods. This feature has been incorporated in Kubernetes with the name *Deployment*. It's part of OpenShift project roadmap to replace the *DeploymentConfig* and use only Kubernetes *Deployments* in a transparent and portable way.
+OpenShift is built on top of Kubernetes but adds features to manage applications. Because of that, OpenShift has created the *DeploymentConfig* object that not only keeps the number of replicas in the cluster, but also keeps the same state *status* (image version, environment variables, volumes, etc) for all pods. This feature has been incorporated in Kubernetes with the name *Deployment*. It's part of OpenShift project roadmap to replace the *DeploymentConfig* and use only Kubernetes *Deployments* in a transparent and portable way.
 ====
 
 

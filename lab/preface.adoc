@@ -29,7 +29,7 @@ Just to mention a few:
 
 To achieve a serious "production environment", your Linux containers should be capable of running on more than one single machine, promoting a horizontal scaling of your application. In this scenario, features like self-healing, autoscaling, load-balancing, service-discovery, and distributed storage volumes completes the professional touch of your environment. It sounds complicated, but fortunately you can get all of these features from a single product.
 
-link:http://kubernetes.io/[Kubernetes] is an open-source project developed by link:https://www.google.com/[Google], with link:https://developers.redhat.com/[Red Hat] at a close second in contributions. Google has over a decade of experience with Linux containers, deploying millions each day. This means that it should not come as a surprise that Kubernetes’ maturity has led it to be used as the engine of link:https://www.openshift.com/[Openshift Enterprise v3]. 
+link:http://kubernetes.io/[Kubernetes] is an open-source project developed by link:https://www.google.com/[Google], with link:https://developers.redhat.com/[Red Hat] at a close second in contributions. Google has over a decade of experience with Linux containers, deploying millions each day. This means that it should not come as a surprise that Kubernetes’ maturity has led it to be used as the engine of link:https://www.openshift.com/[OpenShift Enterprise v3]. 
 
 image::images/k8slogo.png[Logo,float="center",align="center"]
 
