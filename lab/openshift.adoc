@@ -173,7 +173,7 @@ To create a *ReadinessProbe* with _oc_ command, execute:
 deploymentconfig "helloworld-service-vertx" updated
 ----
 
-Note that this configuration change caused a new deployment in this project. This was much easier than the previous time, righ?
+Note that this configuration change caused a new deployment in this project. This was much easier than the previous time, right?
 You can use _oc get dc helloworld-service-vertx -o yaml_ to see the configuration inside the *DeploymentConfig* object.
 
 TIP: You can also use *oc set probe dc helloworld-service-vertx --readiness --remove* to remove the *ReadinessProbe* using *oc* command.
