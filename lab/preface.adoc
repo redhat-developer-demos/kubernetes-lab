@@ -15,9 +15,9 @@
 
 ## Preface
 
-In the last 3 years, Linux containers have become the sensation of the IT industry. The promise of eliminating environment inconsistencies by packaging your software together with all its dependencies (files, libraries, environment variables, runtimes, etc) has driven Linux containers to emerge as a de-facto standard. 
+In the last 3 years, docker and linux containers have become the sensation of the IT industry. The promise of eliminating environment inconsistencies by packaging your software together with all its dependencies (files, libraries, environment variables, runtimes, etc) has driven Linux containers to emerge as a de-facto standard. 
 
-Beyond the build process, once your application is wrapped in a container, you don't need to lose time configuring a new environment. Running another "instance" of your application is easy and consumes less computational resources than typical Virtual Machines.
+Once your application is wrapped in a container, you don't need to lose time configuring a new environment. Running another "instance" of your application is easy and consumes less computational resources than typical Virtual Machines.
 
 Even though containers consume fewer computational resources, a single machine running a dozen containers is not an ideal scenario for a professional "production environment" --- running many containers on a single machine can lead to several issues. 
 
@@ -27,9 +27,9 @@ Just to mention a few:
 - Unlike a "cloud environment" you can't move the workloads to where you want
 - The one machine becomes the SPOF (Single Point of Failure) of your application. 
 
-To achieve a serious "production environment", your Linux containers should be capable of running on more than one single machine, promoting a horizontal scaling of your application. In this scenario, features like self-healing, autoscaling, load-balancing, service-discovery, and distributed storage volumes completes the professional touch of your environment. It sounds complicated, but fortunately you can get all of these features from a single product.
+To achieve a serious "production environment", your Linux containers should be capable of running on more than one single machine, supporting your application's horizontal scaling. In this scenario, features like self-healing, autoscaling, load-balancing, service-discovery, and distributed storage volumes completes the professional touch of your environment. It sounds complicated, but fortunately you can get all of these features from a single technology - Kubernetes.
 
-link:http://kubernetes.io/[Kubernetes] is an open-source project developed by link:https://www.google.com/[Google], with link:https://developers.redhat.com/[Red Hat] at a close second in contributions. Google has over a decade of experience with Linux containers, deploying millions each day. This means that it should not come as a surprise that Kubernetes’ maturity has led it to be used as the engine of link:https://www.openshift.com/[OpenShift Enterprise v3]. 
+link:http://kubernetes.io/[Kubernetes] is an open-source project developed by link:https://www.google.com/[Google], with link:https://developers.redhat.com/[Red Hat] at a close second in contributions. Google has over a decade of experience with Linux containers, deploying millions each day. It should be no surprise that Kubernetes' capabilities and maturity have led to its being used as the engine of link:https://www.openshift.com/[OpenShift Enterprise v3]. 
 
 image::images/k8slogo.png[Logo,float="center",align="center"]
 

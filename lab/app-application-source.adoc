@@ -26,5 +26,5 @@ Start by cloning the github repository for the Guestbook application and move in
 ----
 
 Kubernetes resources can be specified using link:http://yaml.org/[yaml] or link:http://www.json.org/[json] formats. 
-We will be using the yaml files in this directory to decribe and deploy the Kubernetes objects in our development environment.  Without giving much detail on its contents, but you are definitely encouraged to read them and see how pods, services, and others are declared.  We’ll talk a couple of these files in detail.
+We will be using the yaml files in this directory to decribe and deploy the Kubernetes objects in our development environment.  You are definitely encouraged to read them and see how pods, services, and others are declared.  We’ll walk through a couple of these files in detail.
 
