@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-### Acessing the frontend
+### Accessing the frontend
 Duration: 5:00
 
 When we deployed the frontend, we needed to specify that *the service needs to be externally accessible*. In Kubernetes, you can instruct the underlying infrastructure to create an external load balancer, by specifying the Service Type as a _LoadBalancer_.
