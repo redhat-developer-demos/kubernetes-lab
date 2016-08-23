@@ -34,8 +34,8 @@ Then, use _kubectl exec_ to exucute a _"bash"_ process into the container:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ kubectl exec -it helloworld-service-vertx-????? bash
-[jboss@helloworld-service-vertx-????? ~]$ .
+[vagrant@rhel-cdk kubernetes]$ *kubectl exec -it helloworld-service-vertx-????? bash*
+[jboss@helloworld-service-vertx-????? ~]$ _
 ----
 
 You are now in a shell inside of the helloworld-service-vertx container.  You can run _ps_, and _hostname_:

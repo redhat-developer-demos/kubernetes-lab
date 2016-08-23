@@ -91,7 +91,7 @@ rhel-ose$ *vagrant plugin install vagrant-service-manager vagrant-registration*
 rhel-ose$ *vagrant up*
 rhel-ose$ *vagrant ssh*
 #Inside CDK shell
-[vagrant@rhel-cdk ~]$ .
+[vagrant@rhel-cdk ~]$ _
 ----
 
 IMPORTANT: If you use an invalid username/password, you will need to destroy your VM using **vagrant destroy** and start it again.

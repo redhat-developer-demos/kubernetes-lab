@@ -799,7 +799,7 @@ rhel-ose<span class="tok-nv">$ </span><strong>vagrant plugin install vagrant-ser
 rhel-ose<span class="tok-nv">$ </span><strong>vagrant up</strong>
 rhel-ose<span class="tok-nv">$ </span><strong>vagrant ssh</strong>
 <span class="tok-c">#Inside CDK shell</span>
-<span class="tok-o">[</span>vagrant@rhel-cdk ~<span class="tok-o">]</span><span class="tok-nv">$ </span>.</code></pre>
+<span class="tok-o">[</span>vagrant@rhel-cdk ~<span class="tok-o">]</span><span class="tok-nv">$ </span>_</code></pre>
 </div>
 </div>
 <div class="admonitionblock important">
@@ -852,8 +852,7 @@ TIP: If you have any failures, consult the Troubleshooting section. It might con
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>git clone <a href="https://github.com/redhat-developer-demos/kubernetes-lab" class="bare">https://github.com/redhat-developer-demos/kubernetes-lab</a></strong>
-<span class="tok-o">[</span>vagrant@rhel-cdk ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>cd kubernetes-lab/kubernetes</strong>
-<span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span>.</code></pre>
+<span class="tok-o">[</span>vagrant@rhel-cdk ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>cd kubernetes-lab/kubernetes</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1165,8 +1164,8 @@ Note that we used the parameter <em>-l app=helloworld-service-vertx</em>. This p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span>kubectl <span class="tok-nb">exec</span> -it helloworld-service-vertx-????? bash
-<span class="tok-o">[</span>jboss@helloworld-service-vertx-????? ~<span class="tok-o">]</span><span class="tok-nv">$ </span>.</code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl <span class="tok-nb">exec</span> -it helloworld-service-vertx-????? bash</strong>
+<span class="tok-o">[</span>jboss@helloworld-service-vertx-????? ~<span class="tok-o">]</span><span class="tok-nv">$ </span>_</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1991,6 +1990,45 @@ route <span class="tok-s2">&quot;frontend-ui&quot;</span> exposed</code></pre>
 </td>
 <td class="content">
 TIP: You can delete the <strong>Route</strong> with the command: <strong>oc delete route frontend-ui</strong>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><strong>How frontend.10.1.2.2.nip.io resolved to 10.1.2.2?</strong></p>
+</div>
+<div class="paragraph">
+<p><a href="http://www.nip.io/">NIP.IO</a> allows you to map any IP Address in the following DNS wildcard entries:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>10.0.0.1.nip.io maps to 10.0.0.1</p>
+</li>
+<li>
+<p>app.10.0.0.1.nip.io maps to 10.0.0.1</p>
+</li>
+<li>
+<p>customer1.app.10.0.0.1.nip.io maps to 10.0.0.1</p>
+</li>
+<li>
+<p>customer2.app.10.0.0.1.nip.io maps to 10.0.0.1</p>
+</li>
+<li>
+<p>otherapp.10.0.0.1.nip.io maps to 10.0.0.1</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>NIP.IO maps <strong>&lt;anything&gt;.&lt;IP Address&gt;</strong>.nip.io to the corresponding <strong>&lt;IP Address&gt;</strong>, even 127.0.0.1.nip.io maps to 127.0.0.1</p>
+</div>
 </td>
 </tr>
 </table>

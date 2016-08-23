@@ -198,3 +198,18 @@ Now point your browser to http://frontend.10.1.2.2.nip.io/
 Amazing, right?
 
 TIP: TIP: You can delete the *Route* with the command: *oc delete route frontend-ui*
+
+[NOTE]
+====
+*How frontend.10.1.2.2.nip.io resolved to 10.1.2.2?*
+
+link:http://www.nip.io/[NIP.IO] allows you to map any IP Address in the following DNS wildcard entries:
+
+- 10.0.0.1.nip.io maps to 10.0.0.1
+- app.10.0.0.1.nip.io maps to 10.0.0.1
+- customer1.app.10.0.0.1.nip.io maps to 10.0.0.1
+- customer2.app.10.0.0.1.nip.io maps to 10.0.0.1
+- otherapp.10.0.0.1.nip.io maps to 10.0.0.1
+
+NIP.IO maps *<anything>.<IP Address>*.nip.io to the corresponding *<IP Address>*, even 127.0.0.1.nip.io maps to 127.0.0.1
+====
