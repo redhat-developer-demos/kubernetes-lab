@@ -15,6 +15,22 @@
 
 ## Troubleshooting
 
+### Error from server: the server has asked for the client to provide credentials
+
+If any **kubectl** or **oc** command replies with
+
+====
+Error from server: the server has asked for the client to provide credentials
+====
+
+Execute:
+
+[source,bash,subs="normal,attributes"]
+----
+[vagrant@rhel-cdk kubernetes]$ *oc login -u openshift-dev -p devel*
+----
+
+
 ### Windows vagrant plugin install
 
 When your Windows username contains a space, vagrant will give the following message:

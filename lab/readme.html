@@ -563,8 +563,9 @@ Docs and Application Source code: <a href="https://github.com/redhat-developer-d
 <li><a href="#_codelab_feedback">6. Codelab feedback</a></li>
 <li><a href="#_troubleshooting">7. Troubleshooting</a>
 <ul class="sectlevel2">
-<li><a href="#_windows_vagrant_plugin_install">7.1. Windows vagrant plugin install</a></li>
-<li><a href="#_windows_vagrant_ssh">7.2. Windows vagrant ssh</a></li>
+<li><a href="#_error_from_server_the_server_has_asked_for_the_client_to_provide_credentials">7.1. Error from server: the server has asked for the client to provide credentials</a></li>
+<li><a href="#_windows_vagrant_plugin_install">7.2. Windows vagrant plugin install</a></li>
+<li><a href="#_windows_vagrant_ssh">7.3. Windows vagrant ssh</a></li>
 </ul>
 </li>
 <li><a href="#_references">8. References</a></li>
@@ -2887,7 +2888,28 @@ I0804 08:03:45.260863       <span class="tok-m">1</span> source.go:197<span clas
 <h2 id="_troubleshooting">7. Troubleshooting</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_windows_vagrant_plugin_install">7.1. Windows vagrant plugin install</h3>
+<h3 id="_error_from_server_the_server_has_asked_for_the_client_to_provide_credentials">7.1. Error from server: the server has asked for the client to provide credentials</h3>
+<div class="paragraph">
+<p>If any <strong>kubectl</strong> or <strong>oc</strong> command replies with</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>Error from server: the server has asked for the client to provide credentials</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Execute:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>oc login -u openshift-dev -p devel</strong></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_windows_vagrant_plugin_install">7.2. Windows vagrant plugin install</h3>
 <div class="paragraph">
 <p>When your Windows username contains a space, vagrant will give the following message:</p>
 </div>
@@ -2910,7 +2932,7 @@ I0804 08:03:45.260863       <span class="tok-m">1</span> source.go:197<span clas
 </div>
 </div>
 <div class="sect2">
-<h3 id="_windows_vagrant_ssh">7.2. Windows vagrant ssh</h3>
+<h3 id="_windows_vagrant_ssh">7.3. Windows vagrant ssh</h3>
 <div class="paragraph">
 <p>If your Windows doesn&#8217;t contain <strong>ssh</strong>, vagrant will complain about it. In that case, just install <strong>git for Windows</strong> and add the following values to the PATH environment variable to <strong>C:\Program Files\Git\bin;C:\Program Files\Git\usr\bin</strong></p>
 </div>
