@@ -30,7 +30,7 @@ And check it:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ kubectl get services
+[vagrant@rhel-cdk kubernetes]$ *kubectl get services*
 NAME          CLUSTER_IP      EXTERNAL_IP   PORT(S)   SELECTOR          AGE
 frontend-ui   172.30.252.52                 80/TCP    app=frontend-ui   7s
 ----

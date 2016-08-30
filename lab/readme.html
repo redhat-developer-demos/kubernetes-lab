@@ -799,8 +799,8 @@ Downloads<span class="tok-nv">$ </span><strong>cd cdk/components/rhel/rhel-ose</
 rhel-ose<span class="tok-nv">$ </span><strong>vagrant plugin install vagrant-service-manager vagrant-registration</strong>
 rhel-ose<span class="tok-nv">$ </span><strong>vagrant up</strong>
 rhel-ose<span class="tok-nv">$ </span><strong>vagrant ssh</strong>
-<span class="tok-c">#Inside CDK shell</span>
-<span class="tok-o">[</span>vagrant@rhel-cdk ~<span class="tok-o">]</span><span class="tok-nv">$ </span>_</code></pre>
+<span class="tok-c">#Inside CDK shell - Create a Kubernetes context - We will use the OpenShift Client (oc) as as shortcut</span>
+<span class="tok-o">[</span>vagrant@rhel-cdk ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>oc login -u openshift-dev -p devel</strong></code></pre>
 </div>
 </div>
 <div class="admonitionblock important">
@@ -950,7 +950,7 @@ service <span class="tok-s2">&quot;frontend-ui&quot;</span> created</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span>kubectl get services
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get services</strong>
 NAME          CLUSTER_IP      EXTERNAL_IP   PORT<span class="tok-o">(</span>S<span class="tok-o">)</span>   SELECTOR          AGE
 frontend-ui   172.30.252.52                 80/TCP    <span class="tok-nv">app</span><span class="tok-o">=</span>frontend-ui   7s</code></pre>
 </div>

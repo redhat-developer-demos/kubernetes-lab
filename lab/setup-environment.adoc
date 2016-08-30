@@ -90,8 +90,8 @@ Downloads$ *cd cdk/components/rhel/rhel-ose*
 rhel-ose$ *vagrant plugin install vagrant-service-manager vagrant-registration*
 rhel-ose$ *vagrant up*
 rhel-ose$ *vagrant ssh*
-#Inside CDK shell
-[vagrant@rhel-cdk ~]$ _
+#Inside CDK shell - Create a Kubernetes context - We will use the OpenShift Client (oc) as as shortcut
+[vagrant@rhel-cdk ~]$ *oc login -u openshift-dev -p devel*
 ----
 
 IMPORTANT: If you use an invalid username/password, you will need to destroy your VM using **vagrant destroy** and start it again.
