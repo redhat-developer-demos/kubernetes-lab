@@ -83,7 +83,7 @@ Setup CDK:
 [source,bash,subs="normal,attributes"]
 ----
 # From the Downloads folder (or any other folder) 
-Downloads$ *vagrant box add --name cdkv2* **rhel-cdk-kubernetes-7.2-25.x86_64.vagrant-virtualbox.box**
+Downloads$ *vagrant box add --name cdkv2* **<path of .box file>**
 Downloads$ *unzip cdk-2.1.0.zip*
 Downloads$ *cd cdk/components/rhel/rhel-ose*
 # From CDK extracted folder
