@@ -16,7 +16,7 @@
 ## References
 
 - link:http://bit.ly/k8s-lab[Google's Kubernetes lab] by link:https://twitter.com/saturnism[Ray Tsang]
-- link:https://github.com/redhat-developer-demos/docker-java[Docker for Java Developers] by link:https://twitter.com/rhdevelopers[Red Hat Developers]
+- link:https://github.com/redhat-developer-demos/docker-java[docker for Java Developers] by link:https://twitter.com/rhdevelopers[Red Hat Developers]
 - link:https://docs.openshift.com/enterprise/3.2/welcome/index.html[OpenShift] docs
 - link:http://kubernetes.io/docs/[Kubernetes] docs
 - link:http://vertx.io/[Vert.X] - a tool-kit for building reactive applications on the JVM

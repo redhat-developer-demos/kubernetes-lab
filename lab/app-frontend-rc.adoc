@@ -46,9 +46,9 @@ Hit CTRL+C to exit back to the shell prompt at any moment.
 
 NOTE: The _ContainerCreating_ status means that Kubernetes still downloading the image from the registry before creating the containers. 
 
-#### Optional interlude: Look at your pod running in a Docker container on the VM
+#### Optional interlude: Look at your pod running in a docker container on the VM
 
-Kubernetes is container format agnostic. In your lab, we are working with Docker containers. Keep in mind that Kubernetes architecture allows it to work with other container formats too. You can see that the Docker container is running:
+Kubernetes is container format agnostic. In your lab, we are working with containers using the docker format. Keep in mind that Kubernetes architecture allows it to work with other container formats too. You can see that the docker container is running:
 
 
 [source, bash, subs="normal,attributes"]
