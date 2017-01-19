@@ -1,7 +1,7 @@
 #!/bin/bash
 for i in {1..5}; do 
 echo "Creating Google disk $i";
-gcloud compute disks create pd-disk-$i --size 1GB;
+gcloud compute disks create pd-disk-$i --size 1GB --type=pd-ssd;
 cat <<EOF | oc create -f -
 ---
 apiVersion: "v1"
@@ -13,6 +13,7 @@ spec:
     storage: "1Gi"
   accessModes:
     - "ReadWriteOnce"
+  persistentVolumeReclaimPolicy: Recycle
   gcePersistentDisk:
     fsType: "ext4"
     pdName: "pd-disk-$i"
