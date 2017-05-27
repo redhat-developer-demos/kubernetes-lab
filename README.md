@@ -6,7 +6,7 @@ Furthermore, the microservices use: [WildFly Swarm](http://wildfly-swarm.io/) - 
 
    - [Lab Sources](lab/)
    - [Frontend source code](frontend/)
-   - [Helloworld Microservice - implemented using Vert.x](hellworld-service/)
+   - [Helloworld Microservice - implemented using Vert.x](helloworld-service/)
    - [Guestbook Microservice - implemented using WildFly Swarm](guestbook-service/)
    - [Kubernetes files](kubernetes/)
 
