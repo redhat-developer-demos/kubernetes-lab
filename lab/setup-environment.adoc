@@ -25,75 +25,61 @@ This section describes what, how, and where to install the software needed for t
 
 ### Software
 
-#### Vagrant
-
-Vagrant is a tool for building complete development environments. With an easy-to-use workflow and focus on automation, Vagrant lowers development environment setup time, increases development/production parity, and makes the "works on my machine" excuse a relic of the past.
-
-Downloads are available from: link:https://releases.hashicorp.com/vagrant/[]
-
-[WARNING]
-====
-Do NOT use Vagrant 1.8.5 as it contains a bug that link:https://github.com/mitchellh/vagrant/issues/7610#issuecomment-234609660["slipped in"]. So what version should I (the reader) download?  The older versions are under "Archives"
-https://releases.hashicorp.com/vagrant/
-====
-
-#### A virtualization platform (hypervisor) - VirtualBox 5.0.x
-
-Vagrant needs a hypervisor to create a development environment. 
-
-Downloads are available from link:https://www.virtualbox.org/wiki/Download_Old_Builds_5_0[] .
-
-[WARNING]
-====
-You should use VirtualBox 5.0.x
-
-Linux Users:
-
-. Have your kernel updated
-. Users should have the GNU compiler, build and header files for your current Linux kernel
-. Create a `/usr/src/linux` link to the current kernel source
-====
-
 #### CDK
 
 link:http://developers.redhat.com/products/cdk/overview/[Red Hat Container Development Kit] is a pre-built container development environment based on RHEL - Red Hat Enterprise Linux to help you get started developing container-based applications quickly. 
 
-Developers can get the Red Hat Container Development Kit via no-cost Red Hat Enterprise Linux® Developer Suite subscription for development purposes by link:https://developers.redhat.com/download-manager/link/1350474[registering and downloading] through link:developers.redhat.com/[developers.redhat.com]. 
+Developers can get the Red Hat Container Development Kit via no-cost Red Hat Enterprise Linux® Developer Suite subscription for development purposes by link:https://developers.redhat.com/products/cdk/download/[registering and downloading] through link:developers.redhat.com/[developers.redhat.com]. 
 
 IMPORTANT: Make sure to take notes of your username(email) and password. It will be used as the free subscription for RHEL.
 
-Downloads are available from link:http://developers.redhat.com/products/cdk/download/[]
-
-[WARNING]
-====
-. You will need:
-.. link:http://developers.redhat.com/download-manager/file/cdk-2.1.0.zip[cdk-2.1.0.zip]
-.. link:https://developers.redhat.com/download-manager/file/rhel-cdk-kubernetes-7.2-25.x86_64.vagrant-virtualbox.box[RHEL 7.2 for VirtualBox]
-
-====
-
 Setup CDK:
 
-- Install Vagrant and VirtualBox
-- Install Vagrant plugins
-- Add Vagrant box with *vagrant box* command
-- Extract CDK
-- Start the environment with *vagrant up*
+- Download CDK/minishift
+- Rename it to `minishift`
+- Configure the PATH
+- Configure CDK
+- Start the environment with *minishift start*
 
 [source,bash,subs="normal,attributes"]
 ----
-# From the Downloads folder (or any other folder) 
-Downloads$ *vagrant box add --name cdkv2* **<path of .box file>**
-Downloads$ *unzip cdk-2.1.0.zip*
-Downloads$ *cd cdk/components/rhel/rhel-ose*
-# From CDK extracted folder
-rhel-ose$ *vagrant plugin install vagrant-service-manager vagrant-registration*
-rhel-ose$ *vagrant up*
-rhel-ose$ *vagrant ssh*
-#Inside CDK shell - Create a Kubernetes context - We will use the OpenShift Client (oc) as as shortcut
-[vagrant@rhel-cdk ~]$ *oc login -u openshift-dev -p devel*
+# From the Downloads folder (or any other folder)
+$ sudo mv cdk-3.* /usr/local/bin/minishift
+$ sudo chmod +x /usr/local/bin/minishift
+
+# Setup CDK
+$ minishift setup-cdk
+
+# Configure minishift credentials
+$ export MINISHIFT_USERNAME=<Red_Hat_username>
+$ export MINISHIFT_PASSWORD=<Red_Hat_password>
+
+# Start CDK/minishift
+$ minishift start
 ----
 
-IMPORTANT: If you use an invalid username/password, you will need to destroy your VM using **vagrant destroy** and start it again.
+#### kubectl
 
-TIP: TIP: If you have any failures, consult the Troubleshooting section. It might contain the solution that you look for.
+To install kubectl binary, follow the link:https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-binary-via-curl[Install kubectl binary via curl] tutorial
+
+TIP: macOS users can install `kubectl` through homebrew using the following command `brew install kubectl`
+
+### Login in the cluster
+
+This lab uses link:https://www.openshift.org/[OpenShift], which is an Enterprise distribution of Kubernetes. Because of some Enterprise features like security, it's needed to authenticate against this cluster.
+
+To authenticate in the cluster, you need to access to the `oc` binary. You can add the oc binary to you path by running the following command:
+
+[source,bash,subs="normal,attributes"]
+----
+# Add oc binary to the PATH
+$ eval $(minishift oc-env)
+
+# Login in the cluster
+$ oc login OPENSHIFT_IP:8443
+
+# Example:
+$ oc login $(minishift ip):8443
+----
+
+TIP: If you are using minishift, use the credentials *developer/developer*

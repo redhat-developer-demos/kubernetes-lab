@@ -502,11 +502,11 @@ Docs and Application Source code: <a href="https://github.com/redhat-developer-d
 <li><a href="#_hardware">2.1. Hardware</a></li>
 <li><a href="#_software">2.2. Software</a>
 <ul class="sectlevel3">
-<li><a href="#_vagrant">2.2.1. Vagrant</a></li>
-<li><a href="#_a_virtualization_platform_hypervisor_virtualbox_5_0_x">2.2.2. A virtualization platform (hypervisor) - VirtualBox 5.0.x</a></li>
-<li><a href="#_cdk">2.2.3. CDK</a></li>
+<li><a href="#_cdk">2.2.1. CDK</a></li>
+<li><a href="#_kubectl">2.2.2. kubectl</a></li>
 </ul>
 </li>
+<li><a href="#_login_in_the_cluster">2.3. Login in the cluster</a></li>
 </ul>
 </li>
 <li><a href="#_kubernetes_the_basics">3. Kubernetes - The Basics</a>
@@ -654,75 +654,12 @@ Latest content of this lab is always at <a href="https://github.com/redhat-devel
 <div class="sect2">
 <h3 id="_software">2.2. Software</h3>
 <div class="sect3">
-<h4 id="_vagrant">2.2.1. Vagrant</h4>
-<div class="paragraph">
-<p>Vagrant is a tool for building complete development environments. With an easy-to-use workflow and focus on automation, Vagrant lowers development environment setup time, increases development/production parity, and makes the "works on my machine" excuse a relic of the past.</p>
-</div>
-<div class="paragraph">
-<p>Downloads are available from: <a href="https://releases.hashicorp.com/vagrant/" class="bare">https://releases.hashicorp.com/vagrant/</a></p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Do NOT use Vagrant 1.8.5 as it contains a bug that <a href="https://github.com/mitchellh/vagrant/issues/7610#issuecomment-234609660">"slipped in"</a>. So what version should I (the reader) download?  The older versions are under "Archives"
-<a href="https://releases.hashicorp.com/vagrant/" class="bare">https://releases.hashicorp.com/vagrant/</a></p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_a_virtualization_platform_hypervisor_virtualbox_5_0_x">2.2.2. A virtualization platform (hypervisor) - VirtualBox 5.0.x</h4>
-<div class="paragraph">
-<p>Vagrant needs a hypervisor to create a development environment.</p>
-</div>
-<div class="paragraph">
-<p>Downloads are available from <a href="https://www.virtualbox.org/wiki/Download_Old_Builds_5_0" class="bare">https://www.virtualbox.org/wiki/Download_Old_Builds_5_0</a> .</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>You should use VirtualBox 5.0.x</p>
-</div>
-<div class="paragraph">
-<p>Linux Users:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Have your kernel updated</p>
-</li>
-<li>
-<p>Users should have the GNU compiler, build and header files for your current Linux kernel</p>
-</li>
-<li>
-<p>Create a <code>/usr/src/linux</code> link to the current kernel source</p>
-</li>
-</ol>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_cdk">2.2.3. CDK</h4>
+<h4 id="_cdk">2.2.1. CDK</h4>
 <div class="paragraph">
 <p><a href="http://developers.redhat.com/products/cdk/overview/">Red Hat Container Development Kit</a> is a pre-built container development environment based on RHEL - Red Hat Enterprise Linux to help you get started developing container-based applications quickly.</p>
 </div>
 <div class="paragraph">
-<p>Developers can get the Red Hat Container Development Kit via no-cost Red Hat Enterprise Linux® Developer Suite subscription for development purposes by <a href="https://developers.redhat.com/download-manager/link/1350474">registering and downloading</a> through <a href="developers.redhat.com/">developers.redhat.com</a>.</p>
+<p>Developers can get the Red Hat Container Development Kit via no-cost Red Hat Enterprise Linux® Developer Suite subscription for development purposes by <a href="https://developers.redhat.com/products/cdk/download/">registering and downloading</a> through <a href="developers.redhat.com/">developers.redhat.com</a>.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -737,83 +674,49 @@ Make sure to take notes of your username(email) and password. It will be used as
 </table>
 </div>
 <div class="paragraph">
-<p>Downloads are available from <a href="http://developers.redhat.com/products/cdk/download/" class="bare">http://developers.redhat.com/products/cdk/download/</a></p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>You will need:</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p><a href="http://developers.redhat.com/download-manager/file/cdk-2.1.0.zip">cdk-2.1.0.zip</a></p>
-</li>
-<li>
-<p><a href="https://developers.redhat.com/download-manager/file/rhel-cdk-kubernetes-7.2-25.x86_64.vagrant-virtualbox.box">RHEL 7.2 for VirtualBox</a></p>
-</li>
-</ol>
-</div>
-</li>
-</ol>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
 <p>Setup CDK:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Install Vagrant and VirtualBox</p>
+<p>Download CDK/minishift</p>
 </li>
 <li>
-<p>Install Vagrant plugins</p>
+<p>Rename it to <code>minishift</code></p>
 </li>
 <li>
-<p>Add Vagrant box with <strong>vagrant box</strong> command</p>
+<p>Configure the PATH</p>
 </li>
 <li>
-<p>Extract CDK</p>
+<p>Configure CDK</p>
 </li>
 <li>
-<p>Start the environment with <strong>vagrant up</strong></p>
+<p>Start the environment with <strong>minishift start</strong></p>
 </li>
 </ul>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="bash"><span class="tok-c"># From the Downloads folder (or any other folder)</span>
-Downloads<span class="tok-nv">$ </span><strong>vagrant box add --name cdkv2</strong> <strong>&lt;path of .box file&gt;</strong>
-Downloads<span class="tok-nv">$ </span><strong>unzip cdk-2.1.0.zip</strong>
-Downloads<span class="tok-nv">$ </span><strong>cd cdk/components/rhel/rhel-ose</strong>
-<span class="tok-c"># From CDK extracted folder</span>
-rhel-ose<span class="tok-nv">$ </span><strong>vagrant plugin install vagrant-service-manager vagrant-registration</strong>
-rhel-ose<span class="tok-nv">$ </span><strong>vagrant up</strong>
-rhel-ose<span class="tok-nv">$ </span><strong>vagrant ssh</strong>
-<span class="tok-c">#Inside CDK shell - Create a Kubernetes context - We will use the OpenShift Client (oc) as as shortcut</span>
-<span class="tok-o">[</span>vagrant@rhel-cdk ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>oc login -u openshift-dev -p devel</strong></code></pre>
+<span class="tok-nv">$ </span>sudo mv cdk-3.* /usr/local/bin/minishift
+<span class="tok-nv">$ </span>sudo chmod +x /usr/local/bin/minishift
+
+<span class="tok-c"># Setup CDK</span>
+<span class="tok-nv">$ </span>minishift setup-cdk
+
+<span class="tok-c"># Configure minishift credentials</span>
+<span class="tok-nv">$ </span><span class="tok-nb">export </span><span class="tok-nv">MINISHIFT_USERNAME</span><span class="tok-o">=</span>&lt;Red_Hat_username&gt;
+<span class="tok-nv">$ </span><span class="tok-nb">export </span><span class="tok-nv">MINISHIFT_PASSWORD</span><span class="tok-o">=</span>&lt;Red_Hat_password&gt;
+
+<span class="tok-c"># Start CDK/minishift</span>
+<span class="tok-nv">$ </span>minishift start</code></pre>
 </div>
 </div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-If you use an invalid username/password, you will need to destroy your VM using <strong>vagrant destroy</strong> and start it again.
-</td>
-</tr>
-</table>
+</div>
+<div class="sect3">
+<h4 id="_kubectl">2.2.2. kubectl</h4>
+<div class="paragraph">
+<p>To install kubectl binary, follow the <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-binary-via-curl">Install kubectl binary via curl</a> tutorial</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -822,11 +725,44 @@ If you use an invalid username/password, you will need to destroy your VM using 
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-TIP: If you have any failures, consult the Troubleshooting section. It might contain the solution that you look for.
+macOS users can install <code>kubectl</code> through homebrew using the following command <code>brew install kubectl</code>
 </td>
 </tr>
 </table>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_login_in_the_cluster">2.3. Login in the cluster</h3>
+<div class="paragraph">
+<p>This lab uses <a href="https://www.openshift.org/">OpenShift</a>, which is an Enterprise distribution of Kubernetes. Because of some Enterprise features like security, it&#8217;s needed to authenticate against this cluster.</p>
+</div>
+<div class="paragraph">
+<p>To authenticate in the cluster, you need to access to the <code>oc</code> binary. You can add the oc binary to you path by running the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-c"># Add oc binary to the PATH</span>
+<span class="tok-nv">$ </span><span class="tok-nb">eval</span> <span class="tok-k">$(</span>minishift oc-env<span class="tok-k">)</span>
+
+<span class="tok-c"># Login in the cluster</span>
+<span class="tok-nv">$ </span>oc login OPENSHIFT_IP:8443
+
+<span class="tok-c"># Example:</span>
+<span class="tok-nv">$ </span>oc login <span class="tok-k">$(</span>minishift ip<span class="tok-k">)</span>:8443</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+If you are using minishift, use the credentials <strong>developer/developer</strong>
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -2980,7 +2916,7 @@ I0804 08:03:45.260863       <span class="tok-m">1</span> source.go:197<span clas
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-08-20 00:14:35 CEST
+Last updated 2016-08-19 19:14:35 -03
 </div>
 </div>
 </body>
