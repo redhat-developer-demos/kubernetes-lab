@@ -1124,8 +1124,8 @@ Note that we used the parameter <em>-l app=helloworld-service-vertx</em>. This p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl <span class="tok-nb">exec</span> -it helloworld-service-vertx-????? bash</strong>
-<span class="tok-o">[</span>jboss@helloworld-service-vertx-????? ~<span class="tok-o">]</span><span class="tok-nv">$ </span>_</code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl <span class="tok-nb">exec</span> -it helloworld-service-vertx-????? bash</strong>
+bash-4.2<span class="tok-nv">$ </span>_</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1133,37 +1133,39 @@ Note that we used the parameter <em>-l app=helloworld-service-vertx</em>. This p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>jboss@helloworld-service-vertx-edux9 ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>ps aux</strong>
+<pre class="pygments highlight"><code data-lang="bash">bash-4.2<span class="tok-nv">$ </span><strong>ps aux</strong>
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-jboss        <span class="tok-m">1</span>  0.2  1.7 <span class="tok-m">2691876</span> <span class="tok-m">51696</span> ?       Ssl  20:24   0:02 java -Xmx256m -
-jboss       <span class="tok-m">22</span>  0.1  0.0  <span class="tok-m">11772</span>  <span class="tok-m">1832</span> ?        Ss   20:40   0:00 bash
-jboss       <span class="tok-m">38</span>  0.0  0.0  <span class="tok-m">47424</span>  <span class="tok-m">1656</span> ?        R+   20:41   0:00 ps aux
+1000040+     <span class="tok-m">1</span>  0.1  0.7 <span class="tok-m">2693920</span> <span class="tok-m">63540</span> ?       Ssl  15:53   0:15 java -Dvertx.di
+1000040+    <span class="tok-m">21</span>  0.0  0.0  <span class="tok-m">13816</span>  <span class="tok-m">1676</span> ?        Ss   18:21   0:00 bash
+1000040+    <span class="tok-m">26</span>  0.0  0.0  <span class="tok-m">49468</span>  <span class="tok-m">1664</span> ?        R+   18:21   0:00 ps aux
 
-<span class="tok-o">[</span>jboss@helloworld-service-vertx-edux9 ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>hostname  -i</strong>
+bash-4.2<span class="tok-nv">$ </span><strong>hostname -i</strong>
 172.17.0.7
 
-<span class="tok-o">[</span>jboss@helloworld-service-vertx-edux9 ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>exit</strong>
+bash-4.2<span class="tok-nv">$ </span><strong>exit</strong>
 <span class="tok-nb">exit</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Don’t forget to exit :).</p>
 </div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You can begin to have a taste of some of the OpenShift enhancements now.
+OpenShift Client (oc) allows you to easily access the shell through the command <code>oc rsh helloworld-service-vertx-?????</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Try it with another the other pod and see its IP address.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl <span class="tok-nb">exec</span> -it helloworld-service-vertx-????? bash</strong>
-
-<span class="tok-o">[</span>jboss@helloworld-service-vertx-????? ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>hostname</strong>
-helloworld-service-vertx-?????
-
-<span class="tok-o">[</span>jboss@helloworld-service-vertx-????? ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>hostname -i</strong>
-172.17.0.8
-
-<span class="tok-o">[</span>jboss@helloworld-service-vertx-????? ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>exit</strong></code></pre>
-</div>
 </div>
 <div class="paragraph">
 <p>Since we are running two instances of the Hello World Service (one instance in one pod), and that the IP addresses are not only unique, but also ephemeral - how will a client reach our services? We need a way to discover the service.</p>
@@ -1186,7 +1188,7 @@ helloworld-service-vertx-?????
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl <span class="tok-nb">exec</span> -it frontend-ui-????? bash</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl <span class="tok-nb">exec</span> -it frontend-ui-????? bash</strong>
 
 bash-4.2<span class="tok-nv">$<strong></span> wget -qO- <a href="http://helloworld-service-vertx:8080/api/hello/Rafael" class="bare">http://helloworld-service-vertx:8080/api/hello/Rafael</a></strong>
 Hello Rafael from helloworld-service-vertx-a4zq3 with 1.0
@@ -1270,22 +1272,21 @@ bash-4.2<span class="tok-nv">$ </span><strong>exit</strong>
 <div class="listingblock">
 <div class="content">
 <pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl describe service frontend-ui</strong>
-Name:                       frontend-ui
-Namespace:                  sample-project
-Labels:                     <span class="tok-nv">app</span><span class="tok-o">=</span>frontend-ui,lab<span class="tok-o">=</span>kubernetes-lab
-Selector:                   <span class="tok-nv">app</span><span class="tok-o">=</span>frontend-ui
-Type:                       LoadBalancer
-IP:                         172.30.204.85
-<strong>LoadBalancer Ingress:       X.X.X.X</strong>
-Port:                       &lt;<span class="tok-nb">unset</span>&gt; 80/TCP
-<strong>NodePort:                   &lt;<span class="tok-nb">unset</span>&gt; 3????/TCP</strong>
-Endpoints:                  172.17.0.2:8080,172.17.0.4:8080
-Session Affinity:           None
-Events:
-  FirstSeen LastSeen  Count  From                   Type       Reason                  Message
-  --------- --------  -----  ----                   --------   ------                  -------
-  9m         9m        <span class="tok-m">1</span>     <span class="tok-o">{</span>service-controller <span class="tok-o">}</span>   Normal    CreatingLoadBalancer    Creating load balancer
-  8m         8m        <span class="tok-m">1</span>     <span class="tok-o">{</span>service-controller <span class="tok-o">}</span>   Normal    CreatedLoadBalancer     Created load balancer</code></pre>
+Name:                     frontend-ui
+Namespace:                myproject
+Labels:                   <span class="tok-nv">app</span><span class="tok-o">=</span>frontend-ui
+                          <span class="tok-nv">lab</span><span class="tok-o">=</span>kubernetes-lab
+Annotations:              &lt;none&gt;
+Selector:                 <span class="tok-nv">app</span><span class="tok-o">=</span>frontend-ui
+Type:                     LoadBalancer
+IP:                       172.30.40.241
+External IPs:             172.29.133.81
+<strong>LoadBalancer Ingress:     172.29.133.81</strong>
+Port:                     http-80	80/TCP
+*NodePort:                 http-80	3????/TCP<span class="tok-p">&amp;</span>
+Endpoints:                172.17.0.3:8080,172.17.0.4:8080
+Session Affinity:         None
+Events:                   &lt;none&gt;</code></pre>
 </div>
 </div>
 <div class="admonitionblock important">
@@ -1301,10 +1302,10 @@ Since CDK doesn&#8217;t support the creation of external LoadBalancers, you can 
 </table>
 </div>
 <div class="paragraph">
-<p>First, execute <strong>kubectl describe services frontend-ui</strong> and find out which port (between: 30000-32767) Kubernetes assigned in the CDK node. Once that you have the NodePort, you can access the guestbook via the IP address and port number by navigating the browser to <a href="http://10.1.2.2:&lt;NODEPORT&gt;/" class="bare">http://10.1.2.2:&lt;NODEPORT&gt;/</a>.</p>
+<p>First, execute <strong>kubectl describe services frontend-ui</strong> and find out which port (between: 30000-32767) Kubernetes assigned in the CDK node. Once that you have the NodePort, you can access the guestbook via the IP address and port number by navigating the browser to <a href="http://1.2.3.4:&lt;NODEPORT&gt;/" class="bare">http://1.2.3.4:&lt;NODEPORT&gt;/</a>.</p>
 </div>
 <div class="paragraph">
-<p>Example: <a href="http://10.1.2.2:31079/" class="bare">http://10.1.2.2:31079/</a></p>
+<p>Example: <a href="http://192.168.64.11:31079/" class="bare">http://192.168.64.11:31079/</a></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1313,7 +1314,7 @@ Since CDK doesn&#8217;t support the creation of external LoadBalancers, you can 
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The NodePort (31079) is a random value. You should use the value described in NodePort via <em>kubectl describe service frontend-service</em>. The IP of CDK is always 10.1.2.2
+The NodePort (31079) is a random value. You should use the value described in NodePort via <em>kubectl describe service frontend-service</em>. The IP is the external ip of the Kubernetes Cluster
 </td>
 </tr>
 </table>
@@ -1333,11 +1334,11 @@ The NodePort (31079) is a random value. You should use the value described in No
 <p>Duration: 5:00</p>
 </div>
 <div class="paragraph">
-<p>We have seem that <strong>ReplicationControllers</strong> keep the same ammount of replicas running. Let&#8217;s check the number of pods again. Execute:</p>
+<p>We have seem that <strong>Deployments</strong> keep the same ammount of replicas running. Let&#8217;s check the number of pods again. Execute:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get pods</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl get pods</strong>
 NAME                             READY     STATUS    RESTARTS   AGE
 frontend-ui-6jy22                1/1       Running   <span class="tok-m">0</span>          24m
 frontend-ui-7tcgx                1/1       Running   <span class="tok-m">0</span>          24m
@@ -1352,8 +1353,8 @@ mysql-q9k7p                      1/1       Running   <span class="tok-m">0</span
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl scale rc helloworld-service-vertx --replicas<span class="tok-o">=</span>6</strong>
-replicationcontroller <span class="tok-s2">&quot;helloworld-service-vertx&quot;</span> scaled</code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl scale deployment helloworld-service-vertx --replicas<span class="tok-o">=</span>6</strong>
+deployment <span class="tok-s2">&quot;helloworld-service-vertx&quot;</span> scaled</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1361,25 +1362,25 @@ replicationcontroller <span class="tok-s2">&quot;helloworld-service-vertx&quot;<
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get rc</strong>
-CONTROLLER                 CONTAINER<span class="tok-o">(</span>S<span class="tok-o">)</span>               IMAGE<span class="tok-o">(</span>S<span class="tok-o">)</span>                                      SELECTOR                                          REPLICAS   AGE
-frontend-ui                frontend-ui                rafabene/microservices-frontend:1.0           <span class="tok-nv">app</span><span class="tok-o">=</span>frontend-ui                                   <span class="tok-m">2</span>          8m
-guestbook-service          guestbook-service          rafabene/microservices-guestbook:1.0          <span class="tok-nv">app</span><span class="tok-o">=</span>guestbook-service,lab<span class="tok-o">=</span>kubernetes-lab          <span class="tok-m">1</span>          2m
-helloworld-service-vertx   helloworld-service-vertx   rafabene/microservices-helloworld-vertx:1.0   <span class="tok-nv">app</span><span class="tok-o">=</span>helloworld-service-vertx,lab<span class="tok-o">=</span>kubernetes-lab   <span class="tok-m">6</span>          3m
-mysql                      mysql                      openshift/mysql-56-centos7                    <span class="tok-nv">app</span><span class="tok-o">=</span>mysql,lab<span class="tok-o">=</span>kubernetes-lab                      <span class="tok-m">1</span>          4m
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl get deployments</strong>
+NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+frontend-ui                <span class="tok-m">2</span>         <span class="tok-m">2</span>         <span class="tok-m">2</span>            <span class="tok-m">2</span>           3h
+guestbook-service          <span class="tok-m">1</span>         <span class="tok-m">1</span>         <span class="tok-m">1</span>            <span class="tok-m">1</span>           2h
+helloworld-service-vertx   <span class="tok-m">6</span>         <span class="tok-m">6</span>         <span class="tok-m">6</span>            <span class="tok-m">6</span>           2h
+mysql                      <span class="tok-m">1</span>         <span class="tok-m">1</span>         <span class="tok-m">1</span>            <span class="tok-m">1</span>           2h
 
-<span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get pods</strong>
-NAME                             READY     STATUS              RESTARTS   AGE
-frontend-ui-6jy22                1/1       Running             <span class="tok-m">0</span>          26m
-frontend-ui-7tcgx                1/1       Running             <span class="tok-m">0</span>          26m
-guestbook-service-gxjnx          1/1       Running             <span class="tok-m">0</span>          22m
-helloworld-service-vertx-1rdd4   0/1       ContainerCreating   <span class="tok-m">0</span>          2s
-helloworld-service-vertx-cbevk   0/1       ContainerCreating   <span class="tok-m">0</span>          2s
-helloworld-service-vertx-edux9   1/1       Running             <span class="tok-m">0</span>          22m
-helloworld-service-vertx-lq1m0   1/1       Running             <span class="tok-m">0</span>          23m
-helloworld-service-vertx-lt0k9   0/1       ContainerCreating   <span class="tok-m">0</span>          2s
-helloworld-service-vertx-t8z4i   0/1       ContainerCreating   <span class="tok-m">0</span>          2s
-mysql-q9k7p                      1/1       Running             <span class="tok-m">0</span>          23m</code></pre>
+<span class="tok-nv">$ </span><strong>kubectl get pods</strong>
+NAME                                        READY     STATUS    RESTARTS   AGE
+frontend-ui-2676544744-3k1p6                1/1       Running   <span class="tok-m">0</span>          3h
+frontend-ui-2676544744-b88hg                1/1       Running   <span class="tok-m">0</span>          3h
+guestbook-service-114023015-8x9j8           1/1       Running   <span class="tok-m">0</span>          2h
+helloworld-service-vertx-3644252884-73cxk   1/1       Running   <span class="tok-m">0</span>          48s
+helloworld-service-vertx-3644252884-t364t   1/1       Running   <span class="tok-m">0</span>          2h
+helloworld-service-vertx-3644252884-v5t67   1/1       Running   <span class="tok-m">0</span>          48s
+helloworld-service-vertx-3644252884-wct43   1/1       Running   <span class="tok-m">0</span>          48s
+helloworld-service-vertx-3644252884-x7ggl   1/1       Running   <span class="tok-m">0</span>          48s
+helloworld-service-vertx-3644252884-xxvzh   1/1       Running   <span class="tok-m">0</span>          2h
+mysql-471477625-rnjt1                       1/1       Running   <span class="tok-m">0</span>          2h</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1387,7 +1388,8 @@ mysql-q9k7p                      1/1       Running             <span class="tok-
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl scale rc helloworld-service-vertx --replicas<span class="tok-o">=</span>2</strong></code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl scale deployment helloworld-service-vertx --replicas<span class="tok-o">=</span>2</strong>
+deployment <span class="tok-s2">&quot;helloworld-service-vertx&quot;</span> scaled</code></pre>
 </div>
 </div>
 </div>
@@ -1406,11 +1408,11 @@ mysql-q9k7p                      1/1       Running             <span class="tok-
 <p>When a pod is Healthy doesn&#8217;t mean it&#8217;s ready to serve. You may want to warm up requests/cache, and/or transfer state from other instances. You can further mark when the pod is Ready to serve by using a Readiness Probe.</p>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s add a Liveness Probe to our Helloworld Service by editing the ReplicationController:</p>
+<p>Let&#8217;s add a Liveness Probe to our Helloworld Service by editing the Deployment:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl edit rc helloworld-service-vertx</strong></code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl edit deployment helloworld-service-vertx</strong></code></pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -1435,8 +1437,8 @@ mysql-q9k7p                      1/1       Running             <span class="tok-
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="yaml"><span class="tok-l-Scalar-Plain">apiVersion</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">v1</span>
-<span class="tok-l-Scalar-Plain">kind</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">ReplicationController</span>
+<pre class="pygments highlight"><code data-lang="yaml"><span class="tok-l-Scalar-Plain">apiVersion</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">extensions/v1beta1</span>
+<span class="tok-l-Scalar-Plain">kind</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">Deployment</span>
 <span class="tok-nn">&#8230;&#8203;</span>
 <span class="tok-l-Scalar-Plain">spec</span><span class="tok-p-Indicator">:</span>
 <span class="tok-nn">&#8230;&#8203;</span>
@@ -1472,7 +1474,7 @@ You can configure both Liveness Probe and Readiness Probe by checking via a HTTP
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl edit rc helloworld-service-vertx</strong></code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl edit deployment helloworld-service-vertx</strong></code></pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -1497,8 +1499,8 @@ You can configure both Liveness Probe and Readiness Probe by checking via a HTTP
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="yaml"><span class="tok-l-Scalar-Plain">apiVersion</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">v1</span>
-<span class="tok-l-Scalar-Plain">kind</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">ReplicationController</span>
+<pre class="pygments highlight"><code data-lang="yaml"><span class="tok-l-Scalar-Plain">apiVersion</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">extensions/v1beta1</span>
+<span class="tok-l-Scalar-Plain">kind</span><span class="tok-p-Indicator">:</span> <span class="tok-l-Scalar-Plain">Deployment</span>
 <span class="tok-nn">&#8230;&#8203;</span>
 <span class="tok-l-Scalar-Plain">spec</span><span class="tok-p-Indicator">:</span>
 <span class="tok-nn">&#8230;&#8203;</span>
@@ -1525,18 +1527,6 @@ You can configure both Liveness Probe and Readiness Probe by checking via a HTTP
 </td>
 <td class="content">
 In a production scenario, the Liveness Probe and the Readiness Probe will probably be different REST endpoints or scripts.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-Since we modified the template of the <strong>ReplicationController</strong>, only the new created Pods will have a health check associated to them.
 </td>
 </tr>
 </table>

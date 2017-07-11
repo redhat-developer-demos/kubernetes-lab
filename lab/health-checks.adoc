@@ -22,11 +22,11 @@ After a container starts, it is not marked as Healthy until the Liveness Probe s
 
 When a pod is Healthy doesn't mean it's ready to serve. You may want to warm up requests/cache, and/or transfer state from other instances. You can further mark when the pod is Ready to serve by using a Readiness Probe.
 
-Let's add a Liveness Probe to our Helloworld Service by editing the ReplicationController:
+Let's add a Liveness Probe to our Helloworld Service by editing the Deployment:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl edit rc helloworld-service-vertx*
+$ *kubectl edit deployment helloworld-service-vertx*
 ----
 include::includes/tip.adoc[]
 
@@ -34,8 +34,8 @@ In the editor, add a Liveness Probe:
 
 [source, yaml, subs="normal,attributes"]
 ----
-apiVersion: v1
-kind: ReplicationController
+apiVersion: extensions/v1beta1
+kind: Deployment
 ...
 spec:
 ...
@@ -60,7 +60,7 @@ You can add a Readiness Probe in the similar way:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl edit rc helloworld-service-vertx*
+[vagrant@rhel-cdk kubernetes]$ *kubectl edit deployment helloworld-service-vertx*
 ----
 include::includes/tip.adoc[]
 
@@ -68,8 +68,8 @@ In the editor, add a Readiness Probe:
 
 [source, yaml, subs="normal,attributes"]
 ----
-apiVersion: v1
-kind: ReplicationController
+apiVersion: extensions/v1beta1
+kind: Deployment
 ...
 spec:
 ...
@@ -89,5 +89,3 @@ spec:
 ----
 
 NOTE: In a production scenario, the Liveness Probe and the Readiness Probe will probably be different REST endpoints or scripts.
-
-IMPORTANT: Since we modified the template of the *ReplicationController*, only the new created Pods will have a health check associated to them.

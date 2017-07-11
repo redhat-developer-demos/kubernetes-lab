@@ -16,11 +16,11 @@
 ### Scaling
 Duration: 5:00
 
-We have seem that *ReplicationControllers* keep the same ammount of replicas running. Let's check the number of pods again. Execute:
+We have seem that *Deployments* keep the same ammount of replicas running. Let's check the number of pods again. Execute:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl get pods*
+$ *kubectl get pods*
 NAME                             READY     STATUS    RESTARTS   AGE
 frontend-ui-6jy22                1/1       Running   0          24m
 frontend-ui-7tcgx                1/1       Running   0          24m
@@ -34,38 +34,39 @@ Scaling the number of replicas of our Hello World service is as simple as runnin
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl scale rc helloworld-service-vertx --replicas=6*
-replicationcontroller "helloworld-service-vertx" scaled
+[vagrant@rhel-cdk kubernetes]$ *kubectl scale deployment helloworld-service-vertx --replicas=6*
+deployment "helloworld-service-vertx" scaled
 ----
 
 You can very quickly see that the replication controller has been updated:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl get rc*
-CONTROLLER                 CONTAINER(S)               IMAGE(S)                                      SELECTOR                                          REPLICAS   AGE
-frontend-ui                frontend-ui                rafabene/microservices-frontend:1.0           app=frontend-ui                                   2          8m
-guestbook-service          guestbook-service          rafabene/microservices-guestbook:1.0          app=guestbook-service,lab=kubernetes-lab          1          2m
-helloworld-service-vertx   helloworld-service-vertx   rafabene/microservices-helloworld-vertx:1.0   app=helloworld-service-vertx,lab=kubernetes-lab   6          3m
-mysql                      mysql                      openshift/mysql-56-centos7                    app=mysql,lab=kubernetes-lab                      1          4m
+$ *kubectl get deployments*
+NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+frontend-ui                2         2         2            2           3h
+guestbook-service          1         1         1            1           2h
+helloworld-service-vertx   6         6         6            6           2h
+mysql                      1         1         1            1           2h
 
-[vagrant@rhel-cdk kubernetes]$ *kubectl get pods*
-NAME                             READY     STATUS              RESTARTS   AGE
-frontend-ui-6jy22                1/1       Running             0          26m
-frontend-ui-7tcgx                1/1       Running             0          26m
-guestbook-service-gxjnx          1/1       Running             0          22m
-helloworld-service-vertx-1rdd4   0/1       ContainerCreating   0          2s
-helloworld-service-vertx-cbevk   0/1       ContainerCreating   0          2s
-helloworld-service-vertx-edux9   1/1       Running             0          22m
-helloworld-service-vertx-lq1m0   1/1       Running             0          23m
-helloworld-service-vertx-lt0k9   0/1       ContainerCreating   0          2s
-helloworld-service-vertx-t8z4i   0/1       ContainerCreating   0          2s
-mysql-q9k7p                      1/1       Running             0          23m
+$ *kubectl get pods*
+NAME                                        READY     STATUS    RESTARTS   AGE
+frontend-ui-2676544744-3k1p6                1/1       Running   0          3h
+frontend-ui-2676544744-b88hg                1/1       Running   0          3h
+guestbook-service-114023015-8x9j8           1/1       Running   0          2h
+helloworld-service-vertx-3644252884-73cxk   1/1       Running   0          48s
+helloworld-service-vertx-3644252884-t364t   1/1       Running   0          2h
+helloworld-service-vertx-3644252884-v5t67   1/1       Running   0          48s
+helloworld-service-vertx-3644252884-wct43   1/1       Running   0          48s
+helloworld-service-vertx-3644252884-x7ggl   1/1       Running   0          48s
+helloworld-service-vertx-3644252884-xxvzh   1/1       Running   0          2h
+mysql-471477625-rnjt1                       1/1       Running   0          2h
 ----
 
 Reduce the number of replicas back to 2 so that we can free up resources for the later labs:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl scale rc helloworld-service-vertx --replicas=2*
+$ *kubectl scale deployment helloworld-service-vertx --replicas=2*
+deployment "helloworld-service-vertx" scaled
 ----

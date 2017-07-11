@@ -34,43 +34,36 @@ Then, use _kubectl exec_ to exucute a _"bash"_ process into the container:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl exec -it helloworld-service-vertx-????? bash*
-[jboss@helloworld-service-vertx-????? ~]$ _
+$ *kubectl exec -it helloworld-service-vertx-????? bash*
+bash-4.2$ _
 ----
 
 You are now in a shell inside of the helloworld-service-vertx container.  You can run _ps_, and _hostname_:
 
 [source, bash, subs="normal,attributes"]
 ----
-[jboss@helloworld-service-vertx-edux9 ~]$ *ps aux*
+bash-4.2$ *ps aux*
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-jboss        1  0.2  1.7 2691876 51696 ?       Ssl  20:24   0:02 java -Xmx256m -
-jboss       22  0.1  0.0  11772  1832 ?        Ss   20:40   0:00 bash
-jboss       38  0.0  0.0  47424  1656 ?        R+   20:41   0:00 ps aux
+1000040+     1  0.1  0.7 2693920 63540 ?       Ssl  15:53   0:15 java -Dvertx.di
+1000040+    21  0.0  0.0  13816  1676 ?        Ss   18:21   0:00 bash
+1000040+    26  0.0  0.0  49468  1664 ?        R+   18:21   0:00 ps aux
 
-[jboss@helloworld-service-vertx-edux9 ~]$ *hostname  -i*
+bash-4.2$ *hostname -i*
 172.17.0.7
 
-[jboss@helloworld-service-vertx-edux9 ~]$ *exit*
+bash-4.2$ *exit*
 exit
 ----
 
 Don’t forget to exit :).  
 
+[TIP]
+====
+You can begin to have a taste of some of the OpenShift enhancements now.
+OpenShift Client (oc) allows you to easily access the shell through the command `oc rsh helloworld-service-vertx-?????`
+====
+
 Try it with another the other pod and see its IP address.
-
-[source, bash, subs="normal,attributes"]
-----
-[vagrant@rhel-cdk kubernetes]$ *kubectl exec -it helloworld-service-vertx-????? bash*
-
-[jboss@helloworld-service-vertx-????? ~]$ *hostname*
-helloworld-service-vertx-?????
-
-[jboss@helloworld-service-vertx-????? ~]$ *hostname -i*
-172.17.0.8
-
-[jboss@helloworld-service-vertx-????? ~]$ *exit*
-----
 
 Since we are running two instances of the Hello World Service (one instance in one pod), and that the IP addresses are not only unique, but also ephemeral - how will a client reach our services? We need a way to discover the service.
 
@@ -83,7 +76,7 @@ If you login into a container (find and use the frontend-ui container), you can 
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl exec -it frontend-ui-????? bash*
+$ *kubectl exec -it frontend-ui-????? bash*
 
 bash-4.2$* wget -qO- http://helloworld-service-vertx:8080/api/hello/Rafael*
 Hello Rafael from helloworld-service-vertx-a4zq3 with 1.0
