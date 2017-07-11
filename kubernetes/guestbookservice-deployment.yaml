@@ -13,24 +13,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-kind: ReplicationController
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
-  name: helloworld-service-vertx
+  name: guestbook-service
   labels:
-    app: helloworld-service-vertx
+    app: guestbook-service
     lab: kubernetes-lab
 spec:
-  replicas: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: guestbook-service
   template:
     metadata:
       labels:
-        app: helloworld-service-vertx
+        app: guestbook-service
         lab: kubernetes-lab
     spec:
       containers:
-      - name: helloworld-service-vertx
-        image: rafabene/microservices-helloworld-vertx:1.0
+      - name: guestbook-service
+        image: rafabene/microservices-guestbook:1.0
         ports:
         - name: http
           containerPort: 8080

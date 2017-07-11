@@ -13,26 +13,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-kind: ReplicationController
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
-  name: frontend-ui
+  name: helloworld-service-vertx
   labels:
-    app: frontend-ui
+    app: helloworld-service-vertx
     lab: kubernetes-lab
 spec:
   replicas: 2
   selector:
-    app: frontend-ui
+    matchLabels:
+      app: helloworld-service-vertx
   template:
     metadata:
       labels:
-        app: frontend-ui
+        app: helloworld-service-vertx
         lab: kubernetes-lab
     spec:
       containers:
-      - name: frontend-ui
-        image: rafabene/microservices-frontend:1.0
+      - name: helloworld-service-vertx
+        image: rafabene/microservices-helloworld-vertx:1.0
         ports:
         - name: http
           containerPort: 8080

@@ -502,8 +502,9 @@ Docs and Application Source code: <a href="https://github.com/redhat-developer-d
 <li><a href="#_hardware">2.1. Hardware</a></li>
 <li><a href="#_software">2.2. Software</a>
 <ul class="sectlevel3">
-<li><a href="#_cdk">2.2.1. CDK</a></li>
-<li><a href="#_kubectl">2.2.2. kubectl</a></li>
+<li><a href="#_development_tools">2.2.1. Development tools</a></li>
+<li><a href="#_cdk">2.2.2. CDK</a></li>
+<li><a href="#_kubectl">2.2.3. kubectl</a></li>
 </ul>
 </li>
 <li><a href="#_login_in_the_cluster">2.3. Login in the cluster</a></li>
@@ -654,7 +655,23 @@ Latest content of this lab is always at <a href="https://github.com/redhat-devel
 <div class="sect2">
 <h3 id="_software">2.2. Software</h3>
 <div class="sect3">
-<h4 id="_cdk">2.2.1. CDK</h4>
+<h4 id="_development_tools">2.2.1. Development tools</h4>
+<div class="paragraph">
+<p>Make sure to have the following tools/packages installed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>GIT</p>
+</li>
+<li>
+<p>Maven</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cdk">2.2.2. CDK</h4>
 <div class="paragraph">
 <p><a href="http://developers.redhat.com/products/cdk/overview/">Red Hat Container Development Kit</a> is a pre-built container development environment based on RHEL - Red Hat Enterprise Linux to help you get started developing container-based applications quickly.</p>
 </div>
@@ -714,7 +731,7 @@ Make sure to take notes of your username(email) and password. It will be used as
 </div>
 </div>
 <div class="sect3">
-<h4 id="_kubectl">2.2.2. kubectl</h4>
+<h4 id="_kubectl">2.2.3. kubectl</h4>
 <div class="paragraph">
 <p>To install kubectl binary, follow the <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-binary-via-curl">Install kubectl binary via curl</a> tutorial</p>
 </div>
@@ -759,7 +776,7 @@ macOS users can install <code>kubectl</code> through homebrew using the followin
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-If you are using minishift, use the credentials <strong>developer/developer</strong>
+If you are using minishift, use the credentials <strong>developer/developer</strong> - If you are running using another environment, make sure to use the provided credentials.
 </td>
 </tr>
 </table>
@@ -788,8 +805,8 @@ If you are using minishift, use the credentials <strong>developer/developer</str
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>git clone <a href="https://github.com/redhat-developer-demos/kubernetes-lab" class="bare">https://github.com/redhat-developer-demos/kubernetes-lab</a></strong>
-<span class="tok-o">[</span>vagrant@rhel-cdk ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>cd kubernetes-lab/kubernetes</strong></code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>git clone <a href="https://github.com/redhat-developer-demos/kubernetes-lab" class="bare">https://github.com/redhat-developer-demos/kubernetes-lab</a></strong>
+<span class="tok-nv">$ </span><strong>cd kubernetes-lab/kubernetes</strong></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -806,21 +823,29 @@ We will be using the yaml files in this directory to decribe and deploy the Kube
 <p>A Kubernetes pod is a group of containers, tied together for the purposes of administration and networking. It can contain one or more containers.  All containers within a single pod will share the same networking interface, IP address, volumes, etc.  All containers within the same pod instance will live and die together.  It’s especially useful when you have, for example, a container that runs the application, and another container that periodically polls logs/metrics from the application container.</p>
 </div>
 <div class="paragraph">
-<p>You can start a single Pod in Kubernetes by creating a Pod resource. However, a Pod created this way would be known as a <a href="http://kubernetes.io/docs/user-guide/config-best-practices/">Naked Pod</a>. However, if a Naked Pod dies/exits, it will not be restarted by Kubernetes. A better way to start a pod, is by using a higher-level construct such as Replication Controller.</p>
+<p>You can start a single Pod in Kubernetes by creating a Pod resource. However, a Pod created this way would be known as a <a href="https://kubernetes.io/docs/concepts/configuration/overview/#naked-pods-vs-replication-controllers-and-jobs">Naked Pod</a>. However, if a Naked Pod dies/exits, it will not be restarted by Kubernetes. A better way to start a pod, is by using a higher-level construct such as Replication Controller, Replica Set, or a Deployment.</p>
 </div>
 <div class="paragraph">
 <p>A Replication Controller ensures that a specified number of pod "replicas" are running. If there are too many pods, it will kill some. If there are too few, the replication controller will start more. Unlike manually created pods, the pods maintained by a replication controller are automatically replaced if they fail, get deleted, or are terminated.</p>
 </div>
 <div class="paragraph">
-<p>Replication Controller is often abbreviated to “rc” in discussion, and as a shortcut in kubectl commands.</p>
+<p>A Deployment provides declarative updates for Pods and Replication Controllers. You only need to describe the desired state in a Deployment object, and the Deployment controller will change the actual state to the desired state at a controlled rate for you. You can use deployments to easily:
+- Create a Deployment to bring up a Replication Controller and Pods.
+- Check the status of a Deployment to see if it succeeds or not.
+- Later, update that Deployment to recreate the Pods (for example, to use a new image, or configuration).
+- Rollback to an earlier Deployment revision if the current Deployment isn’t stable.
+- Pause and resume a Deployment.</p>
 </div>
 <div class="paragraph">
-<p>First create a Replication Controller using kubectl, the Kubernetes CLI tool:</p>
+<p>In this lab, because we are working with Kubernetes 1.2+, we will be using Deployment extensively.</p>
+</div>
+<div class="paragraph">
+<p>First create a Deployment using kubectl, the Kubernetes CLI tool:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl create -f frontend-rc.yaml</strong>
-replicationcontroller <span class="tok-s2">&quot;frontend-ui&quot;</span> created</code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl create -f frontend-deployment.yaml</strong>
+deployment <span class="tok-s2">&quot;frontend-ui&quot;</span> created</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -828,7 +853,7 @@ replicationcontroller <span class="tok-s2">&quot;frontend-ui&quot;</span> create
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get pods -w</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl get pods -w</strong>
 NAME                  READY     STATUS              RESTARTS   AGE
 frontend-ui-?????     0/1       ContainerCreating   <span class="tok-m">0</span>          2m
 frontend-ui-?????     1/1       Running             <span class="tok-m">0</span>          2m</code></pre>
@@ -854,9 +879,21 @@ The <em>ContainerCreating</em> status means that Kubernetes still downloading th
 <div class="paragraph">
 <p>Kubernetes is container format agnostic. In your lab, we are working with containers using the docker format. Keep in mind that Kubernetes architecture allows it to work with other container formats too. You can see that the docker container is running:</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you are running minishift, run the following command first: <code>minishift ssh</code>. Don&#8217;t forget to exit from minishift shell
+</td>
+</tr>
+</table>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>docker ps<span class="tok-p">|</span>grep microservices-frontend</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>docker@minishift ~<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>docker ps<span class="tok-p">|</span>grep microservices-frontend</strong>
 CONTAINER ID   IMAGE                                   COMMAND                 CREATED           STATUS
 52fb5e0aae73   rafabene/microservices-frontend:latest  <span class="tok-s2">&quot;container-entrypoint&quot;</span>  <span class="tok-m">14</span> minutes ago    Up <span class="tok-m">14</span> minutes
 &#8230;&#8203;.</code></pre>
@@ -877,7 +914,7 @@ CONTAINER ID   IMAGE                                   COMMAND                 C
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl create -f frontend-service.yaml</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl create -f frontend-service.yaml</strong>
 service <span class="tok-s2">&quot;frontend-ui&quot;</span> created</code></pre>
 </div>
 </div>
@@ -886,9 +923,9 @@ service <span class="tok-s2">&quot;frontend-ui&quot;</span> created</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get services</strong>
-NAME          CLUSTER_IP      EXTERNAL_IP   PORT<span class="tok-o">(</span>S<span class="tok-o">)</span>   SELECTOR          AGE
-frontend-ui   172.30.252.52                 80/TCP    <span class="tok-nv">app</span><span class="tok-o">=</span>frontend-ui   7s</code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl get services</strong>
+NAME          CLUSTER-IP      EXTERNAL-IP                   PORT<span class="tok-o">(</span>S<span class="tok-o">)</span>        AGE
+frontend-ui   172.30.40.241   172.29.133.81,172.29.133.81   80:32476/TCP   7s</code></pre>
 </div>
 </div>
 </div>
@@ -902,21 +939,21 @@ frontend-ui   172.30.252.52                 80/TCP    <span class="tok-nv">app</
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl create -f mysql-pvc.yaml</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl create -f mysql-pvc.yaml</strong>
 persistentvolumeclaim <span class="tok-s2">&quot;mysql-pvc&quot;</span> created</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>CDK provides 3 <strong>PersistentVolumes</strong>, previously defined by the cluster administrator, called <strong>pv01</strong>(1Gi), <strong>pv02</strong>(2Gi) and <strong>pv03</strong>(3Gi). These <strong>PersistentVolumes</strong> will be assigned based on the size claimed by the <strong>PersistentVolumeClaim</strong>.</p>
+<p>CDK provides several <strong>PersistentVolumes</strong>, previously defined by the cluster administrator. These <strong>PersistentVolumes</strong> will be assigned based on the size claimed by the <strong>PersistentVolumeClaim</strong>.</p>
 </div>
 <div class="paragraph">
 <p>You can examine the <strong>PersistentVolumeClaim</strong> with the following command:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get pvc</strong>
-NAME        LABELS    STATUS    VOLUME    CAPACITY   ACCESSMODES   AGE
-mysql-pvc   &lt;none&gt;    Bound     <strong>pv01</strong>      <strong>1Gi</strong>        RWO,RWX       12m</code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl get pvc</strong>
+NAME        STATUS    VOLUME    CAPACITY   ACCESSMODES   STORAGECLASS   AGE
+mysql-pvc   Bound     pv0044    100Gi      RWO,ROX,RWX                  27s</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -924,8 +961,8 @@ mysql-pvc   &lt;none&gt;    Bound     <strong>pv01</strong>      <strong>1Gi</st
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl create -f mysql-rc.yaml -f mysql-service.yaml</strong>
-replicationcontroller <span class="tok-s2">&quot;mysql&quot;</span> created
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl create -f mysql-deployment.yaml -f mysql-service.yaml</strong>
+deployment <span class="tok-s2">&quot;mysql&quot;</span> created
 service <span class="tok-s2">&quot;mysql&quot;</span> created</code></pre>
 </div>
 </div>
@@ -975,7 +1012,7 @@ service <span class="tok-s2">&quot;mysql&quot;</span> created</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl create -f helloworldservice-rc.yaml -f helloworldservice-service.yaml</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl create -f helloworldservice-deployment.yaml -f helloworldservice-service.yaml</strong>
 deployment <span class="tok-s2">&quot;helloworld-service-vertx&quot;</span> created
 service <span class="tok-s2">&quot;helloworld-service-vertx&quot;</span> created</code></pre>
 </div>
@@ -985,11 +1022,11 @@ service <span class="tok-s2">&quot;helloworld-service-vertx&quot;</span> created
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get rc</strong>
-CONTROLLER                 CONTAINER<span class="tok-o">(</span>S<span class="tok-o">)</span>               IMAGE<span class="tok-o">(</span>S<span class="tok-o">)</span>                                      SELECTOR                                   REPLICAS   AGE
-frontend-ui                frontend-ui                rafabene/microservices-frontend:latest        <span class="tok-nv">app</span><span class="tok-o">=</span>frontend-ui                            <span class="tok-m">2</span>          1h
-helloworld-service-vertx   helloworld-service-vertx   rafabene/microservices-helloworld-vertx:1.0   <span class="tok-nv">app</span><span class="tok-o">=</span>helloworld-service-vertx,version<span class="tok-o">=</span>1.0   <span class="tok-m">2</span>          2m
-mysql                      mysql                      openshift/mysql-56-centos7                    <span class="tok-nv">app</span><span class="tok-o">=</span>mysql                                  <span class="tok-m">1</span>          2h</code></pre>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl get deployments</strong>
+NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+frontend-ui                <span class="tok-m">2</span>         <span class="tok-m">2</span>         <span class="tok-m">2</span>            <span class="tok-m">2</span>           12m
+helloworld-service-vertx   <span class="tok-m">2</span>         <span class="tok-m">2</span>         <span class="tok-m">2</span>            <span class="tok-m">2</span>           22s
+mysql                      <span class="tok-m">1</span>         <span class="tok-m">1</span>         <span class="tok-m">1</span>            <span class="tok-m">1</span>           3m</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -997,7 +1034,7 @@ mysql                      mysql                      openshift/mysql-56-centos7
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl get pods</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl get pods</strong>
 NAME                             READY     STATUS    RESTARTS   AGE
 frontend-ui-1bvcv                1/1       Running   <span class="tok-m">0</span>          2h
 frontend-ui-5vtsp                1/1       Running   <span class="tok-m">0</span>          2h
@@ -1024,7 +1061,7 @@ INFO: Succeeded in deploying verticle</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl delete pod helloworld-service-vertx-?????</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl delete pod helloworld-service-vertx-?????</strong>
 pod <span class="tok-s2">&quot;helloworld-service-vertx-????&quot;</span> deleted</code></pre>
 </div>
 </div>
@@ -1041,26 +1078,12 @@ helloworld-service-vertx-sgds6   1/1       Running   <span class="tok-m">0</span
 &#8230;&#8203;</code></pre>
 </div>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Kubernetes has also a <a href="http://kubernetes.io/docs/user-guide/deployments/">Deployment</a> object that not only keeps the number of replicas, but also keeps the same <strong>status</strong> (image version, environment variables, volumes, etc) of all Pods. For now, we will keep using the <strong>ReplicationController</strong> object.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>Lastly, let’s create the Guestbook Service replication controller and service too!</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="pygments highlight"><code data-lang="bash"><span class="tok-o">[</span>vagrant@rhel-cdk kubernetes<span class="tok-o">]</span><span class="tok-nv">$ </span><strong>kubectl create -f guestbookservice-rc.yaml -f guestbookservice-service.yaml</strong>
+<pre class="pygments highlight"><code data-lang="bash"><span class="tok-nv">$ </span><strong>kubectl create -f guestbookservice-deployment.yaml -f guestbookservice-service.yaml</strong>
 deployment <span class="tok-s2">&quot;guestbook-service&quot;</span> created
 service <span class="tok-s2">&quot;guestbook-service&quot;</span> created</code></pre>
 </div>
@@ -2916,7 +2939,7 @@ I0804 08:03:45.260863       <span class="tok-m">1</span> source.go:197<span clas
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-08-19 19:14:35 -03
+Last updated 2017-07-11 12:40:18 -03
 </div>
 </div>
 </body>

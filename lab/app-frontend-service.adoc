@@ -22,7 +22,7 @@ Create the frontend service:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl create -f frontend-service.yaml*
+$ *kubectl create -f frontend-service.yaml*
 service "frontend-ui" created
 ----
 
@@ -30,8 +30,8 @@ And check it:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl get services*
-NAME          CLUSTER_IP      EXTERNAL_IP   PORT(S)   SELECTOR          AGE
-frontend-ui   172.30.252.52                 80/TCP    app=frontend-ui   7s
+$ *kubectl get services*
+NAME          CLUSTER-IP      EXTERNAL-IP                   PORT(S)        AGE
+frontend-ui   172.30.40.241   172.29.133.81,172.29.133.81   80:32476/TCP   7s
 ----
 

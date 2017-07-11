@@ -34,7 +34,7 @@ First, deploy the Hello World:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl create -f helloworldservice-rc.yaml -f helloworldservice-service.yaml*
+$ *kubectl create -f helloworldservice-deployment.yaml -f helloworldservice-service.yaml*
 deployment "helloworld-service-vertx" created
 service "helloworld-service-vertx" created
 ----
@@ -43,18 +43,18 @@ Once created, you can see the replicas with:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl get rc*
-CONTROLLER                 CONTAINER(S)               IMAGE(S)                                      SELECTOR                                   REPLICAS   AGE
-frontend-ui                frontend-ui                rafabene/microservices-frontend:latest        app=frontend-ui                            2          1h
-helloworld-service-vertx   helloworld-service-vertx   rafabene/microservices-helloworld-vertx:1.0   app=helloworld-service-vertx,version=1.0   2          2m
-mysql                      mysql                      openshift/mysql-56-centos7                    app=mysql                                  1          2h
+$ *kubectl get deployments*
+NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+frontend-ui                2         2         2            2           12m
+helloworld-service-vertx   2         2         2            2           22s
+mysql                      1         1         1            1           3m
 ----
 
 You can see the pods running:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl get pods*
+$ *kubectl get pods*
 NAME                             READY     STATUS    RESTARTS   AGE
 frontend-ui-1bvcv                1/1       Running   0          2h
 frontend-ui-5vtsp                1/1       Running   0          2h
@@ -77,7 +77,7 @@ Our descriptor file specified 2 replicas. So, if you delete one of the pods (and
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl delete pod helloworld-service-vertx-?????*
+$ *kubectl delete pod helloworld-service-vertx-?????*
 pod "helloworld-service-vertx-????" deleted
 ----
 
@@ -93,16 +93,11 @@ helloworld-service-vertx-sgds6   1/1       Running   0          10m
 ...
 ----
 
-[NOTE]
-====
-Kubernetes has also a link:http://kubernetes.io/docs/user-guide/deployments/[Deployment] object that not only keeps the number of replicas, but also keeps the same *status* (image version, environment variables, volumes, etc) of all Pods. For now, we will keep using the *ReplicationController* object.
-====
-
 Lastly, let’s create the Guestbook Service replication controller and service too!
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl create -f guestbookservice-rc.yaml -f guestbookservice-service.yaml*
+$ *kubectl create -f guestbookservice-deployment.yaml -f guestbookservice-service.yaml*
 deployment "guestbook-service" created
 service "guestbook-service" created
 ----

@@ -42,7 +42,7 @@ image::images/app-diagram.png[Logo,float="center",align="center"]
 
 include::app-application-source.adoc[]
 
-include::app-frontend-rc.adoc[]
+include::app-frontend-deployment.adoc[]
 
 include::app-frontend-service.adoc[]
 

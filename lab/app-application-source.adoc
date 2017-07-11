@@ -20,8 +20,8 @@ Start by cloning the github repository for the Guestbook application and move in
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk ~]$ *git clone https://github.com/redhat-developer-demos/kubernetes-lab*
-[vagrant@rhel-cdk ~]$ *cd kubernetes-lab/kubernetes* 
+$ *git clone https://github.com/redhat-developer-demos/kubernetes-lab*
+$ *cd kubernetes-lab/kubernetes* 
 ----
 
 Kubernetes resources can be specified using link:http://yaml.org/[yaml] or link:http://www.json.org/[json] formats. 

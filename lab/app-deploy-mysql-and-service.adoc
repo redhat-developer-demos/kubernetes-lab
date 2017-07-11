@@ -20,27 +20,27 @@ MySQL uses persistent storage.  Rather than writing the data directly into the c
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl create -f mysql-pvc.yaml*
+$ *kubectl create -f mysql-pvc.yaml*
 persistentvolumeclaim "mysql-pvc" created
 ----
 
-CDK provides 3 *PersistentVolumes*, previously defined by the cluster administrator, called *pv01*(1Gi), *pv02*(2Gi) and *pv03*(3Gi). These *PersistentVolumes* will be assigned based on the size claimed by the *PersistentVolumeClaim*.
+CDK provides several *PersistentVolumes*, previously defined by the cluster administrator. These *PersistentVolumes* will be assigned based on the size claimed by the *PersistentVolumeClaim*.
 
 You can examine the *PersistentVolumeClaim* with the following command:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl get pvc*
-NAME        LABELS    STATUS    VOLUME    CAPACITY   ACCESSMODES   AGE
-mysql-pvc   <none>    Bound     *pv01*      *1Gi*        RWO,RWX       12m
+$ *kubectl get pvc*
+NAME        STATUS    VOLUME    CAPACITY   ACCESSMODES   STORAGECLASS   AGE
+mysql-pvc   Bound     pv0044    100Gi      RWO,ROX,RWX                  27s
 ----
 
 You can then deploy both the MySQL Pod and the Service with a single command:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl create -f mysql-rc.yaml -f mysql-service.yaml*
-replicationcontroller "mysql" created
+$ *kubectl create -f mysql-deployment.yaml -f mysql-service.yaml*
+deployment "mysql" created
 service "mysql" created
 ----
 

@@ -25,6 +25,13 @@ This section describes what, how, and where to install the software needed for t
 
 ### Software
 
+#### Development tools
+
+Make sure to have the following tools/packages installed:
+
+- GIT
+- Maven
+
 #### CDK
 
 link:http://developers.redhat.com/products/cdk/overview/[Red Hat Container Development Kit] is a pre-built container development environment based on RHEL - Red Hat Enterprise Linux to help you get started developing container-based applications quickly. 
@@ -82,4 +89,4 @@ $ oc login OPENSHIFT_IP:8443
 $ oc login $(minishift ip):8443
 ----
 
-TIP: If you are using minishift, use the credentials *developer/developer*
+TIP: If you are using minishift, use the credentials *developer/developer* - If you are running using another environment, make sure to use the provided credentials.
