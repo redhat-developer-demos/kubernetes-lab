@@ -35,23 +35,23 @@ Then, use _kubectl exec_ to exucute a _"bash"_ process into the container:
 [source, bash, subs="normal,attributes"]
 ----
 $ *kubectl exec -it helloworld-service-vertx-????? bash*
-bash-4.2$ _
+[jboss@helloworld-service-vertx-????? ~]$ _
 ----
 
 You are now in a shell inside of the helloworld-service-vertx container.  You can run _ps_, and _hostname_:
 
 [source, bash, subs="normal,attributes"]
 ----
-bash-4.2$ *ps aux*
+[jboss@helloworld-service-vertx-???? ~]$ *ps aux*
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-1000040+     1  0.1  0.7 2693920 63540 ?       Ssl  15:53   0:15 java -Dvertx.di
-1000040+    21  0.0  0.0  13816  1676 ?        Ss   18:21   0:00 bash
-1000040+    26  0.0  0.0  49468  1664 ?        R+   18:21   0:00 ps aux
+jboss        1  0.9  0.6 2693920 53412 ?       Ssl  20:48   0:01 java -Dvertx.di
+jboss       21  0.0  0.0  13816  1784 ?        Ss   20:49   0:00 bash
+jboss       36  0.0  0.0  49468  1664 ?        R+   20:51   0:00 ps aux
 
-bash-4.2$ *hostname -i*
+[jboss@helloworld-service-vertx-???? ~]$ *hostname -i*
 172.17.0.7
 
-bash-4.2$ *exit*
+[jboss@helloworld-service-vertx-???? ~]$ *exit*
 exit
 ----
 

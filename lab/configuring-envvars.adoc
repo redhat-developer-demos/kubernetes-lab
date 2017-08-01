@@ -19,11 +19,11 @@ http://vertx.io/[Vert.X] can read the override configuration directly from an en
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *oc env dc/helloworld-service-vertx GREETING='Hello {name} from envvar!'*
-deploymentconfig "helloworld-service-vertx" updated
+$ *oc env deployment helloworld-service-vertx GREETING='Hello {name} from envvar!'*
+deployment "helloworld-service-vertx" updated
 ----
 
-Again, through the use of *DeploymentCofig*, it'll rolling update all the replicas with the new configuration! If you were to refresh the application, you'll notice that there are no intermittent errors because we also have health checks and readiness checks in place.
+Again, through the use of *Kubernetes Deployment*, it'll rolling update all the replicas with the new configuration! If you were to refresh the application, you'll notice that there are no intermittent errors because we also have health checks and readiness checks in place.
 
 Check the application to see it is using the new Greeting string.
 
@@ -31,8 +31,8 @@ Let's remove the defined variable:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *oc env dc/helloworld-service-vertx GREETING-*
-deploymentconfig "helloworld-service-vertx" updated
+$ *oc env deployment helloworld-service-vertx GREETING-*
+deployment "helloworld-service-vertx" updated
 ----
 
-NOTE: The '-' means that we want to remove that environment var from the DeploymentConfig.
+NOTE: The '-' means that we want to remove that environment var from the Deployment.

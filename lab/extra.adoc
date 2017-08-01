@@ -29,30 +29,31 @@ First, let's delete the existing frontend *Route*, *Service* and *ReplicationCon
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *oc delete rc,svc,route frontend-ui*
-replicationcontroller "frontend-ui" deleted
+$ *oc delete deployment,svc,route frontend-ui*
+deployment "frontend-ui" deleted
 service "frontend-ui" deleted
 route "frontend-ui" deleted
 
-[vagrant@rhel-cdk kubernetes]$ *oc new-app --name=frontend-ui \
+$ *oc new-app --name=frontend-ui \
       https://github.com/redhat-developer-demos/kubernetes-lab \
       --strategy=source  --context-dir=frontend*
---> Found image 78a38d1 (2 weeks old) in image stream "nodejs" in project "openshift" under tag "0.10" for "nodejs"
+--> Found image 0b37bce (5 weeks old) in image stream "openshift/nodejs" under tag "4" for "nodejs"
 
-    Node.js 0.10
-    ------------
-    Platform for building and running Node.js 0.10 applications
+    Node.js 4
+    ---------
+    Platform for building and running Node.js 4 applications
 
-    Tags: builder, nodejs, nodejs010
+    Tags: builder, nodejs, nodejs4
 
     * The source repository appears to match: nodejs
     * A source build using source code from https://github.com/redhat-developer-demos/kubernetes-lab will be created
       * The resulting image will be pushed to image stream "frontend-ui:latest"
+      * Use 'start-build' to trigger a new build
     * This image will be deployed in deployment config "frontend-ui"
     * Port 8080/tcp will be load balanced by service "frontend-ui"
       * Other containers can access this service through the hostname "frontend-ui"
 
---> Creating resources with label app=frontend-ui ...
+--> Creating resources ...
     imagestream "frontend-ui" created
     buildconfig "frontend-ui" created
     deploymentconfig "frontend-ui" created
@@ -66,11 +67,11 @@ This will trigger the build inside OpenShift. You can explore it using the follo
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *oc get builds*
+$ *oc get builds*
 NAME            TYPE      FROM          STATUS    STARTED              DURATION
 frontend-ui-1   Source    Git@e09f71e   Running   About a minute ago   1m23s
 
-[vagrant@rhel-cdk kubernetes]$ *oc logs -f bc/frontend-ui*
+$ *oc logs -f bc/frontend-ui*
 ----
 
 You can also see the build happening in the OpenShift console:
@@ -87,16 +88,23 @@ You can also trigger a new build using *oc start-build <buildname>* command. It 
 
 Some examples that you can try.
 
+NOTE: To build from local, you should be in the root path of the kubernetes lab (kubernetes-lab) because you already specified the --context-dir=frontend parameter.
+
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *oc start-build frontend-ui \
-          --from-dir=$HOME/kubernetes-lab \
+$ cd kubernetes-lab/
+$ *oc start-build frontend-ui \
+          --from-dir=. \
           --follow*
-Uploading "/home/vagrant/kubernetes-lab" at commit "HEAD" as binary input for the build ...
-Uploading directory "/home/vagrant/kubernetes-lab" as binary input for the build ...
+Uploading directory "." as binary input for the build ...
 frontend-ui-?
+----
 
-[vagrant@rhel-cdk kubernetes]$ *oc start-build frontend-ui \
+You can also build from Github sources
+
+[source, bash, subs="normal,attributes"]
+----
+$ *oc start-build frontend-ui \
          --git-repository=https://github.com/rafabene/kubernetes-lab \
          --follow*
 frontend-ui-?

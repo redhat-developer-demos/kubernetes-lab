@@ -23,9 +23,8 @@ In this lab, we'll switch to the _frontend/_ directory and make a minor change t
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *cd ~/kubernetes-lab/frontend*
-[vagrant@rhel-cdk kubernetes]$ *vi index.html*
-[vagrant@rhel-cdk kubernetes]$ *docker build -t rafabene/microservices-frontend:2.0 .*
+$ *cd kubernetes-lab/frontend*
+$ *vi index.html*
 ----
 [TIP]
 ====
@@ -38,19 +37,21 @@ HINT 3: Type *'i'* to enter in edit mode
 HINT 4: Type *':wq'* to exit from vi
 ====
 
+Kubernetes needs to be aware of the new docker image with the changes that you introduced.
+
+include::docker-image-minishift.adoc[]
+
+[source, bash, subs="normal,attributes"]
+----
+$ *docker build -t rafabene/microservices-frontend:2.0 .*
+----
+
 Now we will use the _kubectl rolling-update_ command to perform the rolling update. We create a new *ReplicationController* called frontend-ui-2 that contains the new image.
 
 [source,bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk frontend]$ *kubectl rolling-update frontend-ui frontend-ui-2 --image=rafabene/microservices-frontend:2.0 --update-period=1s*
-Created frontend-ui-2
-Scaling up frontend-ui-2 from 0 to 2, scaling down frontend-ui from 2 to 0 (keep 2 pods available, don't exceed 3 pods)
-Scaling frontend-ui-2 up to 1
-Scaling frontend-ui down to 1
-Scaling frontend-ui-2 up to 2
-Scaling frontend-ui down to 0
-Update succeeded. Deleting frontend-ui
-replicationcontroller "frontend-ui" rolling updated to "frontend-ui-2"
+$ *kubectl set image  deployment/frontend-ui frontend-ui=rafabene/microservices-frontend:2.0*
+deployment "frontend-ui" image updated
 ----
 
 That's it! Kubernetes will performed a rolling update to update all the versions from 1.0 to 2.0.

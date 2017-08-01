@@ -27,7 +27,7 @@ Execute:
 
 [source,bash,subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *oc login -u openshift-dev -p devel*
+$ *oc login -u openshift-dev -p devel*
 ----
 
 

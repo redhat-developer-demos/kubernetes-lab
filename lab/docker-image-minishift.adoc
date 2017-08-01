@@ -13,24 +13,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-### Configuring Your Application
-Duration: 20:00
+Minishift allows the developer to have access to the internal docker daemon and registry. With the access to the internal docker daemon, you can build a new version of the image and make it available in the internal registry.
 
-The Helloworld Service is configured to return a message that uses the following template:
-[source,subs="normal,attributes"]
+To access the internal docker daemon run the following command:
+
+[source,bash, subs="normal,attributes"]
 ----
-Hello {name} from {hostname} with {version}
+$ eval $(minishift docker-env)
 ----
 
-There are several ways to update this configuration. We'll go through a couple of them, including:
-
-* Environment variable
-* Command line argument
-* And, ConfigMap
-
-include::configuring-envvars.adoc[]
-
-// include::configuring-argument.adoc[]
-
-include::configuring-configmap.adoc[]
-
+Now you can buid the docker image and it will be automatically avaible in the docker registry of minishift.
