@@ -35,9 +35,13 @@ public class MessageResource {
 	@Inject
 	private MessageRepository messageRepository;
 
+	@Inject
+	private BadwordFilter badwordFilter;
+
 	@POST
 	public Response addMessage(@FormParam("username") String username, @FormParam("message") String text) {
-		Message message = new Message(username, text);
+		String input = badwordFilter.filterText(text);
+		Message message = new Message(username, input);
 		try {
 			messageRepository.save(message);
 		} catch (Exception e) {
