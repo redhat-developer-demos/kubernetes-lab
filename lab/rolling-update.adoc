@@ -39,11 +39,15 @@ HINT 4: Type *':wq'* to exit from vi
 
 Kubernetes needs to be aware of the new docker image with the changes that you introduced.
 
-include::docker-image-minishift.adoc[]
+// include::docker-image-minishift.adoc[]
+
+TIP: Replace rafabene/microservices-frontend:2.0 to <your_username>/microservices-frontend:2.0
 
 [source, bash, subs="normal,attributes"]
 ----
-$ *docker build -t rafabene/microservices-frontend:2.0 .*
+$ *docker build -t <your_username>/microservices-frontend:2.0 .*
+
+$ *docker push  <your_username>/microservices-frontend:2.0*
 ----
 
 Now we will use the _kubectl rolling-update_ command to perform the rolling update. We create a new *ReplicationController* called frontend-ui-2 that contains the new image.
@@ -51,9 +55,8 @@ Now we will use the _kubectl rolling-update_ command to perform the rolling upda
 [source,bash, subs="normal,attributes"]
 ----
 $ *kubectl set image  deployment/frontend-ui frontend-ui=rafabene/microservices-frontend:2.0*
-deployment "frontend-ui" image updated
+deployment.extensions/frontend-ui image updated
 ----
 
 That's it! Kubernetes will performed a rolling update to update all the versions from 1.0 to 2.0.
 
-NOTE: This 2.0 version only exists in your local registry. It will only be available if you have built it using the _docker build_ command.

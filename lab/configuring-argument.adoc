@@ -57,6 +57,6 @@ Let's rollback to the previous state again:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *oc rollback helloworld-service-vertx*
+$ *oc rollback helloworld-service-vertx*
 #? rolled back to helloworld-service-vertx-?
 ----

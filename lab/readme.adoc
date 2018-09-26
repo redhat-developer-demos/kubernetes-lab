@@ -20,8 +20,9 @@ from Basics to OpenShift
 :toclevels: 5
 :icons: font
 :data-uri:
-:source-highlighter: pygments
+:source-highlighter: highlightjs
 :numbered:
+:ocp-cluster: master.boston.openshiftworkshop.com
 
 Latest HTML: http://bit.ly/kubernetes-lab +
 Docs and Application Source code: https://github.com/redhat-developer-demos/kubernetes-lab 
@@ -50,7 +51,7 @@ include::app-deploy-mysql-and-service.adoc[]
 
 include::app-deploy-microservices.adoc[]
 
-include::external-access.adoc[]
+// include::external-access.adoc[]
 
 include::scaling.adoc[]
 

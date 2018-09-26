@@ -35,8 +35,8 @@ First, deploy the Hello World:
 [source, bash, subs="normal,attributes"]
 ----
 $ *kubectl create -f helloworldservice-deployment.yaml -f helloworldservice-service.yaml*
-deployment "helloworld-service-vertx" created
-service "helloworld-service-vertx" created
+deployment.extensions/helloworld-service-vertx created
+service/helloworld-service-vertx created
 ----
 
 Once created, you can see the replicas with:
@@ -67,7 +67,7 @@ You can also look at each pod’s log output by running:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl logs -f helloworld-service-vertx-?????*
+$ *kubectl logs -f helloworld-service-vertx-?????*
 Aug 02, 2016 5:38:11 AM io.vertx.core.impl.launcher.commands.VertxIsolatedDeployer
 INFO: Succeeded in deploying verticle
 ----
@@ -85,7 +85,7 @@ You should see that the pod was deleted, and the ReplicationController will ensu
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl get pods*
+$ *kubectl get pods*
 NAME                             READY     STATUS    RESTARTS   AGE
 ...
 helloworld-service-vertx-ezuq3   1/1       Running   0          1m

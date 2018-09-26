@@ -34,7 +34,7 @@ Scaling the number of replicas of our Hello World service is as simple as runnin
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl scale deployment helloworld-service-vertx --replicas=6*
+$ *kubectl scale deployment helloworld-service-vertx --replicas=6*
 deployment "helloworld-service-vertx" scaled
 ----
 

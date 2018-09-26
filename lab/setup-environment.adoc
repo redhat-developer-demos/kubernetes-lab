@@ -31,45 +31,19 @@ Make sure to have the following tools/packages installed:
 
 - GIT
 - Maven
-
-#### CDK
-
-link:http://developers.redhat.com/products/cdk/overview/[Red Hat Container Development Kit] is a pre-built container development environment based on RHEL - Red Hat Enterprise Linux to help you get started developing container-based applications quickly. 
-
-Developers can get the Red Hat Container Development Kit via no-cost Red Hat Enterprise Linux® Developer Suite subscription for development purposes by link:https://developers.redhat.com/products/cdk/download/[registering and downloading] through link:developers.redhat.com/[developers.redhat.com]. 
-
-IMPORTANT: Make sure to take notes of your username(email) and password. It will be used as the free subscription for RHEL.
-
-Setup CDK:
-
-- Download CDK/minishift
-- Rename it to `minishift`
-- Configure the PATH
-- Configure CDK
-- Start the environment with *minishift start*
-
-[source,bash,subs="normal,attributes"]
-----
-# From the Downloads folder (or any other folder)
-$ sudo mv cdk-3.* /usr/local/bin/minishift
-$ sudo chmod +x /usr/local/bin/minishift
-
-# Setup CDK
-$ minishift setup-cdk
-
-# Configure minishift credentials
-$ export MINISHIFT_USERNAME=<Red_Hat_username>
-$ export MINISHIFT_PASSWORD=<Red_Hat_password>
-
-# Start CDK/minishift
-$ minishift start
-----
+- Kubernetes binaries ( <https://kubernetes.io/docs/tasks/tools/install-kubectl/> )
 
 #### kubectl
 
-To install kubectl binary, follow the link:https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-binary-via-curl[Install kubectl binary via curl] tutorial
+To install kubectl binary, follow the link:https://kubernetes.io/docs/tasks/tools/install-kubectl/[Install and Set Up kubectl] tutorial
 
 TIP: macOS users can install `kubectl` through homebrew using the following command `brew install kubectl`
+
+#### oc 
+
+To install oc, Download it from https://github.com/openshift/origin/releases
+
+TIP: macOS users can isntall `oc` through homebrew using the following command: `brew install openshift-cli`
 
 ### Login in the cluster
 
@@ -79,14 +53,16 @@ To authenticate in the cluster, you need to access to the `oc` binary. You can a
 
 [source,bash,subs="normal,attributes"]
 ----
-# Add oc binary to the PATH
-$ eval $(minishift oc-env)
-
 # Login in the cluster
-$ oc login OPENSHIFT_IP:8443
-
-# Example:
-$ oc login $(minishift ip):8443
+$ oc login {ocp-cluster}
 ----
 
-TIP: If you are using minishift, use the credentials *developer/developer* - If you are running using another environment, make sure to use the provided credentials.
+The credentials are: userX / openshift. X is your assigned number
+
+Next, you will need to create a project for you:
+
+[source,bash,subs="normal,attributes"]
+----
+# Create a new project. X is your number
+$ oc new-project labX
+----

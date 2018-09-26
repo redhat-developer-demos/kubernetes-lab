@@ -36,7 +36,7 @@ First create a Deployment using kubectl, the Kubernetes CLI tool:
 [source, bash, subs="normal,attributes"]
 ----
 $ *kubectl create -f frontend-deployment.yaml*
-deployment "frontend-ui" created
+deployment.extensions/frontend-ui created
 ----
 
 You should see the frontend instances running:
@@ -52,19 +52,4 @@ frontend-ui-?????     1/1       Running             0          2m
 Hit CTRL+C to exit back to the shell prompt at any moment. 
 
 NOTE: The _ContainerCreating_ status means that Kubernetes still downloading the image from the registry before creating the containers. 
-
-#### Optional interlude: Look at your pod running in a docker container on the VM
-
-Kubernetes is container format agnostic. In your lab, we are working with containers using the docker format. Keep in mind that Kubernetes architecture allows it to work with other container formats too. You can see that the docker container is running:
-
-NOTE: If you are running minishift, run the following command first: `minishift ssh`. Don't forget to exit from minishift shell
-
-
-[source, bash, subs="normal,attributes"]
-----
-[docker@minishift ~]$ *docker ps|grep microservices-frontend*
-CONTAINER ID   IMAGE                                   COMMAND                 CREATED           STATUS            
-52fb5e0aae73   rafabene/microservices-frontend:latest  "container-entrypoint"  14 minutes ago    Up 14 minutes     
-....
-----
 

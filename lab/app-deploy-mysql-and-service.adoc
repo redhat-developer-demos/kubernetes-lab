@@ -21,7 +21,7 @@ MySQL uses persistent storage.  Rather than writing the data directly into the c
 [source, bash, subs="normal,attributes"]
 ----
 $ *kubectl create -f mysql-pvc.yaml*
-persistentvolumeclaim "mysql-pvc" created
+persistentvolumeclaim/mysql-pvc created
 ----
 
 CDK provides several *PersistentVolumes*, previously defined by the cluster administrator. These *PersistentVolumes* will be assigned based on the size claimed by the *PersistentVolumeClaim*.
@@ -40,8 +40,8 @@ You can then deploy both the MySQL Pod and the Service with a single command:
 [source, bash, subs="normal,attributes"]
 ----
 $ *kubectl create -f mysql-deployment.yaml -f mysql-service.yaml*
-deployment "mysql" created
-service "mysql" created
+deployment.extensions/mysql created
+service/mysql created
 ----
 
 Lastly, you can see the pods and service status via the command line.  Recall the command you can use to see the status (hint: _kubectl get ..._).  Make sure the status is _Running_ before continuing.

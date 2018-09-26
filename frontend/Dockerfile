@@ -13,11 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM openshift/nodejs-010-centos7
+FROM bucharestgold/centos7-s2i-nodejs:10.x
 
 ADD . /opt/app-root/src/
 
-WORKDIR /opt/app-root/src/
+WORKDIR /opt/app-root/src
 
 RUN ["/bin/bash", "-c", "npm install"]
 

@@ -60,7 +60,7 @@ You can add a Readiness Probe in the similar way:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl edit deployment helloworld-service-vertx*
+$ *kubectl edit deployment helloworld-service-vertx*
 ----
 include::includes/tip.adoc[]
 

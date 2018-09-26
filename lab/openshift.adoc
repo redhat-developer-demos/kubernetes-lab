@@ -22,7 +22,7 @@ Let's take a look in OpenShift console.
 
 NOTE: Don't worry. This is still a Kubernetes lab! OpenShift runs on top of Kubernetes but adds features like deployments, source-to-image, user management, routes, etc.
 
-Access https://OPENSHIFT_IP:8443 
+Access https://{ocp-cluster}
 
 [NOTE]
 ====
@@ -30,8 +30,8 @@ Accept the self-signed HTTPS certificate.
 
 Login with the credentials:
 
-- username: *developer*
-- password: *developer*
+- username: *userX*
+- password: *openshift*
 ====
 
 Click on *OpenShift sample project* and now you will see all Kubernetes objects that you have created with kubectl command. This happens because OpenShift is built on top of Kubernetes.
@@ -57,7 +57,7 @@ Let's perform a rolling-update in the shell and see how it behaves visually in O
 [source, bash, subs="normal,attributes"]
 ----
 $ *kubectl set image  deployment/frontend-ui frontend-ui=rafabene/microservices-frontend:1.0*
-deployment "frontend-ui" image updated
+deployment.extensions/frontend-ui image updated
 ----
 
 image::images/rolling-update.png[Rolling Update,float="center",align="center"]
@@ -76,19 +76,19 @@ guestbook-service-h4fvr            1/1       Running   0          1h
 helloworld-service-vertx-1-738ux   1/1       Running   0          5m
 mysql-yhl82                        1/1       Running   0          1h
 
-$ *oc get rc*
-NAME                         DESIRED   CURRENT   AGE
-frontend-ui                  2         2         1h
-guestbook-service            1         1         1h
-helloworld-service-vertx-1   1         1         5m
-mysql                        1         1         1h
+$ *oc get deployments*
+NAME                       DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+frontend-ui                2         2         2            2           36m
+guestbook-service          1         1         1            1           30m
+helloworld-service-vertx   2         2         2            2           32m
+mysql                      1         1         1            1           33m
 
 $ *oc get service*
-NAME                       CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
-frontend-ui                172.30.212.103                 80/TCP                       9h
-guestbook-service          172.30.140.61    <none>        8080/TCP                     9h
-helloworld-service-vertx   172.30.7.161     <none>        8080/TCP,8778/TCP,9779/TCP   8h
-mysql                      172.30.249.144   <none>        3306/TCP                     9h
+NAME                       TYPE           CLUSTER-IP       EXTERNAL-IP                 PORT(S)        AGE
+frontend-ui                LoadBalancer   172.30.58.95     172.29.26.18,172.29.26.18   80:31391/TCP   35m
+guestbook-service          ClusterIP      172.30.205.209   <none>                      8080/TCP       30m
+helloworld-service-vertx   ClusterIP      172.30.9.65      <none>                      8080/TCP       33m
+mysql                      ClusterIP      172.30.240.203   <none>                      3306/TCP       33m
 
 $ *oc describe service frontend-ui*
 Name:			frontend-ui
@@ -132,21 +132,22 @@ Remember that we needed to execute *kubectl describe service frontend-ui* to get
 A *Route* uses the port 80 of OpenShift and "routes" the requests based on the defined hostname.
 Let's see how it works. Execute:
 
-WARNING: Replace OPENSHIFT_IP by the IP of the OpenShift cluster. Example: 192.168.64.11
-
 [source, bash, subs="normal,attributes"]
 ----
 
-$ *oc expose service frontend-ui \
-                    --hostname=frontend.OPENSHIFT_IP.nip.io*
+$ *oc expose service frontend-ui
 route "frontend-ui" exposed
+
+$ *oc get routes*
+NAME          HOST/PORT                                            PATH      SERVICES      PORT      TERMINATION   WILDCARD
+frontend-ui   frontend-ui-labX.apps.boston.openshiftworkshop.com             frontend-ui   http-80                 None
 ----
 
-Now point your browser to http://frontend.OPENSHIFT_IP.nip.io/
+Now point your browser to the route http://frontend-ui-labX.apps.boston.openshiftworkshop.com/
 
 Amazing, right?
 
-TIP: TIP: You can delete the *Route* with the command: *oc delete route frontend-ui*
+TIP: You can delete the *Route* with the command: *oc delete route frontend-ui*
 
 [NOTE]
 ====

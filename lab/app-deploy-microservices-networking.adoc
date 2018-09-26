@@ -22,7 +22,7 @@ First, find the name of the both helloworld-service-vertx pods:
 
 [source, bash, subs="normal,attributes"]
 ----
-[vagrant@rhel-cdk kubernetes]$ *kubectl get pods -l app=helloworld-service-vertx*
+$ *kubectl get pods -l app=helloworld-service-vertx*
 NAME                             READY     STATUS    RESTARTS   AGE
 helloworld-service-vertx-?????   1/1       Running   0          14m
 helloworld-service-vertx-?????   1/1       Running   0          15m
@@ -35,23 +35,23 @@ Then, use _kubectl exec_ to exucute a _"bash"_ process into the container:
 [source, bash, subs="normal,attributes"]
 ----
 $ *kubectl exec -it helloworld-service-vertx-????? bash*
-[jboss@helloworld-service-vertx-????? ~]$ _
+bash-4.2$ _
 ----
 
 You are now in a shell inside of the helloworld-service-vertx container.  You can run _ps_, and _hostname_:
 
 [source, bash, subs="normal,attributes"]
 ----
-[jboss@helloworld-service-vertx-???? ~]$ *ps aux*
+bash-4.2$ *ps aux*
 USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-jboss        1  0.9  0.6 2693920 53412 ?       Ssl  20:48   0:01 java -Dvertx.di
-jboss       21  0.0  0.0  13816  1784 ?        Ss   20:49   0:00 bash
-jboss       36  0.0  0.0  49468  1664 ?        R+   20:51   0:00 ps aux
+1000160+      1  0.5  0.1 4123640 68904 ?       Ssl  19:12   0:01 java -Dvertx.disableFileCPResolving=true -Xmx256m -jar
+1000160+     44  0.0  0.0  11768  1676 ?        Ss   19:13   0:00 bash
+1000160+     50  0.0  0.0  47420  1668 ?        R+   19:15   0:00 ps aux
 
-[jboss@helloworld-service-vertx-???? ~]$ *hostname -i*
-172.17.0.7
+bash-4.2$ *hostname -i*
+10.1.6.3
 
-[jboss@helloworld-service-vertx-???? ~]$ *exit*
+bash-4.2$ *exit*
 exit
 ----
 
@@ -78,7 +78,7 @@ If you login into a container (find and use the frontend-ui container), you can 
 ----
 $ *kubectl exec -it frontend-ui-????? bash*
 
-bash-4.2$* wget -qO- http://helloworld-service-vertx:8080/api/hello/Rafael*
+bash-4.2$  *wget -qO- http://helloworld-service-vertx:8080/api/hello/Rafael*
 Hello Rafael from helloworld-service-vertx-a4zq3 with 1.0
 
 bash-4.2$ *exit*
