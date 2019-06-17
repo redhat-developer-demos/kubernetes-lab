@@ -22,7 +22,8 @@ from Basics to OpenShift
 :data-uri:
 :source-highlighter: highlightjs
 :numbered:
-:ocp-cluster: https://master.online-80a7.openshiftworkshop.com/console
+:ocp-cluster: master.online-80a7.openshiftworkshop.com
+:app-domain: apps.online-80a7.openshiftworkshop.com
 
 Latest HTML: http://bit.ly/kubernetes-lab +
 Docs and Application Source code: https://github.com/redhat-developer-demos/kubernetes-lab 
@@ -51,7 +52,7 @@ include::app-deploy-mysql-and-service.adoc[]
 
 include::app-deploy-microservices.adoc[]
 
-// include::external-access.adoc[]
+include::external-access.adoc[]
 
 include::scaling.adoc[]
 

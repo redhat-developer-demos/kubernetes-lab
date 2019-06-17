@@ -57,9 +57,9 @@ Events:                   <none>
 
 IMPORTANT: Since CDK doesn't support the creation of external LoadBalancers, you can access the service through the *NodePort*. Kubernetes allocates a port _(default: 30000-32767)_, and each Node in the cluster will proxy that port (the same port number on every Node) into the frontend PODs. Later, in this lab, you will learn an alternative to *NodePorts* and *LoadBalancer*.
 
-First, execute *kubectl describe services frontend-ui* and find out which port (between: 30000-32767) Kubernetes assigned in the CDK node. Once that you have the NodePort, you can access the guestbook via the IP address and port number by navigating the browser to http://1.2.3.4:<NODEPORT>/. 
+First, execute *kubectl describe services frontend-ui* and find out which port (between: 30000-32767) Kubernetes assigned in the OpenShift node. Once that you have the NodePort, you can access the guestbook via the cluster address and port number by navigating the browser to http://master.xpto.com.br:<NODEPORT>/. 
 
-Example: http://192.168.64.11:31079/
+Example: http://{ocp-cluster}:31079/
 
 NOTE: The NodePort (31079) is a random value. You should use the value described in NodePort via _kubectl describe service frontend-service_. The IP is the external ip of the Kubernetes Cluster
 

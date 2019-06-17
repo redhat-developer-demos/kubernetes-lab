@@ -135,7 +135,7 @@ Let's see how it works. Execute:
 [source, bash, subs="normal,attributes"]
 ----
 
-$ *oc expose service frontend-ui
+$ *oc expose service frontend-ui*
 route "frontend-ui" exposed
 
 $ *oc get routes*
@@ -143,7 +143,11 @@ NAME          HOST/PORT                                            PATH      SER
 frontend-ui   frontend-ui-labX.apps.boston.openshiftworkshop.com             frontend-ui   http-80                 None
 ----
 
-Now point your browser to the route http://frontend-ui-labX.apps.boston.openshiftworkshop.com/
+
+[source, bash, subs="normal,attributes"]
+----
+Now point your browser to the route http://frontend-ui-labX.{app-domain}
+----
 
 Amazing, right?
 
