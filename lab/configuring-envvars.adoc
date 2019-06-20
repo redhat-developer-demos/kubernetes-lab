@@ -19,7 +19,7 @@ http://vertx.io/[Vert.X] can read the override configuration directly from an en
 
 [source, bash, subs="normal,attributes"]
 ----
-$ *oc env deployment helloworld-service-vertx GREETING='Hello {name} from envvar!'*
+$ *oc set env deployment helloworld-service-vertx GREETING='Hello {name} from envvar!'*
 deployment "helloworld-service-vertx" updated
 ----
 
@@ -31,7 +31,7 @@ Let's remove the defined variable:
 
 [source, bash, subs="normal,attributes"]
 ----
-$ *oc env deployment helloworld-service-vertx GREETING-*
+$ *oc set env deployment helloworld-service-vertx GREETING-*
 deployment "helloworld-service-vertx" updated
 ----
 

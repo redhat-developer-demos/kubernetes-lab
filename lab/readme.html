@@ -676,7 +676,7 @@ macOS users can isntall <code>oc</code> through homebrew using the following com
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs"># Login in the cluster
-$ oc login master.online-80a7.openshiftworkshop.com</code></pre>
+$ oc login master.devx-5c72.openshiftworkshop.com</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1189,7 +1189,7 @@ Since CDK doesn&#8217;t support the creation of external LoadBalancers, you can 
 <p>First, execute <strong>kubectl describe services frontend-ui</strong> and find out which port (between: 30000-32767) Kubernetes assigned in the OpenShift node. Once that you have the NodePort, you can access the guestbook via the cluster address and port number by navigating the browser to <a href="http://master.xpto.com.br:&lt;NODEPORT&gt;/" class="bare">http://master.xpto.com.br:&lt;NODEPORT&gt;/</a>.</p>
 </div>
 <div class="paragraph">
-<p>Example: <a href="http://master.online-80a7.openshiftworkshop.com:31079/" class="bare">http://master.online-80a7.openshiftworkshop.com:31079/</a></p>
+<p>Example: <a href="http://master.devx-5c72.openshiftworkshop.com:31079/" class="bare">http://master.devx-5c72.openshiftworkshop.com:31079/</a></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1532,7 +1532,7 @@ Don&#8217;t worry. This is still a Kubernetes lab! OpenShift runs on top of Kube
 </table>
 </div>
 <div class="paragraph">
-<p>Access <a href="https://master.online-80a7.openshiftworkshop.com" class="bare">https://master.online-80a7.openshiftworkshop.com</a></p>
+<p>Access <a href="https://master.devx-5c72.openshiftworkshop.com" class="bare">https://master.devx-5c72.openshiftworkshop.com</a></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1728,7 +1728,7 @@ frontend-ui   frontend-ui-labX.apps.boston.openshiftworkshop.com             fro
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">Now point your browser to the route <a href="http://frontend-ui-labX.apps.online-80a7.openshiftworkshop.com" class="bare">http://frontend-ui-labX.apps.online-80a7.openshiftworkshop.com</a></code></pre>
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">Now point your browser to the route <a href="http://frontend-ui-labX.apps.devx-5c72.openshiftworkshop.com" class="bare">http://frontend-ui-labX.apps.devx-5c72.openshiftworkshop.com</a></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1823,7 +1823,7 @@ You can delete the <strong>Route</strong> with the command: <strong>oc delete ro
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ <strong>oc env deployment helloworld-service-vertx GREETING='Hello {name} from envvar!'</strong>
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ <strong>oc set env deployment helloworld-service-vertx GREETING='Hello {name} from envvar!'</strong>
 deployment "helloworld-service-vertx" updated</code></pre>
 </div>
 </div>
@@ -1838,7 +1838,7 @@ deployment "helloworld-service-vertx" updated</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ <strong>oc env deployment helloworld-service-vertx GREETING-</strong>
+<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ <strong>oc set env deployment helloworld-service-vertx GREETING-</strong>
 deployment "helloworld-service-vertx" updated</code></pre>
 </div>
 </div>
@@ -2636,7 +2636,7 @@ I0804 08:03:45.260863       1 source.go:197] Downloading "https://github.com/red
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-06-17 11:28:50 -0300
+Last updated 2019-06-20 15:11:05 -0300
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
