@@ -17,7 +17,7 @@ FROM fabric8/java-jboss-openjdk8-jdk:1.1.7
 
 ENV JAVA_APP_JAR guestbook-service-swarm.jar
 ENV AB_OFF true
-ENV JAVA_OPTIONS -Xmx512m
+ENV JAVA_OPTIONS -Xmx512m -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true
 
 EXPOSE 8080
 
