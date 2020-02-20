@@ -47,7 +47,7 @@ app.use('/api/health', function(req, res, next) {
 });
 
 app.use('/api/version', function(req, res, next) {
-  res.send('Version 4');
+  res.send('Version 1');
 });
 
 app.post('/api/messages', function(req, res, next) {
