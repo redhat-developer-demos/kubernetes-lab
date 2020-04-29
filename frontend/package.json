@@ -20,7 +20,7 @@
     "body-parser": "^1.15.1",
     "bootstrap": "~3.3.5",
     "express": "^4.13.4",
-    "jquery": "~3.0.0",
+    "jquery": "~3.5.0",
     "patternfly": "^3.3.3",
     "request": "^2.72.0"
   },
